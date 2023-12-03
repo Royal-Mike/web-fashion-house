@@ -1,11 +1,13 @@
 require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
-const session = require('express-session'); 
+const session = require('express-session');
 
 const app = express();
 const port = process.env.PORT | 3000;
 const secret = '21127561';
+
+let isDark = false;
 
 const CustomError = require('./modules/error');
 const { create } = require('express-handlebars');
@@ -32,7 +34,12 @@ app.use('/js', express.static('./js'));
 // app.use('/?', require('./routers/?.r'));
 
 app.get('/', async (req, res) => {
-
+    res.render('signup', {
+        title: 'login',
+        home: false,
+        theme: isDark ? 'dark' : 'light',
+        isDark: isDark
+    })
 });
 
 app.use((req, res, next) => {
