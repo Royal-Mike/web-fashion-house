@@ -34,8 +34,8 @@ app.use('/js', express.static('./js'));
 // app.use('/?', require('./routers/?.r'));
 
 app.get('/', async (req, res) => {
-    res.render('login', {
-        title: 'login',
+    res.render('account/login', {
+        title: 'Login',
         home: false,
         theme: isDark ? 'dark' : 'light',
         isDark: isDark
@@ -43,8 +43,8 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/signup', async (req, res) => {
-    res.render('signup', {
-        title: 'signup',
+    res.render('account/signup', {
+        title: 'Sign Up',
         home: false,
         theme: isDark ? 'dark' : 'light',
         isDark: isDark
