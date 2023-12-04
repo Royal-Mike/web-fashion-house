@@ -34,20 +34,22 @@ app.use('/js', express.static('./js'));
 // app.use('/?', require('./routers/?.r'));
 
 app.get('/', async (req, res) => {
+    let theme = req.cookies.theme;
+    let dark = theme === "dark" ? true : false;
     res.render('account/login', {
         title: 'Login',
         home: false,
-        theme: isDark ? 'dark' : 'light',
-        isDark: isDark
+        dark: dark
     })
 });
 
 app.get('/signup', async (req, res) => {
+    let theme = req.cookies.theme;
+    let dark = theme === "dark" ? true : false;
     res.render('account/signup', {
         title: 'Sign Up',
         home: false,
-        theme: isDark ? 'dark' : 'light',
-        isDark: isDark
+        dark: dark
     })
 });
 
