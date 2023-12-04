@@ -29,6 +29,7 @@ app.set('view engine', 'hbs');
 
 app.use(cookieParser(secret));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('./pic'))
 
 app.use('/js', express.static('./js'));
 // app.use('/?', require('./routers/?.r'));
@@ -48,6 +49,15 @@ app.get('/signup', async (req, res) => {
         home: false,
         theme: isDark ? 'dark' : 'light',
         isDark: isDark
+    })
+});
+
+app.get('/home', async (req, res) => {
+    res.render('home', {
+        title: 'Home page',
+        home: false,
+        theme: 'light',
+        isDark: false
     })
 });
 
