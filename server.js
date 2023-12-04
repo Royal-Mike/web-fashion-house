@@ -51,6 +51,15 @@ app.get('/signup', async (req, res) => {
     })
 });
 
+// app.get('/profile', async (req, res) => {
+//     res.render('account/profile', {
+//         title: 'Profile',
+//         home: false,
+//         theme: isDark ? 'dark' : 'light',
+//         isDark: isDark
+//     })
+// });
+
 app.use((req, res, next) => {
     res.status(404).render('error', {
         code: 404,
