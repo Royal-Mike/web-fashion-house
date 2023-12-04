@@ -35,20 +35,22 @@ app.use('/js', express.static('./js'));
 // app.use('/?', require('./routers/?.r'));
 
 app.get('/', async (req, res) => {
+    let theme = req.cookies.theme;
+    let dark = theme === "dark" ? true : false;
     res.render('account/login', {
         title: 'Login',
         home: false,
-        theme: isDark ? 'dark' : 'light',
-        isDark: isDark
+        dark: dark
     })
 });
 
 app.get('/signup', async (req, res) => {
+    let theme = req.cookies.theme;
+    let dark = theme === "dark" ? true : false;
     res.render('account/signup', {
         title: 'Sign Up',
         home: false,
-        theme: isDark ? 'dark' : 'light',
-        isDark: isDark
+        dark: dark
     })
 });
 
@@ -60,6 +62,15 @@ app.get('/home', async (req, res) => {
         isDark: false
     })
 });
+
+// app.get('/profile', async (req, res) => {
+//     res.render('account/profile', {
+//         title: 'Profile',
+//         home: false,
+//         theme: isDark ? 'dark' : 'light',
+//         isDark: isDark
+//     })
+// });
 
 app.use((req, res, next) => {
     res.status(404).render('error', {
