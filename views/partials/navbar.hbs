@@ -1,10 +1,12 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid py-2">
         <a class="m-0 fs-1" style="font-family: Rouge; text-decoration: none; color: initial" href="/">Fashion House</a>
-        <form class="d-flex" role="search">
-            <input class="form-control me-2 fs-4" type="search" placeholder="Mặc gì hôm nay?" aria-label="Search" style="width:40rem;">
-            <button class="btn btn-outline-success fs-4" type="submit">Tìm kiếm</button>
-        </form>
+        {{#if home}}
+            <form class="d-flex" role="search">
+                <input class="form-control me-2 fs-4" type="search" placeholder="Mặc gì hôm nay?" aria-label="Search" style="width:40rem;">
+                <button class="btn btn-outline-success fs-4" type="submit">Tìm kiếm</button>
+            </form>
+        {{/if}}
         <div class="form-check form-switch">
             <input class="form-check-input fs-4" type="checkbox" role="switch" id="sw-theme" {{#if dark}} checked {{/if}} style="cursor:pointer"/>
             <label for="sw-theme" class="form-check-label">
