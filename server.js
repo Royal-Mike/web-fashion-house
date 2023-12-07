@@ -56,7 +56,7 @@ app.get('/signup', async (req, res) => {
 
 app.get('/home', async (req, res) => {
     res.render('home', {
-        title: 'Home page',
+        title: 'Home',
         home: false,
         theme: 'light',
         isDark: false
