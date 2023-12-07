@@ -7,8 +7,6 @@ const app = express();
 const port = process.env.PORT | 3000;
 const secret = '21127561';
 
-let isDark = false;
-
 const CustomError = require('./modules/error');
 const { create } = require('express-handlebars');
 
@@ -32,6 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./pic'))
 
 app.use('/js', express.static('./js'));
+app.use('/fonts', express.static('./fonts'))
 // app.use('/?', require('./routers/?.r'));
 
 app.get('/', async (req, res) => {
@@ -55,11 +54,12 @@ app.get('/signup', async (req, res) => {
 });
 
 app.get('/home', async (req, res) => {
+    let theme = req.cookies.theme;
+    let dark = theme === "dark" ? true : false;
     res.render('home', {
         title: 'Home',
-        home: false,
-        theme: 'light',
-        isDark: false
+        home: true,
+        dark: dark
     })
 });
 
