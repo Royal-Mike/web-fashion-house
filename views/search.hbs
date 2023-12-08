@@ -1,95 +1,82 @@
-<div class="container">
-    <div class="sidebar">
-        <div class="sidehead">
-            <div class="dots">
-                <i class="fa-solid fa-circle"></i>
-                <i class="fa-solid fa-circle" style="color: #333;"></i>
-                <i class="fa-solid fa-circle"></i>
-            </div>
-            <hr style="margin: 15px 0; border: 1px solid #eee;">
-        </div>
-        <div class="sidebody" style="height: 69vh;">
-            <div class="searchbar">
-                <input placeholder="Search..." id="searchBar" name="searchBar" type="text">
-                <i class="fa-solid fa-magnifying-glass glass"></i>
-            </div>
-            <div id="opts">
-                <button class="opt-value" onclick="fillterProduct('All')">All</button>
-                <button class="opt-value" onclick="fillterProduct('Hoodie')">Hoodie</button>
-                <button class="opt-value" onclick="fillterProduct('Jeans')">Jeans</button>
-                <button class="opt-value" onclick="fillterProduct('Cardigan')">Cardigan</button>
-                <button class="opt-value" onclick="fillterProduct('T-Shirt')">T-Shirt</button>
-            </div>
-        </div>
-        <div class="sidefoot">
-            <hr style="margin: 15px 0; border: 1px solid #black;">
-            <div class="social-icons">
-                <i class="fa-brands fa-square-facebook"></i>
-                <i class="fa-brands fa-youtube"></i>
-                <i class="fa-brands fa-square-github"></i>
-            </div>
-        </div>
-    </div>
-    <div class="data">
-        <div>
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <div class="collapse navbar-collapse" id="navbarText">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" style="font-size: 16px;">Liên quan</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" style="font-size: 16px;">Mới nhất</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#" style="font-size: 16px;">Bán chạy</a>
-                            </li>
-                            <li class="nav-item btn-group">
-                                <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    <span class="navbar-text-dropdown" style="font-size: 16px;">
-                                        Giá
-                                    </span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" style="font-size: 16px;" href="#">Giá: Thấp đến
-                                            Cao</a></li>
-                                    <li><a class="dropdown-item" style="font-size: 16px;" href="#">Giá: Cao đến
-                                            thấp</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <span class="navbar-text">
-                            >> T-Shirt
-                        </span>
+<div class="container text-center mt-3">
+    <div class="row">
+        <div class="col-3">
+            <div class="card" style="height: 640px">
+                <h5 class="card-header text-white" style="background-color: transparent; text-align: left;">
+                    <i class="fa-solid fa-circle" style="color: red;"></i>
+                    <i class="fa-solid fa-circle" style="color: yellow;"></i>
+                    <i class="fa-solid fa-circle" style="color: green;"></i>
+                </h5>
+                <div class="card-body">
+                    <div class="searchbar">
+                        <input placeholder="Search..." id="searchBar" name="searchBar" type="text">
+                        <i class="fa-solid fa-magnifying-glass glass"></i>
+                    </div>
+                    <div class="pt-2" id="opts">
+                        <button class="opt-value" onclick="fillterProduct('All')">All</button>
+                        <button class="opt-value" onclick="fillterProduct('Hoodie')">Hoodie</button>
+                        <button class="opt-value" onclick="fillterProduct('Jeans')">Jeans</button>
+                        <button class="opt-value" onclick="fillterProduct('Cardigan')">Cardigan</button>
+                        <button class="opt-value" onclick="fillterProduct('T-Shirt')">T-Shirt</button>
                     </div>
                 </div>
-            </nav>
+                <div class="">
+                    <div style="text-align: center;">
+                        <div class="horizontal-line" style="border: 1px solid gold; width: 75%; display: inline-block;">
+                        </div>
+                    </div>
+                    <div class="social-icons" style="text-align: center;">
+                        <i class="fa-brands fa-facebook"></i>
+                        <i class="fa-brands fa-youtube"></i>
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="header">
-            <p>BUY EVERYTHING ONLINE</p>
-        </div>
-        <div class="body">
-            <div class="content">
-                <img src="https://minhcaumart.vn/media/com_eshop/products/8936017361303.webp">
-                <h3>Nước mắm</h3>
-                <p>Nước mắm cá nguyên chất</p>
-                <h5>70.000 VND</h5>
-                <ul>
-                    <li><i class="fa-solid fa-star checked"></i></li>
-                    <li><i class="fa-solid fa-star checked"></i></li>
-                    <li><i class="fa-solid fa-star checked"></i></li>
-                    <li><i class="fa-solid fa-star checked"></i></li>
-                    <li><i class="fa-regular fa-star"></i></li>
-                    <li>(5 review)</li>
-                </ul>
-                <button type="button" class="btn btn-outline-info" style="width: auto; height: auto">Add to
-                    cart</button>
+        <div class="col-9">
+            <div class="card" style="height: 640px;">
+                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <div class="container-fluid">
+                        <div class="collapse navbar-collapse" id="navbarText">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#" style="font-size: 16px;">Liên quan</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" style="font-size: 16px;">Mới nhất</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#" style="font-size: 16px;">Bán chạy</a>
+                                </li>
+                                <li class="nav-item btn-group">
+                                    <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                        <span class="navbar-text-dropdown" style="font-size: 16px;">
+                                            Giá
+                                        </span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" style="font-size: 16px;" href="#">Giá: Thấp đến
+                                                Cao</a></li>
+                                        <li><a class="dropdown-item" style="font-size: 16px;" href="#">Giá: Cao đến
+                                                thấp</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <span class="navbar-text">
+                                >> T-Shirt
+                            </span>
+                        </div>
+                    </div>
+                </nav>
+                <div class="header">
+                    <p>BUY EVERYTHING ONLINE</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function () {
         $('.dropdown-item').on('click', function () {
@@ -101,7 +88,6 @@
         let opts = document.querySelectorAll(".opt-value");
         opts.forEach((button) => {
             if (value.toUpperCase() == button.innerText.toUpperCase()) {
-                console.log(1);
                 button.classList.add("active-opt");
                 $('.navbar-text').text(value);
             } else {

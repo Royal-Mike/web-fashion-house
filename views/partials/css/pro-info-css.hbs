@@ -1,15 +1,4 @@
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Times New Roman', Times, serif;
-    }
-
-    body {
-        line-height: 1.5;
-    }
-
     .flex-box {
         display: flex;
         width: 1000px;
@@ -57,44 +46,6 @@
         transform: scale(1.2);
     }
 
-    .card-wrapper {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    img {
-        width: 200px;
-        display: block;
-    }
-
-    .img-display {
-        overflow: hidden;
-    }
-
-    .img-showcase {
-        display: flex;
-        width: 100%;
-        transition: all 0.5 ease;
-    }
-
-    .img-select {
-        display: flex;
-    }
-
-    .img-item {
-        margin: 0.3rem;
-    }
-
-    .img-item:nth-child(1),
-    .img-item:nth-child(2),
-    .img-item:nth-child(3) {
-        margin-right: 0;
-    }
-
-    .img-item:hover {
-        opacity: 0.8;
-    }
-
     .product-content {
         padding: 2rem 1rem;
     }
@@ -104,18 +55,7 @@
         text-transform: capitalize;
         font-weight: 700;
         position: relative;
-        color: black;
         margin: 1rem 0;
-    }
-
-    .product-title::after {
-        content: "";
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        height: 4px;
-        width: 80px;
-        background: black;
     }
 
     .product-link {
@@ -135,13 +75,12 @@
         opacity: 0.9;
     }
 
-    .product-rating {
+    .product-rating .fas {
         color: gold;
     }
 
     .product-rating span {
         font-weight: 600;
-        color: black;
     }
 
     .product-price {
@@ -164,7 +103,6 @@
 
     .product-detail h2 {
         text-transform: none;
-        color: black;
         padding-bottom: 0.6rem;
     }
 
@@ -249,8 +187,6 @@
         justify-content: center;
         width: 32px;
         height: 32px;
-        color: black;
-        border: 1px solid black;
         margin: 0 0.2rem;
         border-radius: 50%;
         text-decoration: none;
@@ -259,14 +195,13 @@
     }
 
     .social-link a:hover {
-        background: black;
-        border-color: transparent;
+        background: blue;
         color: white;
     }
 
     .comment-box,
     .post-comment .list {
-        background: whitesmoke;
+        background: transparent;
         border-radius: 5px;
         box-shadow: 0 2px 2px black;
     }
@@ -326,7 +261,7 @@
     }
 
     .comment-box textarea {
-        background: white;
+        background: transparent;
         width: -webkit-fill-available;
         height: 150px;
         margin: 10px 0;
@@ -338,7 +273,7 @@
     }
 
     .comment-box textarea:focus-visible {
-        box-shadow: inset 0 0 0 1px blue;
+        box-shadow: inset 0 0 0 2px blue;
         outline: none;
     }
 
@@ -353,13 +288,12 @@
     }
 
     .comment-box .comment-button:hover {
-        background: blue;
+        background: red;
     }
 
     .rating-box {
-
         position: relative;
-        background: white;
+        background: transparent;
         padding: 20px 50px 20px;
         border-radius: 25px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
@@ -368,8 +302,8 @@
     }
 
     .rating-box header {
+        color:black;
         font-size: 18px;
-        color: black;
         font-weight: 500;
         margin-bottom: 20px;
     }
@@ -393,35 +327,25 @@
 
     .modal {
         display: none;
-        /* Hidden by default */
         position: fixed;
-        /* Stay in place */
         z-index: 1;
-        /* Sit on top */
         padding-top: 100px;
-        /* Location of the box */
         left: 25%;
         top: 25%;
         width: 50%;
-        /* Full width */
         height: 50%;
-        /* Full height */
         overflow: auto;
-        /* Enable scroll if needed */
-        background-color: rgb(0, 0, 0);
-        /* Fallback color */
-        background-color: rgba(0, 0, 0, 0.4);
-        /* Black w/ opacity */
+        background: transparent;
     }
 
-    /* Modal Content */
     .modal-content {
         display: flex;
         text-align: center;
-        background-color: #fefefe;
+        color: black;
+        background-color: white;
         margin: auto;
         padding: 20px;
-        border: 1px solid #888;
+        border: 1px solid black;
         width: 80%;
     }
 </style>

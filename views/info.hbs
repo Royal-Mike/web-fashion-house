@@ -84,7 +84,6 @@
                         <div class="user-image"><img
                                 src="https://thumbs.dreamstime.com/b/unknown-male-avatar-profile-image-businessman-vector-unknown-male-avatar-profile-image-businessman-vector-profile-179373829.jpg"
                                 alt="avatar"></div>
-
                         <div class="user-meta">
                             <div class="name">Furibu</div>
                             <div class="product-rating">
@@ -121,21 +120,20 @@
 
 <div id="myModal" class="modal">
     <div class="modal-content">
-        <div class="">
-            <header>
-                Bạn đánh giá sản phẩm bao nhiêu sao ?
-            </header>
-            <div class="stars">
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-                <i class="fas fa-star"></i>
-            </div>
-            <div class="d-flex pt-3 justify-content-center">
-                <button type="submit" class="btn btn-primary mx-1" style="height: auto; width: auto">Đánh giá</button>
-                <button type="button" class="btn btn-danger" style="height: auto; width: auto" id="close">Hủy bỏ</button>
-            </div>
+        <header>
+            Bạn đánh giá sản phẩm bao nhiêu sao ?
+        </header>
+        <div class="stars">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+        </div>
+        <div class="d-flex pt-3 justify-content-center">
+            <button type="submit" class="btn btn-primary mx-1" style="height: auto; width: auto">Đánh giá</button>
+            <button type="button" class="btn btn-danger" style="height: auto; width: auto" id="close">Hủy
+                bỏ</button>
         </div>
     </div>
 </div>
@@ -145,6 +143,7 @@
     function showImg(pic) {
         bigImg.src = pic;
     }
+
     const stars = $(".stars i");
     stars.on("click", function () {
         const index1 = $(this).index();
@@ -154,22 +153,23 @@
     });
 
     $(document).ready(function () {
-    let modal = $("#myModal");
-    let btn = $("#cmt-btn");
-    let span = $("#close");
+        let modal = $("#myModal");
+        let btn = $("#cmt-btn");
+        let span = $("#close");
 
-    btn.click(function () {
-        modal.css("display", "block");
-    });
+        btn.click(function () {
+            modal.css("display", "block");
+        });
 
-    span.click(function () {
-        modal.css("display", "none");
-    });
-
-    $(window).click(function (event) {
-        if (event.target == modal[0]) {
+        span.click(function () {
             modal.css("display", "none");
-        }
+            stars.removeClass("active");
+        });
+
+        $(window).click(function (event) {
+            if (event.target == modal[0]) {
+                modal.css("display", "none");  
+            }
+        });
     });
-});
 </script>
