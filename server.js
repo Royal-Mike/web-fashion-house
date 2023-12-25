@@ -33,15 +33,17 @@ app.use('/js', express.static('./js'));
 app.use('/fonts', express.static('./fonts'))
 // app.use('/?', require('./routers/?.r'));
 
-app.get('/', async (req, res) => {
-    let theme = req.cookies.theme;
-    let dark = theme === "dark" ? true : false;
-    res.render('account/login', {
-        title: 'Login',
-        home: false,
-        dark: dark
-    })
-});
+app.use('/', require('./routers/home.r'));
+
+// app.get('/', async (req, res) => {
+//     let theme = req.cookies.theme;
+//     let dark = theme === "dark" ? true : false;
+//     res.render('account/login', {
+//         title: 'Login',
+//         home: false,
+//         dark: dark
+//     })
+// });
 
 app.get('/signup', async (req, res) => {
     let theme = req.cookies.theme;
