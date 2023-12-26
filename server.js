@@ -9,6 +9,7 @@ const secret = '21127561';
 
 const CustomError = require('./modules/error');
 const { create } = require('express-handlebars');
+const router = require('./routers/router.r');
 
 app.use(session({
     secret: secret,
@@ -16,6 +17,8 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
+
+require('./modules/passport')(app);
 
 const hbs = create({
     extname: '.hbs'
@@ -31,46 +34,8 @@ app.use(express.static('./pic'))
 
 app.use('/js', express.static('./js'));
 app.use('/fonts', express.static('./fonts'))
-// app.use('/?', require('./routers/?.r'));
 
-app.get('/', async (req, res) => {
-    let theme = req.cookies.theme;
-    let dark = theme === "dark" ? true : false;
-    res.render('account/login', {
-        title: 'Login',
-        home: false,
-        dark: dark
-    })
-});
-
-app.get('/signup', async (req, res) => {
-    let theme = req.cookies.theme;
-    let dark = theme === "dark" ? true : false;
-    res.render('account/signup', {
-        title: 'Sign Up',
-        home: false,
-        dark: dark
-    })
-});
-
-app.get('/home', async (req, res) => {
-    let theme = req.cookies.theme;
-    let dark = theme === "dark" ? true : false;
-    res.render('home', {
-        title: 'Home',
-        home: true,
-        dark: dark
-    })
-});
-
-// app.get('/profile', async (req, res) => {
-//     res.render('account/profile', {
-//         title: 'Profile',
-//         home: false,
-//         theme: isDark ? 'dark' : 'light',
-//         isDark: isDark
-//     })
-// });
+app.use(router);
 
 app.use((req, res, next) => {
     res.status(404).render('error', {
