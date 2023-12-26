@@ -14,13 +14,13 @@ const pgp = require('pg-promise')({
 const cn = {
     host: process.env.HOST,
     port: process.env.PORT1,
-    database: process.env.DATABASE,
     user: process.env.USER,
     password: process.env.PW,
     max: process.env.MAX,
 };
 
-const db = pgp(cn);
+let db = pgp(cn);
+let con = null;
 
 fs.readFile(filePath1, 'utf8')
     .then(fileContent => {
@@ -41,78 +41,103 @@ fs.readFile(filePath2, 'utf8')
 
 module.exports = {
     addDataToDB: async () => {
-        let con = null;
+        cn.database = process.env.DB_ADMIN;
+
+        const check = await db.any(`SELECT FROM pg_database WHERE datname = '${process.env.DATABASE}'`);
+        if (!check.length) {
+            await db.none(`CREATE DATABASE $1:name`, [process.env.DATABASE]);
+            cn.database = process.env.DATABASE;
+        } else return;
+        db = pgp(cn);
+        con = await db.connect();
+        console.log(con);
+        await con.none(`
+        CREATE TABLE IF NOT EXISTS products (
+            global_id SERIAL PRIMARY KEY,
+            name TEXT,
+            create_date TEXT,
+            brand TEXT,
+            color TEXT,
+            images TEXT[],
+            price REAL,
+            description TEXT,
+            id INTEGER,
+            sale TEXT,
+            size TEXT,
+            sold INTEGER,
+            comments TEXT[],
+            stars REAL,
+            "for" TEXT,
+            stock INTEGER,
+            relation INTEGER[],
+            category TEXT
+        )
+        `)
         try {
-            con = await db.connect();
-            const check = await con.any('SELECT * FROM products');
-            if (check.length > 0) {
-                return;
-            } else {
-                const AllProducts1 = data1.products.product;
-                for (const product of AllProducts1) {
-                    const save = {};
+            const AllProducts1 = data1.products.product;
+            for (const product of AllProducts1) {
+                const save = {};
 
-                    save.name = product.name.__cdata; // text
-                    save.create_date = product.creation_date.__cdata; // text
-                    save.brand = product.brand.__cdata; // text
-                    save.color = product.color.__cdata; // text
-                    save.images = product.images.image_url instanceof Array ? product.images.image_url : [product.images.image_url]; // text[]
-                    save.price = product.prices.price[0]; // real
-                    save.description = product.description.__cdata; // text
-                    save.id = parseInt(product.name.__cdata.replace(/\D/g, '')); // integer
-                    save.sale = 'None'; // text
-                    save.sold = 0; // integer
-                    save.comments = []; // text[]
-                    save.stars = 0; // real
-                    save.category = product.category.__cdata; // text
-                    save.for = "Nam"; // text
-                    save.relation = product.other_colors ? product.other_colors.productId : [0]; // integer[]
+                save.name = product.name.__cdata; // text
+                save.create_date = product.creation_date.__cdata; // text
+                save.brand = product.brand.__cdata; // text
+                save.color = product.color.__cdata; // text
+                save.images = product.images.image_url instanceof Array ? product.images.image_url : [product.images.image_url]; // text[]
+                save.price = product.prices.price[0]; // real
+                save.description = product.description.__cdata; // text
+                save.id = parseInt(product.name.__cdata.replace(/\D/g, '')); // integer
+                save.sale = 'None'; // text
+                save.sold = 0; // integer
+                save.comments = []; // text[]
+                save.stars = 0; // real
+                save.category = product.category.__cdata; // text
+                save.for = "Nam"; // text
+                save.relation = product.other_colors ? product.other_colors.productId : [0]; // integer[]
 
-                    for (let i = 0; i < allSize.length; i++) {
-                        save.size = allSize[i]; // text
-                        save.stock = Math.round(Math.random() * 400 + 40); // integer
-                        try {
-                            let sql = pgp.helpers.insert(save, null, 'products');
-                            sql += " RETURNING id";
-                            await con.one(sql);
-                        } catch (error) {
-                            console.log(error);
-                            throw error;
-                        }
+                for (let i = 0; i < allSize.length; i++) {
+                    save.size = allSize[i]; // text
+                    save.stock = Math.round(Math.random() * 400 + 40); // integer
+                    try {
+                        let sql = pgp.helpers.insert(save, null, 'products');
+                        sql += " RETURNING id";
+                        await con.one(sql);
+                    } catch (error) {
+                        console.log(error);
+                        throw error;
                     }
                 }
+            }
 
-                const AllProducts2 = data2.products.product;
-                for (const product of AllProducts2) {
-                    const save = {};
+            const AllProducts2 = data2.products.product;
+            for (const product of AllProducts2) {
+                const save = {};
 
-                    save.name = product.name.__cdata;
-                    save.create_date = product.creation_date.__cdata;
-                    save.brand = product.brand.__cdata;
-                    save.color = product.color.__cdata;
-                    save.images = product.images.image_url instanceof Array ? product.images.image_url : [product.images.image_url];
-                    save.price = product.prices.price[0];
-                    save.description = product.description.__cdata;
-                    save.id = parseInt(product.name.__cdata.replace(/\D/g, ''));
-                    save.sale = 'None';
-                    save.sold = 0;
-                    save.comments = [];
-                    save.stars = 0;
-                    save.category = product.category.__cdata;
-                    save.for = "Nữ";
-                    save.relation = product.other_colors ? product.other_colors.productId : [0];
+                save.name = product.name.__cdata;
+                save.create_date = product.creation_date.__cdata;
+                save.brand = product.brand.__cdata;
+                save.color = product.color.__cdata;
+                save.images = product.images.image_url instanceof Array ? product.images.image_url : [product.images.image_url];
+                save.price = product.prices.price[0];
+                save.description = product.description.__cdata;
+                save.id = parseInt(product.name.__cdata.replace(/\D/g, ''));
+                save.sale = 'None';
+                save.sold = 0;
+                save.comments = [];
+                save.stars = 0;
+                save.category = product.category.__cdata;
+                save.for = "Nữ";
+                save.relation = product.other_colors ? product.other_colors.productId : [0];
 
-                    for (let i = 0; i < allSize.length; i++) {
-                        save.size = allSize[i];
-                        save.stock = Math.round(Math.random() * 400 + 40);
-                        try {
-                            let sql = pgp.helpers.insert(save, null, 'products');
-                            sql += " RETURNING id";
-                            await con.one(sql);
-                        } catch (error) {
-                            console.log(error);
-                            throw error;
-                        }
+                for (let i = 0; i < allSize.length; i++) {
+                    save.size = allSize[i];
+                    save.stock = Math.round(Math.random() * 400 + 40);
+                    try {
+                        let sql = pgp.helpers.insert(save, null, 'products');
+                        sql += " RETURNING id";
+                        await con.one(sql);
+                    } catch (error) {
+                        console.log(error);
+                        throw error;
                     }
                 }
             }
