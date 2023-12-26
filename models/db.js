@@ -50,10 +50,9 @@ module.exports = {
         } else return;
         db = pgp(cn);
         con = await db.connect();
-        console.log(con);
         await con.none(`
         CREATE TABLE IF NOT EXISTS products (
-            global_id SERIAL PRIMARY KEY,
+            id INTEGER PRIMARY KEY,
             name TEXT,
             create_date TEXT,
             brand TEXT,
@@ -61,16 +60,21 @@ module.exports = {
             images TEXT[],
             price REAL,
             description TEXT,
-            id INTEGER,
             sale TEXT,
-            size TEXT,
             sold INTEGER,
             comments TEXT[],
             stars REAL,
             "for" TEXT,
-            stock INTEGER,
             relation INTEGER[],
             category TEXT
+        )
+        `)
+        await con.none(`
+        CREATE TABLE IF NOT EXISTS size_division (
+            id INTEGER,
+            size TEXT,
+            stock INTEGER,
+            PRIMARY KEY (id, size)
         )
         `)
         try {
@@ -95,16 +99,26 @@ module.exports = {
                 save.relation = product.other_colors ? product.other_colors.productId : [0]; // integer[]
 
                 for (let i = 0; i < allSize.length; i++) {
-                    save.size = allSize[i]; // text
-                    save.stock = Math.round(Math.random() * 400 + 40); // integer
+                    const size_division = {};
+                    size_division.id = save.id;
+                    size_division.size = allSize[i]; // text
+                    size_division.stock = Math.round(Math.random() * 400 + 40); // integer
                     try {
-                        let sql = pgp.helpers.insert(save, null, 'products');
+                        let sql = pgp.helpers.insert(size_division, null, 'size_division');
                         sql += " RETURNING id";
                         await con.one(sql);
                     } catch (error) {
                         console.log(error);
                         throw error;
                     }
+                }
+                try {
+                    let sql = pgp.helpers.insert(save, null, 'products');
+                    sql += " RETURNING id";
+                    await con.one(sql);
+                } catch (error) {
+                    console.log(error);
+                    throw error;
                 }
             }
 
@@ -129,16 +143,26 @@ module.exports = {
                 save.relation = product.other_colors ? product.other_colors.productId : [0];
 
                 for (let i = 0; i < allSize.length; i++) {
-                    save.size = allSize[i];
-                    save.stock = Math.round(Math.random() * 400 + 40);
+                    const size_division = {};
+                    size_division.id = save.id;
+                    size_division.size = allSize[i]; // text
+                    size_division.stock = Math.round(Math.random() * 400 + 40); // integer
                     try {
-                        let sql = pgp.helpers.insert(save, null, 'products');
+                        let sql = pgp.helpers.insert(size_division, null, 'size_division');
                         sql += " RETURNING id";
                         await con.one(sql);
                     } catch (error) {
                         console.log(error);
                         throw error;
                     }
+                }
+                try {
+                    let sql = pgp.helpers.insert(save, null, 'products');
+                    sql += " RETURNING id";
+                    await con.one(sql);
+                } catch (error) {
+                    console.log(error);
+                    throw error;
                 }
             }
         } catch (error) {
