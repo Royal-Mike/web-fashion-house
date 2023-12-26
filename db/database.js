@@ -3,12 +3,12 @@ const pgp = require("pg-promise")({
 });
 
 const cn = {
-    host: "localhost",
-    port: 5432,
-    user: "postgres",
-    password: "123456",
-    database: "WEB-FASHION-HOUSE",
-    max: 30,
+    host: process.env.HOST,
+    port: process.env.PORT_DB,
+    user: process.env.USER,
+    password: process.env.PW,
+    database: process.env.DB_NAME,
+    max: process.env.MAX,
 };
 
 const db = pgp(cn);
