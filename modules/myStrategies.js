@@ -14,6 +14,7 @@ module.exports = class MyStrategy extends Strategy {
   authenticate(req, options) {
     const un = req.body[this.username];
     const pw = req.body[this.password];
+    console.log(req.body);
     this.verify(un, pw, (err, user) => {
       if (err) {
         return this.fail(err);
