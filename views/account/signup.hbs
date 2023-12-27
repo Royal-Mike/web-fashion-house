@@ -1,3 +1,4 @@
+<script src="/js/signup.js"></script>
 <div class="container">
     <div class="row">
         <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -6,36 +7,49 @@
                     <h5 class="card-title text-center mb-5 fw-light fs-5">Sign Up</h5>
                     <form action="/acc/signupSubmit" method="post">
                         <div class="form-floating mb-3">
-                            <input name="username" type="text" class="form-control" id="floatingUsername" placeholder="Ex: something..." required/>
+                            <input name="username" type="text" class="form-control" id="floatingUsername"
+                                placeholder="Ex: something..." required />
                             <label for="floatingUsername">Username</label>
+                            {{#if messages.error}}
+                            <div style="color: red;">
+                                {{messages.error}}
+                            </div>
+                            {{/if}}
                         </div>
-
                         <div class="form-floating mb-3">
                             <input name="email" type="text" class="form-control" id="floatingMail"
-                                placeholder="name@example.com" required/>
+                                placeholder="name@example.com" required />
                             <label for="floatingMail">Email address</label>
+                            {{#if messages.errorEmail}}
+                            <div style="color: red;">
+                                {{messages.error}}
+                            </div>
+                            {{/if}}
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input name="fullname" type="text" class="form-control" id="floatingFullname" placeholder="Ex: something..." required/>
+                            <input name="fullname" type="text" class="form-control" id="floatingFullname"
+                                placeholder="Ex: something..." required />
                             <label for="floatingFullname">Full name</label>
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input name="dob" type="date" class="form-control" id="floatingDob" required/>
+                            <input name="dob" type="date" class="form-control" id="floatingDob" required />
                             <label for="floatingDob">Date of birth</label>
                         </div>
 
-                        <div class="form-floating mb-3">
+                        <div class="form-floating mb-3 input-control">
                             <input name="password" type="password" class="form-control" id="floatingPassword"
-                                placeholder="Password" required/>
+                                placeholder="Password" required />
                             <label for="floatingPassword">Password</label>
+                            <div class="error" style="color: red;"></div>
                         </div>
 
-                        <div class="form-floating mb-3">
+                        <div class="form-floating mb-3 input-control">
                             <input name="re-password" type="password" class="form-control" id="floatingRePassword"
-                                placeholder="re-Password" required/>
+                                placeholder="re-Password" required />
                             <label for="floatingRePassword">Re-enter Password</label>
+                            <div class="error" style="color: red;"></div>
                         </div>
 
                         <div class="d-grid">

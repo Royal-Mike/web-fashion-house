@@ -1,9 +1,11 @@
 $(() => {
-    $(".side-button").on("click", function() {
-        let id = $(this).attr("id").split("-")[1];
-        $(".screen-info").addClass("d-none");
-        $(`#screen-${id}`).removeClass("d-none");
-        $(".side-button").children().removeClass("text-info");
-        $(this).children().addClass("text-info");
+    $('form').submit(function (event) {
+        const password = $('#floatingPassword').val();
+        const rePassword = $('#floatingRePassword').val();
+
+        if (password !== rePassword) {
+            event.preventDefault();
+            
+        }
     });
 });
