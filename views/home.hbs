@@ -108,21 +108,22 @@
         </div>
         <div class="container d-flex justify-content-center">
             <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mb-2">
+                {{#each bestseller}}
                 <div class="col">
                     <div class="card h-100">
-                        <img src="/10.jpg" class="card-img-top" alt="..." style="height: 18rem;">
+                        <img src="{{this.thumbnail}}" class="card-img-top" alt="..." style="height: 18rem;">
                         <div class="card-body">
                             <div style="height: 5rem;">
                                 <div style="width: 3rem; height: 1.5rem; background-color: rgb(255, 17, 0);"
                                     class="rounded d-flex align-items-center justify-content-center text-light mb-1">
-                                    -30%
+                                    {{this.sale}}
                                 </div>
                                 <p class="fw-bold show-text-overflow"
-                                    title="Áo thun nam tay ngắn in hình Cookie Run 2023">
-                                    Áo thun nam tay ngắn in hình Cookie Run 2023</p>
+                                    title="{{this.name}}">
+                                    {{this.name}}</p>
                             </div>
                             <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
+                                <span>{{this.for}}</span>
                                 <span>Kích cỡ: S - Freesize</span>
                             </div>
                             <div class="d-flex mt-2">
@@ -131,17 +132,17 @@
                                 <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
                             </div>
                             <div class="mt-3 d-flex align-items-start">
-                                <span class="text-info align-baseline fs-4 fw-bold">419.300</span>
+                                <span class="text-info align-baseline fs-4 fw-bold">{{this.newPrice}}</span>
                                 <span class="text-info align-baseline fw-bold me-3"
                                     style="line-height: 1.75rem">₫</span>
 
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">599.000</del>
+                                <del class="text-base align-baseline" style="line-height: 2.25rem;">{{this.price}}</del>
                                 <del class="text-base align-baseline" style="line-height: 2.25rem;">₫</del>
                             </div>
 
                             <div class="mt-2">
                                 <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
+                                <span>Đã bán {{this.sold}}</span>
 
                                 <div>
                                     <i class="fa-solid fa-star"></i>
@@ -149,495 +150,18 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
+                                    ({{this.numComments}})
                                 </div>
                             </div>
 
                             <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 75%;"
-                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: {{this.rate}}%;"
+                                    aria-valuenow="{{this.rate}}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/11.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <div style="width: 3rem; height: 1.5rem; background-color: rgb(255, 17, 0);"
-                                    class="rounded d-flex align-items-center justify-content-center text-light mb-1">
-                                    -30%
-                                </div>
-                                <p class="fw-bold show-text-overflow"
-                                    title="Áo thun nam tay ngắn in hình Cookie Run (verion 2022)">Áo thun nam tay ngắn
-                                    in
-                                    hình Cookie Run (verion 2022)</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-info align-baseline fs-4 fw-bold">419.300</span>
-                                <span class="text-info align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">599.000</del>
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">₫</del>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 75%;"
-                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/12.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <div style="width: 3rem; height: 1.5rem; background-color: rgb(255, 17, 0);"
-                                    class="rounded d-flex align-items-center justify-content-center text-light mb-1">
-                                    -30%
-                                </div>
-                                <p class="fw-bold show-text-overflow">Áo thun nam tay ngắn in hình Cookie Run (verion
-                                    2022)
-                                </p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-info align-baseline fs-4 fw-bold">419.300</span>
-                                <span class="text-info align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">599.000</del>
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">₫</del>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 75%;"
-                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/13.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <div style="width: 3rem; height: 1.5rem; background-color: rgb(255, 17, 0);"
-                                    class="rounded d-flex align-items-center justify-content-center text-light mb-1">
-                                    -30%
-                                </div>
-                                <p class="fw-bold show-text-overflow">Áo thun nam tay ngắn in hình Cookie Run (verion
-                                    2022)
-                                </p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <span style="line-height: 1rem;">+3</span>
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-info align-baseline fs-4 fw-bold">419.300</span>
-                                <span class="text-info align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">599.000</del>
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">₫</del>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 75%;"
-                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/14.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <div style="width: 3rem; height: 1.5rem; background-color: rgb(255, 17, 0);"
-                                    class="rounded d-flex align-items-center justify-content-center text-light mb-1">
-                                    -30%
-                                </div>
-                                <p class="fw-bold show-text-overflow">Áo thun nam tay ngắn in hình Cookie Run (verion
-                                    2022)
-                                </p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-info align-baseline fs-4 fw-bold">419.300</span>
-                                <span class="text-info align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">599.000</del>
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">₫</del>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 75%;"
-                                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/15.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <div style="width: 3rem; height: 1.5rem; background-color: rgb(255, 17, 0);"
-                                    class="rounded d-flex align-items-center justify-content-center text-light mb-1">
-                                    -30%
-                                </div>
-                                <p class="fw-bold show-text-overflow">Áo thun nam tay ngắn in hình Cookie Run (verion
-                                    2022)
-                                </p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <span style="line-height: 1rem;">+1</span>
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-info align-baseline fs-4 fw-bold">419.300</span>
-                                <span class="text-info align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">599.000</del>
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">₫</del>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 55%;"
-                                    aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/16.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <div style="width: 3rem; height: 1.5rem; background-color: rgb(255, 17, 0);"
-                                    class="rounded d-flex align-items-center justify-content-center text-light mb-1">
-                                    -30%
-                                </div>
-                                <p class="fw-bold show-text-overflow">Áo thun nam tay ngắn in hình Cookie Run (verion
-                                    2022)
-                                </p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-info align-baseline fs-4 fw-bold">419.300</span>
-                                <span class="text-info align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">599.000</del>
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">₫</del>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/17.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <div style="width: 3rem; height: 1.5rem; background-color: rgb(255, 17, 0);"
-                                    class="rounded d-flex align-items-center justify-content-center text-light mb-1">
-                                    -30%
-                                </div>
-                                <p class="fw-bold show-text-overflow">Áo thun nam tay ngắn in hình Cookie Run (verion
-                                    2022)
-                                </p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-info align-baseline fs-4 fw-bold">419.300</span>
-                                <span class="text-info align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">599.000</del>
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">₫</del>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 80%;"
-                                    aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/18.png" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <div style="width: 3rem; height: 1.5rem; background-color: rgb(255, 17, 0);"
-                                    class="rounded d-flex align-items-center justify-content-center text-light mb-1">
-                                    -30%
-                                </div>
-                                <p class="fw-bold show-text-overflow">Áo thun nam tay ngắn in hình Cookie Run (verion
-                                    2022)
-                                </p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-info align-baseline fs-4 fw-bold">419.300</span>
-                                <span class="text-info align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">599.000</del>
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">₫</del>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 10%;"
-                                    aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/19.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <div style="width: 3rem; height: 1.5rem; background-color: rgb(255, 17, 0);"
-                                    class="rounded d-flex align-items-center justify-content-center text-light mb-1">
-                                    -30%
-                                </div>
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-info align-baseline fs-4 fw-bold">419.300</span>
-                                <span class="text-info align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">599.000</del>
-                                <del class="text-base align-baseline" style="line-height: 2.25rem;">₫</del>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {{/each}}
             </div>
         </div>
     </div>
@@ -649,15 +173,16 @@
         </div>
         <div class="container d-flex justify-content-center mt-2">
             <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mb-2">
+                {{#each newarrival}}
                 <div class="col">
                     <div class="card h-100">
-                        <img src="/7.jpg" class="card-img-top" alt="..." style="height: 18rem;">
+                        <img src="{{this.thumbnail}}" class="card-img-top" alt="..." style="height: 18rem;">
                         <div class="card-body">
                             <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
+                                <p class="fw-bold show-text-overflow" title="{{this.name}}">{{this.name}}</p>
                             </div>
                             <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
+                                <span>{{this.for}}</span>
                                 <span>Kích cỡ: S - Freesize</span>
                             </div>
                             <div class="d-flex mt-2">
@@ -666,14 +191,14 @@
                                 <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
                             </div>
                             <div class="mt-3 d-flex align-items-start">
-                                <span class="text-danger align-baseline fs-4 fw-bold">1.419.300</span>
+                                <span class="text-danger align-baseline fs-4 fw-bold">{{this.price}}</span>
                                 <span class="text-danger align-baseline fw-bold me-3"
                                     style="line-height: 1.75rem">₫</span>
                             </div>
 
                             <div class="mt-2">
                                 <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
+                                <span>Đã bán {{this.sold}}</span>
 
                                 <div>
                                     <i class="fa-solid fa-star"></i>
@@ -681,413 +206,18 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
+                                    ({{this.numComments}})
                                 </div>
                             </div>
 
                             <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: {{this.rate}}%;"
+                                    aria-valuenow="{{this.rate}}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/8.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-danger align-baseline fs-4 fw-bold">1.419.300</span>
-                                <span class="text-danger align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/9.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-danger align-baseline fs-4 fw-bold">1.419.300</span>
-                                <span class="text-danger align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/10.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-danger align-baseline fs-4 fw-bold">1.419.300</span>
-                                <span class="text-danger align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/11.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-danger align-baseline fs-4 fw-bold">1.419.300</span>
-                                <span class="text-danger align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/12.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-danger align-baseline fs-4 fw-bold">1.419.300</span>
-                                <span class="text-danger align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/13.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-danger align-baseline fs-4 fw-bold">1.419.300</span>
-                                <span class="text-danger align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/14.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-danger align-baseline fs-4 fw-bold">1.419.300</span>
-                                <span class="text-danger align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/15.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-danger align-baseline fs-4 fw-bold">1.419.300</span>
-                                <span class="text-danger align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/16.jpg" class="card-img-top" alt="..." style="height: 18rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start">
-                                <span class="text-danger align-baseline fs-4 fw-bold">1.419.300</span>
-                                <span class="text-danger align-baseline fw-bold me-3"
-                                    style="line-height: 1.75rem">₫</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {{/each}}
             </div>
         </div>
     </div>
@@ -1096,15 +226,16 @@
         <h1 class="text-center mb-4">Đề xuất cho bạn</h1>
         <div class="container d-flex justify-content-center">
             <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mb-2">
+                {{#each recommend}}
                 <div class="col">
                     <div class="card h-100">
-                        <img src="/10.jpg" class="card-img-top" alt="..." style="height: 12rem;">
+                        <img src="{{this.thumbnail}}" class="card-img-top" alt="..." style="height: 18rem;">
                         <div class="card-body">
                             <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
+                                <p class="fw-bold show-text-overflow">{{this.name}}</p>
                             </div>
                             <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
+                                <span>{{this.for}}</span>
                                 <span>Kích cỡ: S - Freesize</span>
                             </div>
                             <div class="d-flex mt-2">
@@ -1113,59 +244,20 @@
                                 <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
                             </div>
                             <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
-                                <span class="align-baseline fs-5">1.419.300</span>
+                                <span class="align-baseline fs-5 ms-2">{{this.newPrice}}</span>
                                 <span class="align-baseline me-2" style="line-height: 1.75rem">₫</span>
+                                {{#if this.check}}
                                 <span class="text-success" style="line-height: 2rem;">(<i
-                                        class="fa-solid fa-arrow-down"></i> 500.000₫)</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/11.jpg" class="card-img-top" alt="..." style="height: 12rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
-                                <span class="align-baseline fs-5">1.419.300</span>
-                                <span class="align-baseline me-2" style="line-height: 1.75rem">₫</span>
+                                        class="fa-solid fa-arrow-down"></i> {{this.sale}})</span>
+                                {{else}}
                                 <span class="text-danger" style="line-height: 2rem;">(<i
-                                        class="fa-solid fa-arrow-up"></i> 100.000₫)</span>
+                                        class="fa-solid fa-arrow-up"></i> {{this.sale}})</span>
+                                {{/if}}
                             </div>
 
                             <div class="mt-2">
                                 <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
+                                <span>Đã bán {{this.sold}}</span>
 
                                 <div>
                                     <i class="fa-solid fa-star"></i>
@@ -1173,369 +265,18 @@
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
+                                    ({{this.numComments}})
                                 </div>
                             </div>
 
                             <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: {{this.rate}}%;"
+                                    aria-valuenow="{{this.rate}}" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/12.jpg" class="card-img-top" alt="..." style="height: 12rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
-                                <span class="align-baseline fs-5">1.419.300</span>
-                                <span class="align-baseline me-2" style="line-height: 1.75rem">₫</span>
-                                <span class="text-success" style="line-height: 2rem;">(<i
-                                        class="fa-solid fa-arrow-down"></i> 500.000₫)</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/13.jpg" class="card-img-top" alt="..." style="height: 12rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
-                                <span class="align-baseline fs-5">1.419.300</span>
-                                <span class="align-baseline me-2" style="line-height: 1.75rem">₫</span>
-                                <span class="text-danger" style="line-height: 2rem;">(<i
-                                        class="fa-solid fa-arrow-up"></i> 100.000₫)</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/14.jpg" class="card-img-top" alt="..." style="height: 12rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
-                                <span class="align-baseline fs-5">1.419.300</span>
-                                <span class="align-baseline me-2" style="line-height: 1.75rem">₫</span>
-                                <span class="text-success" style="line-height: 2rem;">(<i
-                                        class="fa-solid fa-arrow-down"></i> 500.000₫)</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/15.jpg" class="card-img-top" alt="..." style="height: 12rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
-                                <span class="align-baseline fs-5">1.419.300</span>
-                                <span class="align-baseline me-2" style="line-height: 1.75rem">₫</span>
-                                <span class="text-success" style="line-height: 2rem;">(<i
-                                        class="fa-solid fa-arrow-down"></i> 500.000₫)</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/16.jpg" class="card-img-top" alt="..." style="height: 12rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
-                                <span class="align-baseline fs-5">1.419.300</span>
-                                <span class="align-baseline me-2" style="line-height: 1.75rem">₫</span>
-                                <span class="text-danger" style="line-height: 2rem;">(<i
-                                        class="fa-solid fa-arrow-up"></i> 100.000₫)</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/17.jpg" class="card-img-top" alt="..." style="height: 12rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
-                                <span class="align-baseline fs-5">1.419.300</span>
-                                <span class="align-baseline me-2" style="line-height: 1.75rem">₫</span>
-                                <span class="text-success" style="line-height: 2rem;">(<i
-                                        class="fa-solid fa-arrow-down"></i> 500.000₫)</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/18.png" class="card-img-top" alt="..." style="height: 12rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
-                                <span class="align-baseline fs-5">1.419.300</span>
-                                <span class="align-baseline me-2" style="line-height: 1.75rem">₫</span>
-                                <span class="text-success" style="line-height: 2rem;">(<i
-                                        class="fa-solid fa-arrow-down"></i> 500.000₫)</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/19.jpg" class="card-img-top" alt="..." style="height: 12rem;">
-                        <div class="card-body">
-                            <div style="height: 5rem;">
-                                <p class="fw-bold show-text-overflow">Áo sơ mi</p>
-                            </div>
-                            <div class="d-flex justify-content-between opacity-25">
-                                <span>Nam</span>
-                                <span>Kích cỡ: S - Freesize</span>
-                            </div>
-                            <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                            </div>
-                            <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
-                                <span class="align-baseline fs-5">1.419.300</span>
-                                <span class="align-baseline me-2" style="line-height: 1.75rem">₫</span>
-                                <span class="text-success" style="line-height: 2rem;">(<i
-                                        class="fa-solid fa-arrow-down"></i> 500.000₫)</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <i class="fa-solid fa-check"></i>
-                                <span>Đã bán 100</span>
-
-                                <div>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half-stroke"></i>
-                                    (25)
-                                </div>
-                            </div>
-
-                            <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: 30%;"
-                                    aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {{/each}}
             </div>
         </div>
         <div class="d-flex justify-content-center">

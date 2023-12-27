@@ -5,10 +5,16 @@ module.exports = {
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
         // await homeM.addDataToDB();
+        const bestseller = await homeM.getBestseller(1);
+        const news = await homeM.getNewarrival(1);
+        const recommend = await homeM.getRecommend(1);
         res.render('home', {
             title: 'Home',
             home: true,
-            dark: dark
+            dark: dark,
+            bestseller: bestseller,
+            newarrival: news,
+            recommend: recommend
         })
     }
 };

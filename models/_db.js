@@ -7,6 +7,8 @@ let data1 = '';
 let data2 = '';
 
 const allSize = ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "Freesize"];
+const offer = ["-10%", "-15%", "-20%", "-25%", "-30%", "-35%", "-40%", "-45%", "-50%", "1 50.000₫", "1 75.000₫", "1 100.000₫", "0 50.000₫", "0 75.000₫", "0 100.000₫", "New arrival"];
+const lengthOffer = offer.length;
 const pgp = require('pg-promise')({
     capSQL: true
 });
@@ -92,7 +94,8 @@ module.exports = {
                 save.price = product.prices.price[0]; // real
                 save.description = product.description.__cdata; // text
                 save.id = parseInt(product.name.__cdata.replace(/\D/g, '')); // integer
-                save.sale = 'None'; // text
+                let index = Math.floor(Math.random() * lengthOffer);
+                save.sale = offer[index]; // text
                 save.sold = 0; // integer
                 save.comments = []; // text[]
                 save.stars = 0; // real
@@ -136,7 +139,8 @@ module.exports = {
                 save.price = product.prices.price[0];
                 save.description = product.description.__cdata;
                 save.id = parseInt(product.name.__cdata.replace(/\D/g, ''));
-                save.sale = 'None';
+                let index = Math.floor(Math.random() * lengthOffer);
+                save.sale = offer[index];
                 save.sold = 0;
                 save.comments = [];
                 save.stars = 0;
@@ -167,6 +171,113 @@ module.exports = {
                     throw error;
                 }
             }
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getBestseller: async (page) => {
+        try {
+            con = await db.connect();
+            let rs = await con.any(`
+            SELECT * FROM 
+            (SELECT * FROM products WHERE sale LIKE '-%') AS onsale 
+            NATURAL JOIN 
+            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            `);
+            const startIndex = (page - 1) * 10;
+            const endIndex = startIndex + 10;
+            rs = rs.slice(startIndex, endIndex);
+            rs.forEach(product => {
+                const sale = parseInt(product.sale.slice(1, 3));
+                product.newPrice = (parseFloat(product.price) * (100 - sale) * 23000 / 100.0).toLocaleString();
+                product.rate = product.sold * 1.0 / product.totalStock;
+                product.thumbnail = product.images[0];
+                product.name = product.name.replace(/\d/g, '');
+                product.price = (product.price * 23000).toLocaleString();
+                product.numComments = product.comments.length;
+            });
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getNewarrival: async (page) => {
+        try {
+            con = await db.connect();
+            let rs = await con.any(`
+            SELECT * FROM 
+            (SELECT * FROM products WHERE sale = 'New arrival') AS arrival 
+            NATURAL JOIN 
+            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            `);
+            const startIndex = (page - 1) * 10;
+            const endIndex = startIndex + 10;
+            rs = rs.slice(startIndex, endIndex);
+            rs.forEach(product => {
+                product.rate = product.sold * 1.0 / product.totalStock;
+                product.thumbnail = product.images[0];
+                product.name = product.name.replace(/\d/g, '');
+                product.price = (product.price * 23000).toLocaleString();
+                product.numComments = product.comments.length;
+            });
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getRecommend: async (page) => {
+        try {
+            con = await db.connect();
+            let rs0 = await con.any(`
+            SELECT * FROM 
+            (SELECT * FROM products WHERE sale LIKE '1%') AS recommend 
+            NATURAL JOIN 
+            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            `);
+            let rs1 = await con.any(`
+            SELECT * FROM 
+            (SELECT * FROM products WHERE sale LIKE '0%') AS recommend 
+            NATURAL JOIN 
+            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            `);
+            const startIndex = (page - 1) * 10;
+            const endIndex = startIndex + 10;
+            rs0 = rs0.slice(startIndex, endIndex);
+            rs1 = rs1.slice(startIndex, endIndex);
+            let rs = rs0.concat(rs1);
+            rs.forEach(product => {
+                product.rate = product.sold * 1.0 / product.totalStock;
+                product.thumbnail = product.images[0];
+                product.name = product.name.replace(/\d/g, '');
+                if (product.sale.startsWith('1')) {
+                    product.check = true;
+                    let temp = product.sale.replace('.', '')
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+
+                } else {
+                    product.check = false;
+                    let temp = product.sale.replace('.', '');
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                };
+                product.sale = product.sale.slice(2);
+                product.price = (product.price * 23000).toLocaleString();
+                product.numComments = product.comments.length;
+            });
+            return rs;
         } catch (error) {
             throw error;
         } finally {
