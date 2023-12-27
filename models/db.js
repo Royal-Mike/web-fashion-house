@@ -13,7 +13,7 @@ const pgp = require('pg-promise')({
 
 const cn = {
     host: process.env.HOST,
-    port: process.env.PORT1,
+    port: process.env.PORT_DB,
     user: process.env.USER,
     password: process.env.PW,
     max: process.env.MAX,
@@ -41,13 +41,13 @@ fs.readFile(filePath2, 'utf8')
 
 module.exports = {
     addDataToDB: async () => {
-        cn.database = process.env.DB_ADMIN;
+        cn.database = process.env.DB_NAME;
 
-        const check = await db.any(`SELECT FROM pg_database WHERE datname = '${process.env.DATABASE}'`);
-        if (!check.length) {
-            await db.none(`CREATE DATABASE $1:name`, [process.env.DATABASE]);
-            cn.database = process.env.DATABASE;
-        } else return;
+        // const check = await db.any(`SELECT FROM pg_database WHERE datname = '${process.env.DB_NAME}'`);
+        // if (!check.length) {
+        //     await db.none(`CREATE DATABASE $1:name`, [process.env.DB_NAME]);
+        //     cn.database = process.env.DB_NAME;
+        // } else return;
         db = pgp(cn);
         con = await db.connect();
         await con.none(`
