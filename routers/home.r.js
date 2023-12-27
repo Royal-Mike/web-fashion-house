@@ -1,7 +1,23 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const homeC = require('../controllers/home.c');
+const userC = require("../controllers/home.c");
 
-router.get('/home', homeC.homePage);
+router.use((req, res, next) => {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    res.redirect("/");
+});
+
+router.get("/", userC.home);
+
+router.get("/logout", (req, res) => {
+    req.logout((err) => {
+        if (err) {
+            throw err;
+        }
+    });
+    res.redirect("/login");
+});
 
 module.exports = router;

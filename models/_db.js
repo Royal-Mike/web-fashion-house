@@ -14,9 +14,10 @@ const pgp = require('pg-promise')({
 const cn = {
     host: process.env.HOST,
     port: process.env.PORT_DB,
-    user: process.env.USER,
-    password: process.env.PW,
-    max: process.env.MAX,
+    user: process.env.DB_USER,
+    password: process.env.DB_PW,
+    database: process.env.DB_NAME,
+    max: process.env.DB_MAX
 };
 
 let db = pgp(cn);
@@ -28,7 +29,7 @@ fs.readFile(filePath1, 'utf8')
     })
     .catch(error => {
         console.error('Error reading or parsing the file:', error);
-    })
+    });
 
 fs.readFile(filePath2, 'utf8')
     .then(fileContent => {
@@ -36,8 +37,7 @@ fs.readFile(filePath2, 'utf8')
     })
     .catch(error => {
         console.error('Error reading or parsing the file:', error);
-    })
-
+    });
 
 module.exports = {
     addDataToDB: async () => {
@@ -48,8 +48,10 @@ module.exports = {
         //     await db.none(`CREATE DATABASE $1:name`, [process.env.DB_NAME]);
         //     cn.database = process.env.DB_NAME;
         // } else return;
+
         db = pgp(cn);
         con = await db.connect();
+
         await con.none(`
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY,
@@ -68,7 +70,7 @@ module.exports = {
             relation INTEGER[],
             category TEXT
         )
-        `)
+        `);
         await con.none(`
         CREATE TABLE IF NOT EXISTS size_division (
             id INTEGER,
@@ -76,7 +78,7 @@ module.exports = {
             stock INTEGER,
             PRIMARY KEY (id, size)
         )
-        `)
+        `);
         try {
             const AllProducts1 = data1.products.product;
             for (const product of AllProducts1) {
@@ -165,6 +167,55 @@ module.exports = {
                     throw error;
                 }
             }
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    signup: async (tbName, obj) => {
+        let con = null;
+        try {
+            con = await db.connect();
+            let sql = pgp.helpers.insert(obj, null, tbName);
+            await con.none(sql);
+            return 1;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    get: async (tbName, fieldName, value) => {
+        let con = null;
+        try {
+            con = await db.connect();
+            const rs = await con.oneOrNone(
+                `SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`,
+                [value]
+            );
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    email: async (tbName, fieldName, value) => {
+        let con = null;
+        try {
+            con = await db.connect();
+            const rs = await con.oneOrNone(
+                `SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`,
+                [value]
+            );
+            return rs;
         } catch (error) {
             throw error;
         } finally {
