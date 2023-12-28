@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const flash = require('express-flash');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = process.env.PORT | 3000;
@@ -30,6 +31,8 @@ app.engine('hbs', hbs.engine);
 app.set('views', './views');
 app.set('view engine', 'hbs');
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser(secret));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./pic'))

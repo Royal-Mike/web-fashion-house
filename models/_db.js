@@ -286,6 +286,38 @@ module.exports = {
             }
         }
     },
+    getDataWithInput: async (input) => {
+        try {
+            con = await db.connect();
+            let rs = await con.any(`SELECT * FROM products WHERE name ILIKE '%${input}%' AND (sale LIKE '1%' OR sale LIKE '-%') LIMIT 15`);
+            rs.forEach(product => {
+                product.name = product.name.replace(/\d/g, '');
+                product.thumbnail = product.images[0];
+                if (product.sale.startsWith('1')) {
+                    let temp = product.sale.replace('.', '')
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.sale = product.sale.slice(2);
+
+                } else if (product.sale.startsWith('0')) {
+                    let temp = product.sale.replace('.', '');
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.sale = product.sale.slice(2);
+                } else {
+                    const sale = parseInt(product.sale.slice(1, 3));
+                    product.newPrice = (parseFloat(product.price) * (100 - sale) * 23000 / 100.0).toLocaleString();
+                }
+            });
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
     signup: async (tbName, obj) => {
         let con = null;
         try {

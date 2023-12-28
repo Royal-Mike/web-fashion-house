@@ -16,4 +16,8 @@ module.exports = class Home {
         const rs = await db.getRecommend(page);
         return rs;
     }
+    static async getDataWithInput(input) {
+        const rs = await db.getDataWithInput(input);
+        return rs;
+    }
 }

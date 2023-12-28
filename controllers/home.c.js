@@ -16,5 +16,9 @@ module.exports = {
             newarrival: news,
             recommend: recommend
         })
+    },
+    getDataWithInput: async (req, res) => {
+        const rs = await homeM.getDataWithInput(req.query.input);
+        res.json({ data: rs });
     }
 };

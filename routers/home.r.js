@@ -9,6 +9,7 @@ router.use((req, res, next) => {
     res.redirect("/");
 });
 
+router.get("/getDataWithInput", userC.getDataWithInput);
 router.get("/", userC.home);
 
 router.get("/logout", (req, res) => {
