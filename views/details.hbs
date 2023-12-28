@@ -1,0 +1,148 @@
+<div class="mt-5">
+    <div class="card mb-3 mx-auto" style="max-width: 1400px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="{{image}}" class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title text-info text-center fs-1">Chi tiết sản phẩm</h2>
+                    <p class="card-text fs-2">Tên sản phẩm: <b>{{name}}</b></p>
+                    <div class="d-flex fs-3 text-danger">
+                        <p class="me-3">
+                            {{stars}}
+                            4.5
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                        </p>
+                        <p class="me-3">|</p>
+                        <p class="me-3">
+                            {{numComments}} Đánh giá
+                        </p>
+                        <p class="me-3">|</p>
+                        <p class="me-3">
+                            {{sold}} Đã bán
+                        </p>
+                    </div>
+                    <p class="card-text fs-3">Giá tiền: {{price}}₫ | <span
+                            class="bg-success rounded text-warning p-1"><i class="fa-solid fa-fire"></i>
+                            {{offer}}</span></p>
+                    <p class="card-text fs-3">Màu sắc: {{color}}</p>
+                    <p class="card-text fs-3">Ngày sản xuất: {{create}}</p>
+                    <p class="card-text fs-3">Nhãn hiệu: {{brand}}</p>
+                    <p class="card-text fs-3">Vận chuyển: <small class="text-body-secondary">🚛 Miễn phí vận chuyển toàn
+                            quốc</small></p>
+                    <p class="card-text fs-3">Kích cỡ:
+                    <div class="btn-group" role="group" aria-label="Vertical radio toggle button group">
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off"
+                            checked>
+                        <label class="btn btn-outline-danger" for="vbtn-radio1" style="width: 6rem;">XS</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+                        <label class="btn btn-outline-danger" for="vbtn-radio2" style="width: 6rem;">S</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
+                        <label class="btn btn-outline-danger" for="vbtn-radio3" style="width: 6rem;">M</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
+                        <label class="btn btn-outline-danger" for="vbtn-radio4" style="width: 6rem;">L</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio5" autocomplete="off">
+                        <label class="btn btn-outline-danger" for="vbtn-radio5" style="width: 6rem;">XL</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio6" autocomplete="off">
+                        <label class="btn btn-outline-danger" for="vbtn-radio6" style="width: 6rem;">XXL</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio7" autocomplete="off">
+                        <label class="btn btn-outline-danger" for="vbtn-radio7" style="width: 6rem;">XXXL</label>
+                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio8" autocomplete="off">
+                        <label class="btn btn-outline-danger" for="vbtn-radio8" style="width: 6rem;">Freesize</label>
+                    </div>
+                    </p>
+                    <p class="card-text fs-3 d-flex mt-5">Số lượng:
+                        <span class="input-group ms-3 me-3" style="width: 9.8rem;">
+                            <button class="btn btn-outline-secondary fs-5" type="button" style="width: 3rem;"><i
+                                    class="fa-solid fa-minus"></i></button>
+                            <input type="number" class="form-control" value="1" id="input-num-of-products">
+                            <button class="btn btn-outline-secondary fs-5" type="button" style="width: 3rem;"><i
+                                    class="fa-solid fa-plus"></i></button>
+                        </span>
+                        {{numProducts}} sản phẩm sẵn có
+                    </p>
+
+                    <div class="d-flex mt-5">
+                        <a href="#" class="btn border fs-1" role="button" data-bs-toggle="button"
+                            style="background-color: rgb(230, 188, 110);"><i class="fa-solid fa-cart-plus"></i> Thêm vào
+                            giỏ hàng</a>
+                        <a href="#" class="btn btn-danger ms-3 fs-1 border" role="button" data-bs-toggle="button">Mua
+                            ngay</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ms-5 me-5">
+        <h2 class="bg-secondary-subtle" style="line-height: 3rem;">MÔ TẢ SẢN PHẨM</h2>
+        <div id="to-append-description" class="fs-4">
+
+        </div>
+    </div>
+
+    <div class="ms-5 me-5 mt-3">
+        <h2 class="bg-secondary-subtle" style="line-height: 3rem;">CÁC SẢN PHẨM LIÊN QUAN</h2>
+        <div class="row row-cols-1 row-cols-md-6 g-4">
+            {{#each relateProducts}}
+            <div class="col" data-id="{{this.id}}">
+                <div class="card card-home h-100">
+                    <img src="{{this.thumbnail}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.name}}</h5>
+                        <p class="card-text">{{this.newPrice}}₫ | {{this.sale}}</p>
+                        <p class="card-text">Đã bán {{this.sold}}</p>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <nav aria-label="..." class="d-flex justify-content-center mt-3">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">2</span>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script>
+    $(() => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        $.ajax({
+            url: `http://localhost:3000/details/getDescription?id=${id}`,
+            method: 'get',
+            dataType: 'json',
+            success: function (data) {
+                $('#to-append-description').append(data.data);
+            },
+            error: function (error) {
+                console.error(error);
+            }
+        })
+
+        $('.col').on('click', function () {
+            const product_id = $(this).data('id');
+            window.location.href = `/details?id=${product_id}`;
+        });
+    });
+</script>

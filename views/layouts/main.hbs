@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,13 +28,20 @@
             -webkit-box-orient: vertical;
         }
 
-        .card:hover {
+        .card-home:hover {
             transition: 0.4s;
             border-color: red;
             border-width: .05rem;
         }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     </style>
 </head>
+
 <body data-bs-theme={{#if dark}} "dark" {{else}} "light" {{/if}}>
     {{> navbar}}
     {{{body}}}
@@ -42,4 +50,5 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 </body>
+
 </html>

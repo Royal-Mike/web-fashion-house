@@ -7,7 +7,7 @@ let data1 = '';
 let data2 = '';
 
 const allSize = ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "Freesize"];
-const offer = ["-10%", "-15%", "-20%", "-25%", "-30%", "-35%", "-40%", "-45%", "-50%", "1 50.000₫", "1 75.000₫", "1 100.000₫", "0 50.000₫", "0 75.000₫", "0 100.000₫", "New arrival"];
+const offer = ["-10%", "-15%", "-20%", "-25%", "-30%", "-35%", "-40%", "-45%", "-50%", "1 50.000₫", "1 75.000₫", "1 100.000₫", "0 50.000₫", "0 75.000₫", "0 100.000₫", "New arrival", "None"];
 const lengthOffer = offer.length;
 const pgp = require('pg-promise')({
     capSQL: true
@@ -85,6 +85,9 @@ module.exports = {
             const AllProducts1 = data1.products.product;
             for (const product of AllProducts1) {
                 const save = {};
+                let holdDescription;
+                holdDescription = product.description.__cdata.replace('\n', 'NEWLINECHAR');
+                holdDescription = holdDescription.replace('\t', 'TABCHAR');
 
                 save.name = product.name.__cdata; // text
                 save.create_date = product.creation_date.__cdata; // text
@@ -92,7 +95,7 @@ module.exports = {
                 save.color = product.color.__cdata; // text
                 save.images = product.images.image_url instanceof Array ? product.images.image_url : [product.images.image_url]; // text[]
                 save.price = product.prices.price[0]; // real
-                save.description = product.description.__cdata; // text
+                save.description = holdDescription; // text
                 save.id = parseInt(product.name.__cdata.replace(/\D/g, '')); // integer
                 let index = Math.floor(Math.random() * lengthOffer);
                 save.sale = offer[index]; // text
@@ -308,6 +311,115 @@ module.exports = {
                     const sale = parseInt(product.sale.slice(1, 3));
                     product.newPrice = (parseFloat(product.price) * (100 - sale) * 23000 / 100.0).toLocaleString();
                 }
+            });
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getDetailsProduct: async (id) => {
+        try {
+            con = await db.connect();
+            let rs = await con.any(`
+            SELECT
+                p."id",
+                p."name",
+                p.create_date,
+                p.brand,
+                p.color,
+                p.images,
+                p.price,
+                p.description,
+                p.sale,
+                p.sold,
+                p."comments",
+                p.stars,
+                p."for",
+                p.relation,
+                p.category,
+                SUM(sd.stock) AS allStock
+            FROM
+                products AS p
+                NATURAL JOIN size_division AS sd
+            WHERE
+                p.id = ${id}
+            GROUP BY
+                p."id";
+            `);
+            let relateProducts = await con.any(`
+            SELECT * FROM 
+            (
+                SELECT category FROM products WHERE id = ${id}
+            ) AS cate
+            NATURAL JOIN products
+            WHERE id <> ${id}
+            LIMIT 24;`)
+            rs.forEach(product => {
+                product.name = product.name.replace(/\d/g, '');
+                if (product.sale.startsWith('1')) {
+                    let temp = product.sale.replace('.', '')
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.sale = 'Giảm ' + product.sale.slice(2);
+
+                } else if (product.sale.startsWith('0')) {
+                    let temp = product.sale.replace('.', '');
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.sale = 'Tăng ' + product.sale.slice(2);
+                } else if (product.sale.startsWith('-')) {
+                    const sale = parseInt(product.sale.slice(1, 3));
+                    product.newPrice = (parseFloat(product.price) * (100 - sale) * 23000 / 100.0).toLocaleString();
+                } else {
+                    product.newPrice = (product.price * 23000).toLocaleString();
+                }
+                product.color = product.color[0].toUpperCase() + product.color.slice(1);
+
+                relateProducts.forEach(relatePro => {
+                    relatePro.name = relatePro.name.replace(/\d/g, '');
+                    relatePro.thumbnail = relatePro.images[0];
+                    if (relatePro.sale.startsWith('1')) {
+                        let temp = relatePro.sale.replace('.', '')
+                        temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                        relatePro.newPrice = ((relatePro.price * 23000) - temp).toLocaleString();
+                        relatePro.sale = 'Giảm ' + relatePro.sale.slice(2);
+    
+                    } else if (relatePro.sale.startsWith('0')) {
+                        let temp = relatePro.sale.replace('.', '');
+                        temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                        relatePro.newPrice = ((relatePro.price * 23000) - temp).toLocaleString();
+                        relatePro.sale = 'Tăng ' + relatePro.sale.slice(2);
+                    } else if (relatePro.sale.startsWith('-')) {
+                        const sale = parseInt(relatePro.sale.slice(1, 3));
+                        relatePro.newPrice = (parseFloat(relatePro.price) * (100 - sale) * 23000 / 100.0).toLocaleString();
+                    } else {
+                        relatePro.newPrice = (relatePro.price * 23000).toLocaleString();
+                    }
+                    relatePro.color = relatePro.color[0].toUpperCase() + relatePro.color.slice(1);
+                });
+                product.relateProducts = relateProducts;
+            })
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getDescription: async (id) => {
+        try {
+            con = await db.connect();
+            const rs = await con.any(`SELECT description FROM products WHERE id = ${id}`);
+            rs.forEach(product => {
+                let tempDesc = product.description.replace('NEWLINECHAR', '\n');
+                tempDesc = tempDesc.replace('TABCHAR', '\t');
+                product.description = tempDesc;
             });
             return rs;
         } catch (error) {

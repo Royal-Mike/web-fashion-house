@@ -20,4 +20,12 @@ module.exports = class Home {
         const rs = await db.getDataWithInput(input);
         return rs;
     }
+    static async moveToDetailsPage(id) {
+        const rs = await db.getDetailsProduct(id);
+        return rs;
+    }
+    static async getDescription(id) {
+        const rs = await db.getDescription(id);
+        return rs;
+    }
 }
