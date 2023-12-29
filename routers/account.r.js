@@ -10,7 +10,7 @@ router.post(
 	passport.authenticate("myStrategies", { failureRedirect: "/", failureFlash: true, }),
 	(req, res) => {
 		req.flash("success", "Đăng nhập thành công!");
-		if (req.user.Role === "admin") {
+		if (req.user.role === "admin") {
 			res.redirect("/admin");
 		} else {
 			res.redirect("/home");

@@ -26,6 +26,6 @@ router.get('/signup', async (req, res) => {
 
 router.use('/acc', accountR);
 router.use('/home', homeR);
-router.use("/admin", adminR);
+router.use('/admin', adminR);
 
 module.exports = router;
