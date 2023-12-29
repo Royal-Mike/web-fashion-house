@@ -447,7 +447,7 @@ module.exports = {
     getRelatingPage: async (type, page) => {
         try {
             con = await db.connect();
-            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE category ILIKE '${type}%'`);
+            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE category ILIKE '%${type}%' OR name ILIKE '%${type}%'`);
             const length = rs.length;
             const startIndex = (page - 1) * 24;
             const endIndex = startIndex + 24;
