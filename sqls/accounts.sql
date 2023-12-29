@@ -1,8 +1,8 @@
 -- Table: public.accountDb
 
--- DROP TABLE IF EXISTS public."accountDb";
+-- DROP TABLE IF EXISTS public.accounts;
 
-CREATE TABLE IF NOT EXISTS public."accountDb"
+CREATE TABLE IF NOT EXISTS public.accounts
 (
     username character varying(100) COLLATE pg_catalog."default" NOT NULL,
     email text COLLATE pg_catalog."default",
@@ -15,5 +15,5 @@ CREATE TABLE IF NOT EXISTS public."accountDb"
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public."accountDb"
+ALTER TABLE IF EXISTS public.accounts
     OWNER to postgres;

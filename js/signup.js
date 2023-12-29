@@ -13,14 +13,16 @@ const setSuccess = (element) => {
 }
 
 $(document).ready(function () {
+    const form = $('form');
     const passwordInput = $('#floatingPassword');
     const rePasswordInput = $('#floatingRePassword');
-    const form = $('form');
 
     form.submit(function (event) {
         if (!validatePassword(passwordInput.val(), rePasswordInput.val())) {
             event.preventDefault();
             setError(passwordInput, 'Mật khẩu phải giống nhau!');
+            passwordInput.val('');
+            rePasswordInput.val('');
         } else {
             setSuccess(passwordInput);
         }

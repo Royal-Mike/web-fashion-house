@@ -2,9 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const flash = require("express-flash");
+const flash = require('express-flash');
 const passport = require('passport');
-
 
 const app = express();
 const port = process.env.PORT | 3000;
@@ -12,7 +11,7 @@ const secret = '21127561';
 
 const CustomError = require('./modules/error');
 const { create } = require('express-handlebars');
-const router = require('./routers/router.r');
+const router = require('./routers/_router.r');
 
 app.use(session({
     secret: secret,

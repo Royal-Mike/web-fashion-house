@@ -5,7 +5,6 @@ $(() => {
 
         if (password !== rePassword) {
             event.preventDefault();
-            
         }
     });
 });
