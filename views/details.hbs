@@ -86,6 +86,27 @@
         </div>
     </div>
 
+    <div class="ms-5 me-5">
+        <h2 class="bg-secondary-subtle" style="line-height: 3rem;">MÀU SẮC</h2>
+        {{#if checkOtherColors}}
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            {{#each otherColorProducts}}
+            <div class="col" data-id="{{this.id}}">
+                <div class="card card-home h-100">
+                    <img src="{{this.thumbnail}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title text-info fs-3">{{this.color}}</h5>
+                        <p class="card-text">Đã bán {{this.sold}}</p>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        {{else}}
+        <p class="card-text fs-4 text-danger">Đang cập nhật ...</p>
+        {{/if}}
+    </div>
+
     <div class="ms-5 me-5 mt-3">
         <h2 class="bg-secondary-subtle" style="line-height: 3rem;">CÁC SẢN PHẨM LIÊN QUAN</h2>
         <div class="row row-cols-1 row-cols-md-6 g-4">

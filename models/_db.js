@@ -133,6 +133,9 @@ module.exports = {
             const AllProducts2 = data2.products.product;
             for (const product of AllProducts2) {
                 const save = {};
+                let holdDescription;
+                holdDescription = product.description.__cdata.replace('\n', 'NEWLINECHAR');
+                holdDescription = holdDescription.replace('\t', 'TABCHAR');
 
                 save.name = product.name.__cdata;
                 save.create_date = product.creation_date.__cdata;
@@ -140,7 +143,7 @@ module.exports = {
                 save.color = product.color.__cdata;
                 save.images = product.images.image_url instanceof Array ? product.images.image_url : [product.images.image_url];
                 save.price = product.prices.price[0];
-                save.description = product.description.__cdata;
+                save.description = holdDescription;
                 save.id = parseInt(product.name.__cdata.replace(/\D/g, ''));
                 let index = Math.floor(Math.random() * lengthOffer);
                 save.sale = offer[index];
@@ -174,6 +177,13 @@ module.exports = {
                     throw error;
                 }
             }
+
+            await con.none(`
+            WITH update_values AS (SELECT id, sale, relation FROM products)
+            UPDATE products
+            SET sale = uv.sale
+            FROM update_values uv
+            WHERE products.id = ANY(ARRAY[uv.relation]);`)
         } catch (error) {
             throw error;
         } finally {
@@ -350,14 +360,18 @@ module.exports = {
             GROUP BY
                 p."id";
             `);
+
             let relateProducts = await con.any(`
             SELECT * FROM 
             (
                 SELECT category FROM products WHERE id = ${id}
             ) AS cate
             NATURAL JOIN products
-            WHERE id <> ${id}
-            LIMIT 24;`)
+            WHERE id <> ${id} AND id <> ALL(ARRAY[${rs[0].relation}])
+            LIMIT 24;`);
+
+            let otherColorProducts = await con.any(`
+                SELECT * FROM products WHERE id = ANY(ARRAY[${rs[0].relation}]) AND id <> ${id}`);
             rs.forEach(product => {
                 product.name = product.name.replace(/\d/g, '');
                 if (product.sale.startsWith('1')) {
@@ -387,7 +401,7 @@ module.exports = {
                         temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
                         relatePro.newPrice = ((relatePro.price * 23000) - temp).toLocaleString();
                         relatePro.sale = 'Giảm ' + relatePro.sale.slice(2);
-    
+
                     } else if (relatePro.sale.startsWith('0')) {
                         let temp = relatePro.sale.replace('.', '');
                         temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
@@ -400,9 +414,21 @@ module.exports = {
                         relatePro.newPrice = (relatePro.price * 23000).toLocaleString();
                     }
                     relatePro.color = relatePro.color[0].toUpperCase() + relatePro.color.slice(1);
+                    relatePro.sale = relatePro.sale === 'New arrival' ? 'Sản phẩm mới' : relatePro.sale === 'None' ? 'Chưa có ưu đãi' : relatePro.sale;
                 });
                 product.relateProducts = relateProducts;
-            })
+
+                if (otherColorProducts.length > 0) {
+                    otherColorProducts.forEach(colorPro => {
+                        colorPro.name = colorPro.name.replace(/\d/g, '');
+                        colorPro.color = colorPro.color[0].toUpperCase() + colorPro.color.slice(1);
+                        colorPro.thumbnail = colorPro.images[0];
+                    });
+                    product.otherColorProducts = otherColorProducts;
+                    product.checkOtherColors = true;
+                }
+                else product.checkOtherColors = false;
+            });
             return rs;
         } catch (error) {
             throw error;

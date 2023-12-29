@@ -31,11 +31,13 @@ module.exports = {
             price: product.newPrice,
             color: product.color,
             image: product.images[0],
-            offer: product.sale,
+            offer: product.sale === 'New arrival' ? 'Sản phẩm mới' : product.sale === 'None' ? 'Chưa có ưu đãi' : product.sale,
             numProducts: product.allstock,
             create: product.create_date,
             brand: product.brand,
-            relateProducts: product.relateProducts
+            relateProducts: product.relateProducts,
+            otherColorProducts: product.otherColorProducts,
+            checkOtherColors: product.checkOtherColors
         })
     },
     getDescription: async (req, res) => {
