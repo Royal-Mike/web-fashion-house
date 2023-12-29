@@ -1,0 +1,47 @@
+<div class="mt-5">
+    <h3>Tìm kiếm "{{type}}"</h3>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {{#each moreRelateProducts}}
+        <div class="col" data-id="{{this.id}}">
+            <div class="card card-home h-100">
+                <img src="{{this.thumbnail}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{this.name}}</h5>
+                    <p class="card-text">{{this.newPrice}}₫ | {{this.sale}}</p>
+                    <div class="d-flex justify-content-around">
+                        <p class="card-text">Đã bán {{this.sold}}</p>
+                        <p class="card-text">Đánh giá {{this.numComments}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+
+    <nav class="d-flex justify-content-center mt-4 mb-4">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link fs-3">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link fs-3" href="#">1</a></li>
+            <li class="page-item active" aria-current="page">
+                <a class="page-link fs-3" href="#">2</a>
+            </li>
+            <li class="page-item"><a class="page-link fs-3" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link fs-3" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<script>
+    $(() => {
+        $('.col').on('click', function () {
+            const product_id = $(this).data('id');
+            window.location.href = `/details?id=${product_id}`;
+        });
+
+        {{!-- const numPage = {{numPage}}; --}}
+    });
+</script>

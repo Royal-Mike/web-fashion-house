@@ -199,7 +199,7 @@ module.exports = {
         try {
             con = await db.connect();
             let rs = await con.any(`
-            SELECT * FROM 
+            SELECT DISTINCT ON (relation) * FROM 
             (SELECT * FROM products WHERE sale LIKE '-%') AS onsale 
             NATURAL JOIN 
             (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
@@ -229,7 +229,7 @@ module.exports = {
         try {
             con = await db.connect();
             let rs = await con.any(`
-            SELECT * FROM 
+            SELECT DISTINCT ON (relation) * FROM 
             (SELECT * FROM products WHERE sale = 'New arrival') AS arrival 
             NATURAL JOIN 
             (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
@@ -257,7 +257,7 @@ module.exports = {
         try {
             con = await db.connect();
             let rs0 = await con.any(`
-            SELECT * FROM 
+            SELECT DISTINCT ON (relation) * FROM 
             (SELECT * FROM products WHERE sale LIKE '1%') AS recommend 
             NATURAL JOIN 
             (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
@@ -290,6 +290,7 @@ module.exports = {
                     product.newPrice = ((product.price * 23000) - temp).toLocaleString();
                 };
                 product.sale = product.sale.slice(2);
+                product.sale = product.sale.replace('.', ',');
                 product.price = (product.price * 23000).toLocaleString();
                 product.numComments = product.comments.length;
             });
@@ -305,7 +306,7 @@ module.exports = {
     getDataWithInput: async (input) => {
         try {
             con = await db.connect();
-            let rs = await con.any(`SELECT * FROM products WHERE name ILIKE '%${input}%' AND (sale LIKE '1%' OR sale LIKE '-%') LIMIT 15`);
+            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE name ILIKE '%${input}%' AND (sale LIKE '1%' OR sale LIKE '-%') LIMIT 15`);
             rs.forEach(product => {
                 product.name = product.name.replace(/\d/g, '');
                 product.thumbnail = product.images[0];
@@ -324,6 +325,7 @@ module.exports = {
                     const sale = parseInt(product.sale.slice(1, 3));
                     product.newPrice = (parseFloat(product.price) * (100 - sale) * 23000 / 100.0).toLocaleString();
                 }
+                product.sale = product.sale.replace('.', ',');
             });
             return rs;
         } catch (error) {
@@ -365,7 +367,7 @@ module.exports = {
             `);
 
             let relateProducts = await con.any(`
-            SELECT * FROM 
+            SELECT DISTINCT ON (relation) * FROM 
             (
                 SELECT category FROM products WHERE id = ${id}
             ) AS cate
@@ -374,7 +376,7 @@ module.exports = {
             LIMIT 24;`);
 
             let otherColorProducts = await con.any(`
-                SELECT * FROM products WHERE id = ANY(ARRAY[${rs[0].relation}]) AND id <> ${id}`);
+                SELECT * FROM products WHERE id = ANY(ARRAY[${rs[0].relation}]) AND "for" = '${rs[0].for}' AND id <> ${id}`);
             rs.forEach(product => {
                 product.name = product.name.replace(/\d/g, '');
                 if (product.sale.startsWith('1')) {
@@ -418,6 +420,7 @@ module.exports = {
                     }
                     relatePro.color = relatePro.color[0].toUpperCase() + relatePro.color.slice(1);
                     relatePro.sale = relatePro.sale === 'New arrival' ? 'Sản phẩm mới' : relatePro.sale === 'None' ? 'Chưa có ưu đãi' : relatePro.sale;
+                    relatePro.sale = relatePro.sale.replace('.', ',');
                 });
                 product.relateProducts = relateProducts;
 
@@ -433,6 +436,48 @@ module.exports = {
                 else product.checkOtherColors = false;
             });
             return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getRelatingPage: async (type, page) => {
+        try {
+            con = await db.connect();
+            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE category ILIKE '${type}%'`);
+            const length = rs.length;
+            const startIndex = (page - 1) * 24;
+            const endIndex = startIndex + 24;
+            rs = rs.slice(startIndex, endIndex);
+            rs.forEach(product => {
+                product.name = product.name.replace(/\d/g, '');
+                if (product.sale.startsWith('1')) {
+                    let temp = product.sale.replace('.', '')
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.sale = 'Giảm ' + product.sale.slice(2);
+
+                } else if (product.sale.startsWith('0')) {
+                    let temp = product.sale.replace('.', '');
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.sale = 'Tăng ' + product.sale.slice(2);
+                } else if (product.sale.startsWith('-')) {
+                    const sale = parseInt(product.sale.slice(1, 3));
+                    product.newPrice = (parseFloat(product.price) * (100 - sale) * 23000 / 100.0).toLocaleString();
+                } else {
+                    product.newPrice = (product.price * 23000).toLocaleString();
+                }
+                product.color = product.color[0].toUpperCase() + product.color.slice(1);
+                product.thumbnail = product.images[0];
+                product.numComments = product.comments.length;
+                product.sale = product.sale === 'New arrival' ? 'Sản phẩm mới' : product.sale === 'None' ? 'Chưa có ưu đãi' : product.sale;
+                product.sale = product.sale.replace('.', ',');
+            });
+            return [rs, length];
         } catch (error) {
             throw error;
         } finally {

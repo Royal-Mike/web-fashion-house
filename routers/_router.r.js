@@ -4,6 +4,7 @@ const accountR = require("./account.r");
 const homeR = require("./home.r");
 const detailsR = require('./details.r');
 const adminR = require("./admin.r");
+const relateR = require("./relate_products.r");
 
 router.get('/', async (req, res) => {
     let theme = req.cookies.theme;
@@ -28,6 +29,7 @@ router.get('/signup', async (req, res) => {
 router.use('/acc', accountR);
 router.use('/home', homeR);
 router.use('/details', detailsR);
+router.use('/relating-products', relateR);
 router.use("/admin", adminR);
 
 module.exports = router;
