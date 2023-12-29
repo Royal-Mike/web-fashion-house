@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const accountR = require("./account.r");
 const homeR = require("./home.r");
+const detailsR = require('./details.r');
 const adminR = require("./admin.r");
 
 router.get('/', async (req, res) => {
@@ -26,6 +27,7 @@ router.get('/signup', async (req, res) => {
 
 router.use('/acc', accountR);
 router.use('/home', homeR);
-router.use('/admin', adminR);
+router.use('/details', detailsR);
+router.use("/admin", adminR);
 
 module.exports = router;

@@ -109,8 +109,8 @@
         <div class="container d-flex justify-content-center">
             <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mb-2">
                 {{#each bestseller}}
-                <div class="col">
-                    <div class="card h-100">
+                <div class="col" data-id="{{this.id}}">
+                    <div class="card card-home h-100">
                         <img src="{{this.thumbnail}}" class="card-img-top" alt="..." style="height: 18rem;">
                         <div class="card-body">
                             <div style="height: 5rem;">
@@ -174,8 +174,8 @@
         <div class="container d-flex justify-content-center mt-2">
             <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mb-2">
                 {{#each newarrival}}
-                <div class="col">
-                    <div class="card h-100">
+                <div class="col" data-id="{{this.id}}">
+                    <div class="card card-home h-100">
                         <img src="{{this.thumbnail}}" class="card-img-top" alt="..." style="height: 18rem;">
                         <div class="card-body">
                             <div style="height: 5rem;">
@@ -227,8 +227,8 @@
         <div class="container d-flex justify-content-center">
             <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mb-2">
                 {{#each recommend}}
-                <div class="col">
-                    <div class="card h-100">
+                <div class="col" data-id="{{this.id}}">
+                    <div class="card card-home h-100">
                         <img src="{{this.thumbnail}}" class="card-img-top" alt="..." style="height: 18rem;">
                         <div class="card-body">
                             <div style="height: 5rem;">
@@ -284,3 +284,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(() => {
+        $('.col').on('click', function() {
+            const product_id = $(this).data('id');
+            window.location.href = `/details?id=${product_id}`;
+        });
+    });
+</script>

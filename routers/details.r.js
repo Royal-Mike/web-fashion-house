@@ -9,8 +9,8 @@ router.use((req, res, next) => {
     res.redirect("/");
 });
 
-router.get("/getDataWithInput", userC.getDataWithInput);
-router.get("/", userC.home);
+router.get("/getDescription", userC.getDescription);
+router.get("/", userC.moveToDetailsPage);
 
 router.get("/logout", (req, res) => {
     req.logout((err) => {
