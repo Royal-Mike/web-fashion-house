@@ -194,7 +194,8 @@ module.exports = {
         let con = null;
         try {
             con = await db.connect();
-            const rs = await con.any(`SELECT * FROM "${tbName}"`);
+            const order = tbName === "accounts" ? "ORDER BY role" : "";
+            const rs = await con.any(`SELECT * FROM "${tbName}" ${order}`);
             return rs;
         } catch (error) {
             throw error;
