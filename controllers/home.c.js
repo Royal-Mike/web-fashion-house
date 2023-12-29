@@ -49,9 +49,12 @@ module.exports = {
         res.json({ data: rs[0].description });
     },
     getRelatingPage: async (req, res) => {
+        let theme = req.cookies.theme;
+        let dark = theme === "dark" ? true : false;
         const allRs = await homeM.getRelatingPage(req.query.type, req.query.page);
         const rs = allRs[0];
         res.render('relating-page', {
+            dark: dark,
             type: req.query.type,
             moreRelateProducts: rs
         })
