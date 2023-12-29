@@ -179,11 +179,14 @@ module.exports = {
             }
 
             await con.none(`
-            WITH update_values AS (SELECT id, sale, relation FROM products)
             UPDATE products
             SET sale = uv.sale
-            FROM update_values uv
-            WHERE products.id = ANY(ARRAY[uv.relation]);`)
+            FROM (
+                SELECT id, unnest(relation) AS related_id, sale
+                FROM products
+            ) AS uv
+            WHERE products.id = uv.related_id;
+            `)
         } catch (error) {
             throw error;
         } finally {
