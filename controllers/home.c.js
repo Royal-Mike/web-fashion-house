@@ -22,9 +22,12 @@ module.exports = {
         res.json({ data: rs });
     },
     moveToDetailsPage: async (req, res) => {
+        let theme = req.cookies.theme;
+        let dark = theme === "dark" ? true : false;
         const rs = await homeM.moveToDetailsPage(req.query.id);
         const product = rs[0];
         res.render('details', {
+            dark: dark,
             name: product.name,
             numComments: product.comments.length,
             sold: product.sold,

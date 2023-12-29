@@ -13,7 +13,7 @@ module.exports = {
 			const role = "user";
 	
 			const existingUser = await accountM.getAccount(un);
-			const existingEmail = await accountM.GetEmail(email);
+			const existingEmail = await accountM.getEmail(email);
 			
 			if (existingUser && (existingEmail && existingEmail.email === email)) {
 				req.flash("unValue", un);
@@ -21,19 +21,19 @@ module.exports = {
 				req.flash('fnValue', fn);
 				req.flash('dobValue', dob);
 				req.flash('pwValue', pw);
-				req.flash("errorUser", "Tên người dùng đã tồn tại. Vui lòng chọn tên khác!");
+				req.flash('errorUser', 'Tên người dùng đã tồn tại. Vui lòng chọn tên khác!');
 				req.flash('errorEmail', 'Email đã tồn tại. Vui lòng chọn email khác!');
 				return res.redirect('/signup');
 			}
 			else if (existingUser) {
-				req.flash("emailValue", email);
+				req.flash('emailValue', email);
 				req.flash('fnValue', fn);
 				req.flash('dobValue', dob);
 				req.flash('pwValue', pw);
-				req.flash("errorUser", "Tên người dùng đã tồn tại. Vui lòng chọn tên khác!");
+				req.flash('errorUser', 'Tên người dùng đã tồn tại. Vui lòng chọn tên khác!');
 				return res.redirect('/signup');
 			} else if (existingEmail && existingEmail.email === email) {
-				req.flash("unValue", un);
+				req.flash('unValue', un);
 				req.flash('fnValue', fn);
 				req.flash('dobValue', dob);
 				req.flash('pwValue', pw);

@@ -5,7 +5,7 @@ const accountR = require("./account.r");
 const accountM = require("../models/account.m");
 
 const homeR = require("./home.r");
-const userC = require("../controllers/home.c");
+const homeC = require("../controllers/home.c");
 
 const detailsR = require('./details.r');
 const adminR = require('./admin.r');
@@ -44,7 +44,7 @@ const requireAuth = (req, res, next) => {
     next();
 };
 
-router.get('/oauth', requireAuth, userC.home);
+router.get('/oauth', requireAuth, homeC.home);
 
 router.get('/oauth/logout', (req, res) => {
     req.logout(err => {
@@ -96,7 +96,7 @@ router.get('/gg/auth', async (req, res, next) => {
         const decodedToken = jwt.decode(idToken, 21127561); //secret
 
         try {
-            const existingEmail = await accountM.GetEmail(decodedToken.email);
+            const existingEmail = await accountM.getEmail(decodedToken.email);
 
 			if (existingEmail === null) {
                 await accountM.createAccount(new accountM(decodedToken.email, decodedToken.email, decodedToken.name, null, '', 'user'));

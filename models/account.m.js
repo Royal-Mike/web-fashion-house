@@ -18,7 +18,7 @@ module.exports = class Account {
 		const rs = await db.get(table, "username", un);
 		return rs;
 	}
-	static async GetEmail(un) {
+	static async getEmail(un) {
 		const rs = await db.email(table, "email", un);
 		return rs;
 	}
