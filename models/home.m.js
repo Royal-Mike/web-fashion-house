@@ -28,4 +28,8 @@ module.exports = class Home {
         const rs = await db.getDescription(id);
         return rs;
     }
+    static async getRelatingPage(type, page) {
+        const rs = await db.getRelatingPage(type, page);
+        return rs;
+    }
 }

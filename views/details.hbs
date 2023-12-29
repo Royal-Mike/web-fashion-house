@@ -95,7 +95,7 @@
                 <div class="card card-home h-100">
                     <img src="{{this.thumbnail}}" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title text-info fs-3">{{this.color}}</h5>
+                        <span class="fs-4">Màu sắc: <h5 class="card-title text-info fs-3 d-inline">{{this.color}}</h5></span>
                         <p class="card-text">Đã bán {{this.sold}}</p>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
     </div>
 
     <div class="ms-5 me-5 mt-3">
-        <h2 class="bg-secondary-subtle" style="line-height: 3rem;">CÁC SẢN PHẨM LIÊN QUAN</h2>
+        <h2 class="bg-secondary-subtle" style="line-height: 3rem;">CÁC SẢN PHẨM LIÊN QUAN ({{cate}})</h2>
         <div class="row row-cols-1 row-cols-md-6 g-4">
             {{#each relateProducts}}
             <div class="col" data-id="{{this.id}}">
@@ -123,25 +123,10 @@
             </div>
             {{/each}}
         </div>
-        <nav aria-label="..." class="d-flex justify-content-center mt-3">
-            <ul class="pagination">
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item active" aria-current="page">
-                    <span class="page-link">2</span>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        
+        <div class="d-flex justify-content-center mt-3 mb-3">
+            <button type="button" class="btn fs-5 border" id="see-more-from-details">Xem thêm</button>
+        </div>
     </div>
 </div>
 
@@ -164,6 +149,11 @@
         $('.col').on('click', function () {
             const product_id = $(this).data('id');
             window.location.href = `/details?id=${product_id}`;
+        });
+
+        $('#see-more-from-details').on('click', function() {
+            let type = '{{cate}}';
+            window.location.href = `/relating-products?type=${type}&page=2`;
         });
     });
 </script>

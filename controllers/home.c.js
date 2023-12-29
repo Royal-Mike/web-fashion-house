@@ -40,11 +40,20 @@ module.exports = {
             brand: product.brand,
             relateProducts: product.relateProducts,
             otherColorProducts: product.otherColorProducts,
-            checkOtherColors: product.checkOtherColors
+            checkOtherColors: product.checkOtherColors,
+            cate: product.category
         })
     },
     getDescription: async (req, res) => {
         const rs = await homeM.getDescription(req.query.id);
         res.json({ data: rs[0].description });
+    },
+    getRelatingPage: async (req, res) => {
+        const allRs = await homeM.getRelatingPage(req.query.type, req.query.page);
+        const rs = allRs[0];
+        res.render('relating-page', {
+            type: req.query.type,
+            moreRelateProducts: rs
+        })
     }
 };

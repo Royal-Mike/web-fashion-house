@@ -3,12 +3,13 @@ const router = express.Router();
 
 const accountR = require("./account.r");
 const accountM = require("../models/account.m");
+const adminR = require("./admin.r");
 
 const homeR = require("./home.r");
 const homeC = require("../controllers/home.c");
 
-const detailsR = require('./details.r');
-const adminR = require('./admin.r');
+const detailsR = require("./details.r");
+const relateR = require("./relate_products.r");
 
 router.get('/', async (req, res) => {
     let theme = req.cookies.theme;
@@ -31,9 +32,10 @@ router.get('/signup', async (req, res) => {
 });
 
 router.use('/acc', accountR);
+router.use('/admin', adminR);
+
 router.use('/home', homeR);
 router.use('/details', detailsR);
-router.use('/admin', adminR);
 
 const jwt = require('jsonwebtoken');
 
@@ -117,5 +119,7 @@ router.get('/gg/auth', async (req, res, next) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+router.use('/relating-products', relateR);
 
 module.exports = router;
