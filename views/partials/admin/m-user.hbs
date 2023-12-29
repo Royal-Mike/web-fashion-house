@@ -2,23 +2,14 @@
     <h4>Người dùng</h4>
     <hr>
     <div class="list-group">
+        {{#each users}}
         <a href="#" class="list-group-item list-group-item-action">
             <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Username</h5>
+                <h5 class="mb-1">{{username}}</h5>
+                <small>{{role}}</small>
             </div>
-            <p class="mb-1">Email</p>
+            <p class="mb-1">{{email}}</p>
         </a>
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Username</h5>
-            </div>
-            <p class="mb-1">Email</p>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">Username</h5>
-            </div>
-            <p class="mb-1">Email</p>
-        </a>
+        {{/each}}
     </div>
 </div>
