@@ -124,9 +124,13 @@
             {{/each}}
         </div>
         
+        {{#if check_exists_more}}
         <div class="d-flex justify-content-center mt-3 mb-3">
             <button type="button" class="btn fs-5 border" id="see-more-from-details">Xem thêm</button>
         </div>
+        {{else}}
+        <div class="mb-3"></div>
+        {{/if}}
     </div>
 </div>
 
@@ -153,7 +157,8 @@
 
         $('#see-more-from-details').on('click', function() {
             let type = '{{cate}}';
-            window.location.href = `/relating-products?type=${type}&page=2`;
+            type = type.replace('&#x60;', '`');
+            window.location.href = `/relating-products?type=${type}&page=1`;
         });
     });
 </script>

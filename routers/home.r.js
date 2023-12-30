@@ -10,6 +10,7 @@ router.use((req, res, next) => {
 });
 
 router.get("/getDataWithInput", userC.getDataWithInput);
+router.get("/getMoreProductsRecommend", userC.getMoreProductsRecommend);
 router.get("/", userC.home);
 
 router.get("/logout", (req, res) => {

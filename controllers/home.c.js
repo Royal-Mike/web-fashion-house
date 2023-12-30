@@ -38,7 +38,8 @@ module.exports = {
             relateProducts: product.relateProducts,
             otherColorProducts: product.otherColorProducts,
             checkOtherColors: product.checkOtherColors,
-            cate: product.category
+            cate: product.category,
+            check_exists_more: product.relateProducts.length === 24 ? true : false
         })
     },
     getDescription: async (req, res) => {
@@ -46,11 +47,29 @@ module.exports = {
         res.json({ data: rs[0].description });
     },
     getRelatingPage: async (req, res) => {
+<<<<<<< Updated upstream
         const allRs = await homeM.getRelatingPage(req.query.type, req.query.page);
+=======
+        let theme = req.cookies.theme;
+        let dark = theme === "dark" ? true : false;
+        const allRs = await homeM.getRelatingPage(req.query.type.replace('changeS', '`s'), req.query.page);
+>>>>>>> Stashed changes
         const rs = allRs[0];
+        const length = allRs[1];
+        let onePage;
+        if (Math.ceil(length / 24) <= 1) {
+            onePage = true;
+        }
         res.render('relating-page', {
             type: req.query.type,
-            moreRelateProducts: rs
+            curpage: req.query.page,
+            moreRelateProducts: rs,
+            onePage: onePage,
+            numpage: Math.ceil(length / 24)
         })
+    },
+    getMoreProductsRecommend: async (req, res) => {
+        const data = await homeM.getRecommend(req.query.page);
+        res.json({ success: data });
     }
 };

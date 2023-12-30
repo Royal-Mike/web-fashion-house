@@ -263,7 +263,7 @@ module.exports = {
             (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
             `);
             let rs1 = await con.any(`
-            SELECT * FROM 
+            SELECT DISTINCT ON (relation) * FROM 
             (SELECT * FROM products WHERE sale LIKE '0%') AS recommend 
             NATURAL JOIN 
             (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
@@ -302,7 +302,7 @@ module.exports = {
                 con.done();
             }
         }
-    },
+    },  
     getDataWithInput: async (input) => {
         try {
             con = await db.connect();
