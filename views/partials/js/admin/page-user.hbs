@@ -1,5 +1,6 @@
 <script>
     $(() => {
+        let data;
         let pageCur = 1;
 
         $(".page-user").on("click", function() {
@@ -22,9 +23,10 @@
                     page: page
                 },
                 success: function(result) {
+                    data = result;
                     result.forEach(item => {
                         $("#user-container").append(
-                            `<a href="#" class="list-group-item list-group-item-action">
+                            `<a href="#" class="list-group-item list-group-item-action list-item-user">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">${item.username}</h5>
                                     <small>${item.role}</small>
@@ -50,5 +52,23 @@
         });
 
         $(`#page-user-${pageCur}`).trigger("click");
+
+        $("body").on("click", ".list-item-user", function() {
+            $("#edit-user").removeClass("d-none");
+            $("#user-container,#user-pagination").addClass("d-none");
+
+            const user = data[$(this).index()];
+
+            for (const key in user) {
+                let value = user[key];
+                if (key === "dob") value = value.split("T")[0];
+                $(`#user-${key}`).next().val(value);
+            }
+        });
+
+        $("#cancel-edit-user").on("click", function() {
+            $("#edit-user").addClass("d-none");
+            $("#user-container,#user-pagination").removeClass("d-none");
+        });
     })
 </script>

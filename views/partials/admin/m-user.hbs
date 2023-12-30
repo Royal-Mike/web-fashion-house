@@ -2,9 +2,32 @@
 <div id="screen-user" class="d-none container border screen-info py-2">
     <h4>Người dùng</h4>
     <hr>
-    <div id="user-container" class="list-group mb-3" style="height:1000px;overflow-y:auto">
+    <div id="edit-user" class="container d-none">
+        <div class="input-group mb-3">
+            <span class="input-group-text" style="width:15%" id="user-username">Username</span>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="profile-username">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" style="width:15%" id="user-fullname">Full Name</span>
+            <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="profile-name">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" style="width:15%" id="user-email">Email</span>
+            <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="profile-email">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" style="width:15%" id="user-dob">Date of Birth</span>
+            <input type="date" class="form-control" placeholder="DOB" aria-label="DOB" aria-describedby="profile-dob">
+        </div>
+        <div class="d-flex mb-2">
+            <a class="btn btn-primary me-2">Update</a>
+            <a class="btn btn-primary me-2">Delete</a>
+            <a id="cancel-edit-user" class="btn btn-primary">Cancel</a>
+        </div>
     </div>
-    <nav aria-label="Page Navigation">
+    <div id="user-container" class="list-group list-group-container mb-3">
+    </div>
+    <nav id="user-pagination" aria-label="Page Navigation">
         <ul class="pagination">
             <li class="page-item page-arrows">
                 <a id="page-user-prev" class="page-link disabled" aria-label="Previous">
