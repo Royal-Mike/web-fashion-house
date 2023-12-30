@@ -1,3 +1,4 @@
+const { sourceMapsEnabled } = require('process');
 const homeM = require('../models/home.m');
 
 module.exports = {
@@ -14,7 +15,7 @@ module.exports = {
             dark: dark,
             bestseller: bestseller,
             newarrival: news,
-            recommend: recommend
+            recommend: recommend,
         })
     },
     getDataWithInput: async (req, res) => {
