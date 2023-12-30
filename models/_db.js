@@ -302,7 +302,7 @@ module.exports = {
                 con.done();
             }
         }
-    },  
+    },
     getDataWithInput: async (input) => {
         try {
             con = await db.connect();
@@ -511,6 +511,21 @@ module.exports = {
             let sql = pgp.helpers.insert(obj, null, tbName);
             await con.none(sql);
             return 1;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getAll: async (tbName) => {
+        let con = null;
+        try {
+            con = await db.connect();
+            const order = tbName === "accounts" ? "ORDER BY role" : "";
+            const rs = await con.any(`SELECT * FROM "${tbName}" ${order}`);
+            return rs;
         } catch (error) {
             throw error;
         } finally {

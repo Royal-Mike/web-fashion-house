@@ -22,9 +22,13 @@ module.exports = {
         res.json({ data: rs });
     },
     moveToDetailsPage: async (req, res) => {
+        let theme = req.cookies.theme;
+        let dark = theme === "dark" ? true : false;
         const rs = await homeM.moveToDetailsPage(req.query.id);
         const product = rs[0];
         res.render('details', {
+            home: true,
+            dark: dark,
             name: product.name,
             numComments: product.comments.length,
             sold: product.sold,
@@ -47,13 +51,9 @@ module.exports = {
         res.json({ data: rs[0].description });
     },
     getRelatingPage: async (req, res) => {
-<<<<<<< Updated upstream
         const allRs = await homeM.getRelatingPage(req.query.type, req.query.page);
-=======
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
-        const allRs = await homeM.getRelatingPage(req.query.type.replace('changeS', '`s'), req.query.page);
->>>>>>> Stashed changes
         const rs = allRs[0];
         const length = allRs[1];
         let onePage;
@@ -61,6 +61,8 @@ module.exports = {
             onePage = true;
         }
         res.render('relating-page', {
+            home: true,
+            dark: dark,
             type: req.query.type,
             curpage: req.query.page,
             moreRelateProducts: rs,

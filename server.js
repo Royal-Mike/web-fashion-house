@@ -48,6 +48,7 @@ app.use(router);
 app.use((req, res, next) => {
     res.status(404).render('error', {
         code: 404,
+        error: true,
         msg: 'Page not found.',
         desc: "The page you're looking for doesn't exist."
     });
@@ -57,6 +58,7 @@ app.use((err, req, res, next) => {
     const statusCode = err instanceof CustomError ? err.statusCode : 500;
     res.status(statusCode).render('error', {
         code: statusCode,
+        error: true,
         msg: 'Server Error.',
         desc: err.message
     });

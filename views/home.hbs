@@ -289,11 +289,6 @@
 
 <script>
     $(() => {
-        $('.col').on('click', function () {
-            const product_id = $(this).data('id');
-            window.location.href = `/details?id=${product_id}`;
-        });
-
         $('#see-more-home-page').on('click', function () {
             const numProductsCurrent = $('.products-in-recommend').length + 20;
 
@@ -359,6 +354,11 @@
                         `;
                         $('.get-more-products-in-recommend').append(rt);
                     }
+
+                    $('.col').on('click', function () {
+                        const product_id = $(this).data('id');
+                        window.location.href = `/details?id=${product_id}`;
+                    });
                 },
                 error: function (error) {
                     console.error(error);
