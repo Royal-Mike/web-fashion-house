@@ -1,0 +1,54 @@
+<script>
+    $(() => {
+        let pageCur = 1;
+
+        $(".page-user").on("click", function() {
+            $(".page-user.active").removeClass("active");
+            $(this).addClass("active");
+
+            $(".page-arrows a.disabled").removeClass("disabled");
+            if ($(this).parent().next().hasClass("page-arrows")) $("#page-user-next").addClass("disabled");
+            if ($(this).parent().prev().hasClass("page-arrows")) $("#page-user-prev").addClass("disabled");
+
+            let page = $(this).text();
+            pageCur = Number(page);
+
+            $("#user-container").empty();
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/getuser',
+                data: {
+                    page: page
+                },
+                success: function(result) {
+                    result.forEach(item => {
+                        $("#user-container").append(
+                            `<a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">${item.username}</h5>
+                                    <small>${item.role}</small>
+                                </div>
+                                <p class="mb-1">${item.email}</p>
+                            </a>`
+                        );
+                    });
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+
+        $(".page-arrows a").on("click", function() {
+            let id = $(this).attr("id");
+
+            if (id.includes("prev")) pageCur--;
+            else pageCur++;
+
+            $(`#page-user-${pageCur}`).trigger("click");
+        });
+
+        $(`#page-user-${pageCur}`).trigger("click");
+    })
+</script>

@@ -11,5 +11,6 @@ router.use((req, res, next) => {
 
 router.get('/', adminC.home);
 router.post('/getpro', adminC.getPro);
+router.post('/getuser', adminC.getUser);
 
 module.exports = router;

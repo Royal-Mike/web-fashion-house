@@ -5,4 +5,8 @@ module.exports = class Admin {
         const rs = await db.getAll("products", "id");
         return rs;
     }
+    static async getAllUsers() {
+        const rs = await db.getAll("accounts", "role");
+        return rs;
+    }
 }
