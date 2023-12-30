@@ -23,7 +23,7 @@ module.exports = class Account {
 		return rs;
 	}
 	static async getAll() {
-		const rs = await db.getAll(table);
+		const rs = await db.getAll(table, "role");
 		return rs;
 	}
 };

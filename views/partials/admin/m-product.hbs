@@ -1,48 +1,26 @@
+{{> js/admin/page-product}}
 <div id="screen-product" class="d-none container border screen-info py-2">
     <h4>Mặt hàng</h4>
     <hr>
-    <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex align-items-center">
-                <img src="https://cdn.discordapp.com/attachments/1016582802432589864/1046453384963702875/cutscene6007_06.png"
-                class="me-3" style="width:70px;height:70px">
-                <div class="d-flex w-100 flex-column">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">#00001</h5>
-                        <small>Product Category</small>
-                    </div>
-                    <p class="mb-1">Product Name</p>
-                    <small>Product Description</small>
-                </div>
-            </div>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex align-items-center">
-                <img src="https://cdn.discordapp.com/attachments/1016582802432589864/1046453384963702875/cutscene6007_06.png"
-                class="me-3" style="width:70px;height:70px">
-                <div class="d-flex w-100 flex-column">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">#00001</h5>
-                        <small>Product Category</small>
-                    </div>
-                    <p class="mb-1">Product Name</p>
-                    <small>Product Description</small>
-                </div>
-            </div>
-        </a>
-        <a href="#" class="list-group-item list-group-item-action">
-            <div class="d-flex align-items-center">
-                <img src="https://cdn.discordapp.com/attachments/1016582802432589864/1046453384963702875/cutscene6007_06.png"
-                class="me-3" style="width:70px;height:70px">
-                <div class="d-flex w-100 flex-column">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">#00001</h5>
-                        <small>Product Category</small>
-                    </div>
-                    <p class="mb-1">Product Name</p>
-                    <small>Product Description</small>
-                </div>
-            </div>
-        </a>
+    <div id="product-container" class="list-group mb-3" style="height:1000px;overflow-y:auto">
     </div>
+    <nav aria-label="Page Navigation">
+        <ul class="pagination">
+            <li class="page-item page-arrows">
+                <a id="page-product-prev" class="page-link disabled" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {{#each pages_p}}
+                <li class="page_item">
+                    <a id="page-product-{{this}}" class="page-link page-product {{#if @first}} active {{/if}}" href="#">{{this}}</a>
+                </li>
+            {{/each}}
+            <li class="page-item page-arrows">
+                <a id="page-product-next" class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>

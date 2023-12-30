@@ -519,12 +519,11 @@ module.exports = {
             }
         }
     },
-    getAll: async (tbName) => {
+    getAll: async (tbName, order) => {
         let con = null;
         try {
             con = await db.connect();
-            const order = tbName === "accounts" ? "ORDER BY role" : "";
-            const rs = await con.any(`SELECT * FROM "${tbName}" ${order}`);
+            const rs = await con.any(`SELECT * FROM "${tbName}" ORDER BY ${order}`);
             return rs;
         } catch (error) {
             throw error;

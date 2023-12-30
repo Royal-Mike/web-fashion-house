@@ -10,5 +10,6 @@ router.use((req, res, next) => {
 });
 
 router.get('/', adminC.home);
+router.post('/getpro', adminC.getPro);
 
 module.exports = router;
