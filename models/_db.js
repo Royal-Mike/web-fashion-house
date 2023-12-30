@@ -220,7 +220,7 @@ module.exports = {
                 let tempColorArray = [];
 
                 for (const color of tempColor) {
-                    if (color.color !== '~' && !tempColorArray.includes(color.color)) {
+                    if (!tempColorArray.includes(color.color)) {
                         tempColorArray.push(color.color);
                     }
                 }
@@ -269,7 +269,7 @@ module.exports = {
                 let tempColorArray = [];
 
                 for (const color of tempColor) {
-                    if (color.color !== '~' && !tempColorArray.includes(color.color)) {
+                    if (!tempColorArray.includes(color.color)) {
                         tempColorArray.push(color.color);
                     }
                 }
@@ -324,7 +324,7 @@ module.exports = {
                 let tempColorArray = [];
 
                 for (const color of tempColor) {
-                    if (color.color !== '~' && !tempColorArray.includes(color.color)) {
+                    if (!tempColorArray.includes(color.color)) {
                         tempColorArray.push(color.color);
                     }
                 }
