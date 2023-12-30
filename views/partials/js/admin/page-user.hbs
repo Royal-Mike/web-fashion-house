@@ -1,8 +1,9 @@
 <script>
     $(() => {
-        let data;
+        let data, userCur;
         let pageCur = 1;
 
+        // Pagination
         $(".page-user").on("click", function() {
             $(".page-user.active").removeClass("active");
             $(this).addClass("active");
@@ -53,17 +54,40 @@
 
         $(`#page-user-${pageCur}`).trigger("click");
 
+        // CRUD
         $("body").on("click", ".list-item-user", function() {
             $("#edit-user").removeClass("d-none");
             $("#user-container,#user-pagination").addClass("d-none");
 
-            const user = data[$(this).index()];
+            userCur = data[$(this).index()];
 
-            for (const key in user) {
-                let value = user[key];
+            for (const key in userCur) {
+                if (key === "password") continue;
+                let value = userCur[key];
                 if (key === "dob") value = value.split("T")[0];
                 $(`#user-${key}`).next().val(value);
             }
+        });
+
+        $("#update-edit-user").on("click", function() {
+            let userUpdate = {};
+            for (const key in userCur) {
+                if (key === "password") continue;
+                userUpdate[key] = $(`#user-${key}`).next().val();
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/upduser',
+                data: userUpdate,
+                success: function(result) {
+                    alert('User updated!');
+                    $("#user-pagination .page-link-num.active").trigger("click");
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
         });
 
         $("#cancel-edit-user").on("click", function() {

@@ -550,6 +550,22 @@ module.exports = {
             }
         }
     },
+    updateUser: async (data) => {
+        let con = null;
+        try {
+            con = await db.connect();
+            const condition = pgp.as.format(' WHERE username = ${username}', data);
+            let sql = pgp.helpers.update(data, ['fullname', 'email', 'dob', 'role'], 'accounts') + condition;
+            await con.none(sql);
+            return 1;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
     email: async (tbName, fieldName, value) => {
         let con = null;
         try {

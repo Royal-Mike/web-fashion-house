@@ -35,5 +35,9 @@ module.exports = {
         const users = await adminM.getAllUsers();
         const usersPage = users.slice(indexStart, indexEnd);
         res.send(usersPage);
+    },
+    updateUser: async (req, res) => {
+        await adminM.updateUser(req.body);
+        res.send('success');
     }
 };

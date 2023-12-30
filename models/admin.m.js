@@ -9,4 +9,8 @@ module.exports = class Admin {
         const rs = await db.getAll("accounts", "role");
         return rs;
     }
+    static async updateUser(data) {
+        const rs = await db.updateUser(data);
+        return rs;
+    }
 }
