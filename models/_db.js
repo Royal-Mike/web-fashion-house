@@ -334,5 +334,25 @@ module.exports = {
                 con.done();
             }
         }
-    }
+    },
+    checkout: async (tbName, paymentJson) => {
+        let con = null;
+        try {
+            console.log(paymentJson);
+            con = await db.connect();
+            // const username = paymentJson.username;
+            // const totalMoney = paymentJson.totalMoney;
+            // await con.none(`INSERT INTO ${tbName} ("username", "totalmoney") VALUES ($1, $2);`, [username, totalMoney]);
+            let sql = pgp.helpers.insert(paymentJson, null, tbName);
+            console.log(sql);
+            await con.none(sql);
+            return 1;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
 }
