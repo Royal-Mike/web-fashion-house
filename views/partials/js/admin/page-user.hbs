@@ -27,7 +27,7 @@
                     data = result;
                     result.forEach(item => {
                         $("#user-container").append(
-                            `<a href="#" class="list-group-item list-group-item-action list-item-user">
+                            `<a class="list-group-item list-group-item-action list-item-user">
                                 <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">${item.username}</h5>
                                     <small>${item.role}</small>
@@ -54,7 +54,42 @@
 
         $(`#page-user-${pageCur}`).trigger("click");
 
-        // CRUD
+        // CRUD - Create
+        $("#open-add-user").on("click", function() {
+            $("#edit-user").removeClass("d-none").find("input").val("");
+            $("#user-container,#user-pagination,.btn-edit-user").addClass("d-none");
+            $("#add-user").removeClass("d-none");
+            $("#user-password").parent().removeClass("d-none");
+        });
+
+        $("#add-user").on("click", function() {
+            let userAdd = {};
+            for (const key in userCur) {
+                userAdd[key] = $(`#user-${key}`).next().val();
+                if (!userAdd[key]) return alert('Xin hãy điền đầy đủ thông tin!');
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/adduser',
+                data: userAdd,
+                success: function(result) {
+                    if (result === 'err_username') {
+                        return alert('Tên người dùng đã tồn tại!');
+                    }
+                    else if (result === 'err_email') {
+                        return alert('Email đã tồn tại!');
+                    }
+                    alert('Thêm tài khoản thành công!');
+                    $("#user-pagination .page-link-num.active").trigger("click");
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+
+        // CRUD - Read
         $("body").on("click", ".list-item-user", function() {
             $("#edit-user").removeClass("d-none");
             $("#user-container,#user-pagination").addClass("d-none");
@@ -69,11 +104,13 @@
             }
         });
 
+        // CRUD - Update
         $("#update-edit-user").on("click", function() {
             let userUpdate = {};
             for (const key in userCur) {
                 if (key === "password") continue;
                 userUpdate[key] = $(`#user-${key}`).next().val();
+                if (!userUpdate[key]) return alert('Xin hãy điền đầy đủ thông tin!');
             }
 
             $.ajax({
@@ -81,7 +118,7 @@
                 url: '/admin/upduser',
                 data: userUpdate,
                 success: function(result) {
-                    alert('User updated!');
+                    alert('Tài khoản cập nhật thành công!');
                     $("#user-pagination .page-link-num.active").trigger("click");
                 },
                 error: function(result) {
@@ -91,8 +128,9 @@
         });
 
         $("#cancel-edit-user").on("click", function() {
-            $("#edit-user").addClass("d-none");
-            $("#user-container,#user-pagination").removeClass("d-none");
+            $("#edit-user,#add-user").addClass("d-none");
+            $("#user-password").parent().addClass("d-none");
+            $("#user-container,#user-pagination,.btn-edit-user").removeClass("d-none");
         });
     })
 </script>

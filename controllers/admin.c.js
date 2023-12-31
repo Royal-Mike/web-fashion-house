@@ -1,4 +1,7 @@
 const adminM = require('../models/admin.m');
+const accountM = require("../models/account.m");
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 module.exports = {
     home: async (req, res) => {
@@ -39,5 +42,31 @@ module.exports = {
     updateUser: async (req, res) => {
         await adminM.updateUser(req.body);
         res.send('success');
+    },
+    addUser: async (req, res, next) => {
+        const un = req.body.username;
+        const email = req.body.email;
+        const fn = req.body.fullname;
+        const dob = req.body.dob;
+        const pw = req.body.password;
+        const role = req.body.role;
+
+        const existingUser = await accountM.getAccount(un);
+        const existingEmail = await accountM.getEmail(email);
+
+        if (existingUser) {
+            return res.send('err_username');
+        }
+        else if (existingEmail && existingEmail.email === email) {
+            return res.send('err_email');
+        }
+
+        bcrypt.hash(pw, saltRounds, async function (err, hash) {
+            if (err) {
+                return next(err);
+            }
+            await accountM.createAccount(new accountM(un, email, fn, dob, hash, role));
+            res.send('success');
+        });
     }
 };

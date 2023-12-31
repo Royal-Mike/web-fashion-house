@@ -24,7 +24,7 @@
                 success: function(result) {
                     result.forEach(item => {
                         $("#product-container").append(
-                            `<a href="#" class="list-group-item list-group-item-action">
+                            `<a class="list-group-item list-group-item-action">
                                 <div class="d-flex align-items-center">
                                     <img src="${item.images[0] ? item.images[0] : ""}"
                                     class="me-3" style="width:70px;height:70px">

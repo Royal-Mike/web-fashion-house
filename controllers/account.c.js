@@ -11,10 +11,10 @@ module.exports = {
 			const dob = req.body.dob;
 			const pw = req.body.password;
 			const role = "user";
-	
+
 			const existingUser = await accountM.getAccount(un);
 			const existingEmail = await accountM.getEmail(email);
-			
+
 			if (existingUser && (existingEmail && existingEmail.email === email)) {
 				req.flash("unValue", un);
 				req.flash("emailValue", email);
@@ -40,7 +40,7 @@ module.exports = {
 				req.flash('errorEmail', 'Email đã tồn tại. Vui lòng chọn email khác!');
 				return res.redirect('/signup');
 			}
-	
+
 			bcrypt.hash(pw, saltRounds, async function (err, hash) {
 				if (err) {
 					return next(err);

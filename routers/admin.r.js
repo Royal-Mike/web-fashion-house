@@ -13,5 +13,6 @@ router.get('/', adminC.home);
 router.post('/getpro', adminC.getPro);
 router.post('/getuser', adminC.getUser);
 router.post('/upduser', adminC.updateUser);
+router.post('/adduser', adminC.addUser);
 
 module.exports = router;
