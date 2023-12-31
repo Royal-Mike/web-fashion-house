@@ -11,7 +11,7 @@ module.exports = class Account {
 		this.role = role;
 	}
 	static async createAccount(data) {
-		const rs = await db.signup(table, data);
+		const rs = await db.add(table, data);
 		return rs;
 	}
 	static async getAccount(un) {

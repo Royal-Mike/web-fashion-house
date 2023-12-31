@@ -81,13 +81,7 @@
                 url: '/admin/addpro',
                 data: proAdd,
                 success: function(result) {
-                    if (result === 'err_proname') {
-                        return alert('Tên người dùng đã tồn tại!');
-                    }
-                    else if (result === 'err_email') {
-                        return alert('Email đã tồn tại!');
-                    }
-                    alert('Thêm tài khoản thành công!');
+                    alert('Thêm sản phẩm thành công!');
                     $("#pro-pagination .page-link-num.active").trigger("click");
                 },
                 error: function(result) {
@@ -114,7 +108,7 @@
 
         // CRUD - Update
         $("#update-edit-pro").on("click", function() {
-            let proUpdate = {pronameOld: proCur.proname};
+            let proUpdate = {id: proCur.id};
             for (const key in proCur) {
                 if (!fields.includes(key)) continue;
                 proUpdate[key] = $(`#pro-${key}`).next().val();
@@ -126,10 +120,7 @@
                 url: '/admin/updpro',
                 data: proUpdate,
                 success: function(result) {
-                    if (result === 'err_proname') {
-                        return alert('Tên người dùng đã tồn tại!');
-                    }
-                    alert('Tài khoản cập nhật thành công!');
+                    alert('Sản phẩm cập nhật thành công!');
                     $("#pro-pagination .page-link-num.active").trigger("click");
                     $("#cancel-edit-pro").trigger("click");
                 },
@@ -150,13 +141,10 @@
                 type: 'POST',
                 url: '/admin/delpro',
                 data: {
-                    proname: proCur.proname
+                    id: proCur.id
                 },
                 success: function(result) {
-                    if (result === 'err_proname') {
-                        return alert('Không thể xóa tài khoản đang đăng nhập!');
-                    }
-                    alert('Xóa tài khoản thành công!');
+                    alert('Xóa sản phẩm thành công!');
                     $("#pro-pagination .page-link-num.active").trigger("click");
                     $("#cancel-edit-pro").trigger("click");
                 },

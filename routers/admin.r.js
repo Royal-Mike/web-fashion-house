@@ -11,6 +11,9 @@ router.use((req, res, next) => {
 
 router.get('/', adminC.home);
 router.post('/getpro', adminC.getPro);
+router.post('/updpro', adminC.updatePro);
+router.post('/addpro', adminC.addPro);
+router.post('/delpro', adminC.deletePro);
 router.post('/getuser', adminC.getUser);
 router.post('/upduser', adminC.updateUser);
 router.post('/adduser', adminC.addUser);

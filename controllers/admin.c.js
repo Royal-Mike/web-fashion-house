@@ -1,5 +1,6 @@
 const adminM = require('../models/admin.m');
 const accountM = require("../models/account.m");
+const productM = require("../models/product.m");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -30,6 +31,18 @@ module.exports = {
         const products = await adminM.getAllProducts();
         const productsPage = products.slice(indexStart, indexEnd);
         res.send(productsPage);
+    },
+    updatePro: async (req, res) => {
+        await productM.updatePro(new productM(req.body));
+        res.send('success');
+    },
+    addPro: async (req, res) => {
+        await productM.addPro(new productM(req.body));
+        res.send('success');
+    },
+    deletePro: async (req, res) => {
+        await productM.deletePro(req.body.id);
+        res.send('success');
     },
     getUser: async (req, res) => {
         let page = req.body.page;
