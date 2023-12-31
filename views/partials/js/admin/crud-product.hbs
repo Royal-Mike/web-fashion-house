@@ -1,19 +1,23 @@
 <script>
     $(() => {
+        let data, proCur;
         let pageCur = 1;
 
-        $(".page-product").on("click", function() {
-            $(".page-product.active").removeClass("active");
+        const fields = ['name', 'create_date', 'brand', 'color', 'images', 'price', 'description', 'sale', 'for', 'category'];
+
+        // Pagination
+        $(".page-pro").on("click", function() {
+            $(".page-pro.active").removeClass("active");
             $(this).addClass("active");
 
             $(".page-arrows a.disabled").removeClass("disabled");
-            if ($(this).parent().next().hasClass("page-arrows")) $("#page-product-next").addClass("disabled");
-            if ($(this).parent().prev().hasClass("page-arrows")) $("#page-product-prev").addClass("disabled");
+            if ($(this).parent().next().hasClass("page-arrows")) $("#page-pro-next").addClass("disabled");
+            if ($(this).parent().prev().hasClass("page-arrows")) $("#page-pro-prev").addClass("disabled");
 
             let page = $(this).text();
             pageCur = Number(page);
 
-            $("#product-container").empty();
+            $("#pro-container").empty();
 
             $.ajax({
                 type: 'POST',
@@ -22,9 +26,10 @@
                     page: page
                 },
                 success: function(result) {
+                    data = result;
                     result.forEach(item => {
-                        $("#product-container").append(
-                            `<a class="list-group-item list-group-item-action">
+                        $("#pro-container").append(
+                            `<a class="list-group-item list-group-item-action list-item-pro">
                                 <div class="d-flex align-items-center">
                                     <img src="${item.images[0] ? item.images[0] : ""}"
                                     class="me-3" style="width:70px;height:70px">
@@ -52,9 +57,113 @@
             if (id.includes("prev")) pageCur--;
             else pageCur++;
 
-            $(`#page-product-${pageCur}`).trigger("click");
+            $(`#page-pro-${pageCur}`).trigger("click");
         });
 
-        $(`#page-product-${pageCur}`).trigger("click");
+        $(`#page-pro-${pageCur}`).trigger("click");
+
+        // CRUD - Create
+        $("#open-add-pro").on("click", function() {
+            $("#edit-pro").removeClass("d-none").find("input").val("");
+            $("#pro-container,#pro-pagination,.btn-edit-pro").addClass("d-none");
+            $("#add-pro").removeClass("d-none");
+        });
+
+        $("#add-pro").on("click", function() {
+            let proAdd = {};
+            for (const key in proCur) {
+                proAdd[key] = $(`#pro-${key}`).next().val();
+                if (!proAdd[key]) return alert('Xin hãy điền đầy đủ thông tin!');
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/addpro',
+                data: proAdd,
+                success: function(result) {
+                    if (result === 'err_proname') {
+                        return alert('Tên người dùng đã tồn tại!');
+                    }
+                    else if (result === 'err_email') {
+                        return alert('Email đã tồn tại!');
+                    }
+                    alert('Thêm tài khoản thành công!');
+                    $("#pro-pagination .page-link-num.active").trigger("click");
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+
+        // CRUD - Read
+        $("body").on("click", ".list-item-pro", function() {
+            $("#edit-pro").removeClass("d-none");
+            $("#pro-container,#pro-pagination").addClass("d-none");
+
+            proCur = data[$(this).index()];
+
+            for (const key in proCur) {
+                if (!fields.includes(key)) continue;
+                let value = proCur[key];
+                if (key === "create_date") value = value.split(" ")[0];
+                if (typeof value === "string") value = value.trim();
+                $(`#pro-${key}`).next().val(value);
+            }
+        });
+
+        // CRUD - Update
+        $("#update-edit-pro").on("click", function() {
+            let proUpdate = {pronameOld: proCur.proname};
+            for (const key in proCur) {
+                if (!fields.includes(key)) continue;
+                proUpdate[key] = $(`#pro-${key}`).next().val();
+                if (!proUpdate[key]) return alert('Xin hãy điền đầy đủ thông tin!');
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/updpro',
+                data: proUpdate,
+                success: function(result) {
+                    if (result === 'err_proname') {
+                        return alert('Tên người dùng đã tồn tại!');
+                    }
+                    alert('Tài khoản cập nhật thành công!');
+                    $("#pro-pagination .page-link-num.active").trigger("click");
+                    $("#cancel-edit-pro").trigger("click");
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+
+        $("#cancel-edit-pro").on("click", function() {
+            $("#edit-pro,#add-pro").addClass("d-none");
+            $("#pro-container,#pro-pagination,.btn-edit-pro").removeClass("d-none");
+        });
+
+        // CRUD - Delete
+        $("#delete-edit-pro").on("click", function() {
+            $.ajax({
+                type: 'POST',
+                url: '/admin/delpro',
+                data: {
+                    proname: proCur.proname
+                },
+                success: function(result) {
+                    if (result === 'err_proname') {
+                        return alert('Không thể xóa tài khoản đang đăng nhập!');
+                    }
+                    alert('Xóa tài khoản thành công!');
+                    $("#pro-pagination .page-link-num.active").trigger("click");
+                    $("#cancel-edit-pro").trigger("click");
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
     })
 </script>
