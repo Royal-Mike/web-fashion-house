@@ -40,6 +40,16 @@ module.exports = {
         res.send(usersPage);
     },
     updateUser: async (req, res) => {
+        let usernameNew = req.body.username;
+        let usernameOld = req.body.usernameOld;
+
+        if (usernameNew !== usernameOld) {
+            const existingUser = await accountM.getAccount(usernameNew);
+            if (existingUser) {
+                return res.send('err_username');
+            }
+        }
+
         await accountM.updateUser(req.body);
         res.send('success');
     },

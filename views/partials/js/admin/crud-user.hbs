@@ -106,7 +106,7 @@
 
         // CRUD - Update
         $("#update-edit-user").on("click", function() {
-            let userUpdate = {};
+            let userUpdate = {usernameOld: userCur.username};
             for (const key in userCur) {
                 if (key === "password") continue;
                 userUpdate[key] = $(`#user-${key}`).next().val();
@@ -118,8 +118,12 @@
                 url: '/admin/upduser',
                 data: userUpdate,
                 success: function(result) {
+                    if (result === 'err_username') {
+                        return alert('Tên người dùng đã tồn tại!');
+                    }
                     alert('Tài khoản cập nhật thành công!');
                     $("#user-pagination .page-link-num.active").trigger("click");
+                    $("#cancel-edit-user").trigger("click");
                 },
                 error: function(result) {
                     console.log(result);
