@@ -68,5 +68,13 @@ module.exports = {
             await accountM.createAccount(new accountM(un, email, fn, dob, hash, role));
             res.send('success');
         });
+    },
+    deleteUser: async (req, res) => {
+        let username = req.body.username;
+        if (req.user.username === username) {
+            return res.send('err_username');
+        }
+        await accountM.deleteUser(req.body.username);
+        res.send('success');
     }
 };

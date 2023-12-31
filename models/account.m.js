@@ -26,4 +26,8 @@ module.exports = class Account {
         const rs = await db.updateUser(data);
         return rs;
     }
+	static async deleteUser(un) {
+        const rs = await db.delete(table, "username", un);
+        return rs;
+    }
 };

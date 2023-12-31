@@ -550,6 +550,23 @@ module.exports = {
             }
         }
     },
+    delete: async (tbName, fieldName, value) => {
+        let con = null;
+        try {
+            con = await db.connect();
+            const rs = await con.none(
+                `DELETE FROM "${tbName}" WHERE "${fieldName}" = $1`,
+                [value]
+            );
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
     updateUser: async (data) => {
         let con = null;
         try {

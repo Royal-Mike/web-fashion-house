@@ -132,5 +132,27 @@
             $("#user-password").parent().addClass("d-none");
             $("#user-container,#user-pagination,.btn-edit-user").removeClass("d-none");
         });
+
+        // CRUD - Delete
+        $("#delete-edit-user").on("click", function() {
+            $.ajax({
+                type: 'POST',
+                url: '/admin/deluser',
+                data: {
+                    username: userCur.username
+                },
+                success: function(result) {
+                    if (result === 'err_username') {
+                        return alert('Không thể xóa tài khoản đang đăng nhập!');
+                    }
+                    alert('Xóa tài khoản thành công!');
+                    $("#user-pagination .page-link-num.active").trigger("click");
+                    $("#cancel-edit-user").trigger("click");
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
     })
 </script>
