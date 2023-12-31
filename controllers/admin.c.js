@@ -40,7 +40,7 @@ module.exports = {
         res.send(usersPage);
     },
     updateUser: async (req, res) => {
-        await adminM.updateUser(req.body);
+        await accountM.updateUser(req.body);
         res.send('success');
     },
     addUser: async (req, res, next) => {

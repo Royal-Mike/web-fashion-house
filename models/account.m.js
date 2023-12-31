@@ -22,4 +22,8 @@ module.exports = class Account {
 		const rs = await db.email(table, "email", un);
 		return rs;
 	}
+	static async updateUser(data) {
+        const rs = await db.updateUser(data);
+        return rs;
+    }
 };
