@@ -1,3 +1,4 @@
+const { sourceMapsEnabled } = require('process');
 const homeM = require('../models/home.m');
 
 module.exports = {
@@ -14,7 +15,7 @@ module.exports = {
             dark: dark,
             bestseller: bestseller,
             newarrival: news,
-            recommend: recommend
+            recommend: recommend,
         })
     },
     getDataWithInput: async (req, res) => {
@@ -27,6 +28,7 @@ module.exports = {
         const rs = await homeM.moveToDetailsPage(req.query.id);
         const product = rs[0];
         res.render('details', {
+            home: true,
             dark: dark,
             name: product.name,
             numComments: product.comments.length,
@@ -41,7 +43,8 @@ module.exports = {
             relateProducts: product.relateProducts,
             otherColorProducts: product.otherColorProducts,
             checkOtherColors: product.checkOtherColors,
-            cate: product.category
+            cate: product.category,
+            check_exists_more: product.relateProducts.length === 24 ? true : false
         })
     },
     getDescription: async (req, res) => {
@@ -52,11 +55,26 @@ module.exports = {
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
         const allRs = await homeM.getRelatingPage(req.query.type, req.query.page);
+        let theme = req.cookies.theme;
+        let dark = theme === "dark" ? true : false;
         const rs = allRs[0];
+        const length = allRs[1];
+        let onePage;
+        if (Math.ceil(length / 24) <= 1) {
+            onePage = true;
+        }
         res.render('relating-page', {
+            home: true,
             dark: dark,
             type: req.query.type,
-            moreRelateProducts: rs
+            curpage: req.query.page,
+            moreRelateProducts: rs,
+            onePage: onePage,
+            numpage: Math.ceil(length / 24)
         })
+    },
+    getMoreProductsRecommend: async (req, res) => {
+        const data = await homeM.getRecommend(req.query.page);
+        res.json({ success: data });
     }
 };

@@ -2,37 +2,40 @@
     <h3>Tìm kiếm "{{type}}"</h3>
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {{#each moreRelateProducts}}
-        <div class="col" data-id="{{this.id}}">
+        <div class="col" data-id="{{this.id}}" title="{{this.name}}">
             <div class="card card-home h-100">
                 <img src="{{this.thumbnail}}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">{{this.name}}</h5>
-                    <p class="card-text">{{this.newPrice}}₫ | {{this.sale}}</p>
-                    <div class="d-flex justify-content-around">
-                        <p class="card-text">Đã bán {{this.sold}}</p>
-                        <p class="card-text">Đánh giá {{this.numComments}}</p>
-                    </div>
+                    <h5 class="card-title fs-3">{{this.name}}</h5>
+                    <p class="card-text">
+                            <span style="width: 9rem; display: inline-block" class="text-info fs-4">{{this.newPrice}}₫</span>
+                            <span class="rounded p-1 ms-2 fs-4" style="background-color: rgb(232, 72, 63); color: rgb(223, 243, 0)"><i class="fa-solid fa-fire"></i>
+                                {{this.sale}}</span>
+                        </p>
+                        <div {{#if dark}}style="color: yellow;" class="fs-3"{{else}}class="text-danger"{{/if}}>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                            <span class="card-text text-light">({{this.numComments}})</span>
+                        </div>
+                        <p class="card-text mt-1 fs-5">Đã bán {{this.sold}}</p>
                 </div>
             </div>
         </div>
         {{/each}}
     </div>
 
+    {{#if onePage}}
+    {{else}}
     <nav class="d-flex justify-content-center mt-4 mb-4">
-        <ul class="pagination">
-            <li class="page-item">
-                <a class="page-link fs-3">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link fs-3" href="#">1</a></li>
-            <li class="page-item active" aria-current="page">
-                <a class="page-link fs-3" href="#">2</a>
-            </li>
-            <li class="page-item"><a class="page-link fs-3" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link fs-3" href="#">Next</a>
-            </li>
+        <ul class="pagination pagination-in-search">
+            
         </ul>
     </nav>
+    {{/if}}
+
 </div>
 
 <script>
@@ -42,6 +45,57 @@
             window.location.href = `/details?id=${product_id}`;
         });
 
-        {{!-- const numPage = {{numPage}}; --}}
+        const numPage = {{numpage}};
+        const curPage = {{curpage}};
+        const nameSearch = '{{type}}';
+        console.log(nameSearch);
+        let pagination_append = ``;
+
+        if (curPage === 1) {
+                pagination_append += 
+            `
+            <li class="page-item disabled">
+                <a class="page-link fs-3" aria-label="Previous">Trang trước</a>
+            </li>
+            `
+        } else {
+            pagination_append += 
+            `
+            <li class="page-item">
+                <a class="page-link fs-3" aria-label="Previous" href="relating-products?type=${nameSearch}&page=${curPage - 1}">Trang trước</a>
+            </li>
+            `
+        }
+        for (let i = 0; i < numPage; i++) {
+            if (i + 1 === curPage) {
+                pagination_append += 
+                `
+                <li class="page-item active" aria-current="page"><a class="page-link fs-3" href="relating-products?type=${nameSearch}&page=${i + 1}">${i + 1}</a></li>
+                `
+            } else {
+                pagination_append += 
+                `
+                <li class="page-item"><a class="page-link fs-3" href="relating-products?type=${nameSearch}&page=${i + 1}">${i + 1}</a></li>
+                `
+            }
+        }
+
+        if (curPage === numPage) {
+            pagination_append += 
+            `
+            <li class="page-item disabled">
+                <a class="page-link fs-3" aria-label="Next">Trang sau</a>
+            </li>
+            `
+        } else {
+            pagination_append += 
+            `
+            <li class="page-item">
+                <a class="page-link fs-3" aria-label="Next" href="relating-products?type=${nameSearch}&page=${curPage + 1}">Trang sau</a>
+            </li>
+            `
+        }
+
+        $('.pagination-in-search').append(pagination_append);
     });
 </script>

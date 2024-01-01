@@ -41,6 +41,10 @@ fs.readFile(filePath2, 'utf8')
         console.error('Error reading or parsing the file:', error);
     });
 
+let colorBestSeller = [];
+let colorNewArrival = [];
+let colorRecommend = [];
+
 module.exports = {
     addDataToDB: async () => {
         cn.database = process.env.DB_NAME;
@@ -207,7 +211,23 @@ module.exports = {
             const startIndex = (page - 1) * 10;
             const endIndex = startIndex + 10;
             rs = rs.slice(startIndex, endIndex);
-            rs.forEach(product => {
+
+            colorBestSeller = [];
+
+            for (const product of rs) {
+                let tempColor = await con.any(`
+                SELECT * FROM products WHERE (id = ANY(ARRAY[${product.relation}]) OR id = ${product.id}) AND "for" = '${product.for}'`);
+                let tempColorArray = [];
+
+                for (const color of tempColor) {
+                    if (!tempColorArray.includes(color.color)) {
+                        tempColorArray.push(color.color);
+                    }
+                }
+                colorBestSeller.push(tempColorArray);
+            }
+
+            rs.forEach((product, index) => {
                 const sale = parseInt(product.sale.slice(1, 3));
                 product.newPrice = (parseFloat(product.price) * (100 - sale) * 23000 / 100.0).toLocaleString();
                 product.rate = product.sold * 1.0 / product.totalStock;
@@ -215,7 +235,10 @@ module.exports = {
                 product.name = product.name.replace(/\d/g, '');
                 product.price = (product.price * 23000).toLocaleString();
                 product.numComments = product.comments.length;
+                product.holdColors = colorBestSeller[index];
+                product.sale = product.sale.replace('.', ',');
             });
+
             return rs;
         } catch (error) {
             throw error;
@@ -237,12 +260,31 @@ module.exports = {
             const startIndex = (page - 1) * 10;
             const endIndex = startIndex + 10;
             rs = rs.slice(startIndex, endIndex);
-            rs.forEach(product => {
+
+            colorNewArrival = [];
+
+            for (const product of rs) {
+                let tempColor = await con.any(`
+                SELECT * FROM products WHERE (id = ANY(ARRAY[${product.relation}]) OR id = ${product.id}) AND "for" = '${product.for}'`);
+                let tempColorArray = [];
+
+                for (const color of tempColor) {
+                    if (!tempColorArray.includes(color.color)) {
+                        tempColorArray.push(color.color);
+                    }
+                }
+
+                colorNewArrival.push(tempColorArray);
+            }
+
+            rs.forEach((product, index) => {
                 product.rate = product.sold * 1.0 / product.totalStock;
                 product.thumbnail = product.images[0];
                 product.name = product.name.replace(/\d/g, '');
                 product.price = (product.price * 23000).toLocaleString();
                 product.numComments = product.comments.length;
+                product.holdColors = colorNewArrival[index];
+                product.sale = product.sale.replace('.', ',');
             });
             return rs;
         } catch (error) {
@@ -263,7 +305,7 @@ module.exports = {
             (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
             `);
             let rs1 = await con.any(`
-            SELECT * FROM 
+            SELECT DISTINCT ON (relation) * FROM 
             (SELECT * FROM products WHERE sale LIKE '0%') AS recommend 
             NATURAL JOIN 
             (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
@@ -273,7 +315,24 @@ module.exports = {
             rs0 = rs0.slice(startIndex, endIndex);
             rs1 = rs1.slice(startIndex, endIndex);
             let rs = rs0.concat(rs1);
-            rs.forEach(product => {
+
+            colorRecommend = [];
+
+            for (const product of rs) {
+                let tempColor = await con.any(`
+                SELECT * FROM products WHERE (id = ANY(ARRAY[${product.relation}]) OR id = ${product.id}) AND "for" = '${product.for}'`);
+                let tempColorArray = [];
+
+                for (const color of tempColor) {
+                    if (!tempColorArray.includes(color.color)) {
+                        tempColorArray.push(color.color);
+                    }
+                }
+
+                colorRecommend.push(tempColorArray);
+            }
+
+            rs.forEach((product, index) => {
                 product.rate = product.sold * 1.0 / product.totalStock;
                 product.thumbnail = product.images[0];
                 product.name = product.name.replace(/\d/g, '');
@@ -293,6 +352,7 @@ module.exports = {
                 product.sale = product.sale.replace('.', ',');
                 product.price = (product.price * 23000).toLocaleString();
                 product.numComments = product.comments.length;
+                product.holdColors = colorRecommend[index];
             });
             return rs;
         } catch (error) {
@@ -306,7 +366,7 @@ module.exports = {
     getDataWithInput: async (input) => {
         try {
             con = await db.connect();
-            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE name ILIKE '%${input}%' AND (sale LIKE '1%' OR sale LIKE '-%') LIMIT 15`);
+            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE (name ILIKE '%${input}%' OR category ILIKE '%${input}%') AND (sale LIKE '1%' OR sale LIKE '-%') LIMIT 15`);
             rs.forEach(product => {
                 product.name = product.name.replace(/\d/g, '');
                 product.thumbnail = product.images[0];
@@ -447,7 +507,18 @@ module.exports = {
     getRelatingPage: async (type, page) => {
         try {
             con = await db.connect();
-            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE category ILIKE '%${type}%' OR name ILIKE '%${type}%'`);
+            let rs;
+            if (type === "nam") {
+                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE "for" = 'Nam'`);
+            } else if (type === "nữ") {
+                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE "for" = 'Nữ'`);
+            } else if (type === "giảm-giá") {
+                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE sale LIKE '1%' OR sale LIKE '-%'`);
+            } else if (type === "thể-thao") {
+                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE category ILIKE '%Sport%'`);
+            } else {
+                rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE category ILIKE '%${type}%' OR name ILIKE '%${type}%'`);
+            }
             const length = rs.length;
             const startIndex = (page - 1) * 24;
             const endIndex = startIndex + 24;

@@ -81,22 +81,22 @@
     </div>
     <!-- Genre Search -->
     <ul class="list-group list-group-horizontal justify-content-center mb-2">
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=giảm-giá&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Giảm giá</li>
         </a>
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=nam&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Nam</li>
         </a>
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=nữ&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Nữ</li>
         </a>
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=trẻ&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Trẻ</li>
         </a>
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=em-bé&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Em bé</li>
         </a>
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=thể-thao&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Thể thao</li>
         </a>
     </ul>
@@ -118,8 +118,7 @@
                                     class="rounded d-flex align-items-center justify-content-center text-light mb-1">
                                     {{this.sale}}
                                 </div>
-                                <p class="fw-bold show-text-overflow"
-                                    title="{{this.name}}">
+                                <p class="fw-bold show-text-overflow" title="{{this.name}}">
                                     {{this.name}}</p>
                             </div>
                             <div class="d-flex justify-content-between opacity-25">
@@ -127,9 +126,9 @@
                                 <span>Kích cỡ: S - Freesize</span>
                             </div>
                             <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
+                                {{#each this.holdColors}}
+                                <img src="/color/{{this}}.png" class="rounded-circle me-1" style="width: 1rem;" alt="{{this}}">
+                                {{/each}}
                             </div>
                             <div class="mt-3 d-flex align-items-start">
                                 <span class="text-info align-baseline fs-4 fw-bold">{{this.newPrice}}</span>
@@ -144,19 +143,20 @@
                                 <i class="fa-solid fa-check"></i>
                                 <span>Đã bán {{this.sold}}</span>
 
-                                <div>
+                                <div {{#if dark}}style="color: yellow;" class="fs-3"{{else}}class="text-danger"{{/if}}>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star-half-stroke"></i>
-                                    ({{this.numComments}})
+                                    <span class="card-text text-light">({{this.numComments}})</span>
                                 </div>
                             </div>
 
                             <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: {{this.rate}}%;"
-                                    aria-valuenow="{{this.rate}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-linear-gradient" role="progressbar"
+                                    style="width: {{this.rate}}%;" aria-valuenow="{{this.rate}}" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
@@ -186,9 +186,9 @@
                                 <span>Kích cỡ: S - Freesize</span>
                             </div>
                             <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
+                                {{#each this.holdColors}}
+                                <img src="/color/{{this}}.png" class="rounded-circle me-1" style="width: 1rem;" alt="{{this}}">
+                                {{/each}}
                             </div>
                             <div class="mt-3 d-flex align-items-start">
                                 <span class="text-danger align-baseline fs-4 fw-bold">{{this.price}}</span>
@@ -200,19 +200,20 @@
                                 <i class="fa-solid fa-check"></i>
                                 <span>Đã bán {{this.sold}}</span>
 
-                                <div>
+                                <div {{#if dark}}style="color: yellow;" class="fs-3"{{else}}class="text-danger"{{/if}}>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star-half-stroke"></i>
-                                    ({{this.numComments}})
+                                    <span class="card-text text-light">({{this.numComments}})</span>
                                 </div>
                             </div>
 
                             <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: {{this.rate}}%;"
-                                    aria-valuenow="{{this.rate}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-linear-gradient" role="progressbar"
+                                    style="width: {{this.rate}}%;" aria-valuenow="{{this.rate}}" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
@@ -225,9 +226,9 @@
     <div class="border rounded m-5 p-2 w-75">
         <h1 class="text-center mb-4">Đề xuất cho bạn</h1>
         <div class="container d-flex justify-content-center">
-            <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mb-2">
+            <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3 mb-2 get-more-products-in-recommend">
                 {{#each recommend}}
-                <div class="col" data-id="{{this.id}}">
+                <div class="col products-in-recommend" data-id="{{this.id}}">
                     <div class="card card-home h-100">
                         <img src="{{this.thumbnail}}" class="card-img-top" alt="..." style="height: 18rem;">
                         <div class="card-body">
@@ -239,9 +240,9 @@
                                 <span>Kích cỡ: S - Freesize</span>
                             </div>
                             <div class="d-flex mt-2">
-                                <img src="/color/dark.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/blue.png" class="rounded-circle me-1" style="width: 1rem;" alt="">
-                                <img src="/color/yellow.jpg" class="rounded-circle me-1" style="width: 1rem;" alt="">
+                                {{#each this.holdColors}}
+                                <img src="/color/{{this}}.png" class="rounded-circle me-1" style="width: 1rem;" alt="{{this}}">
+                                {{/each}}
                             </div>
                             <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
                                 <span class="align-baseline fs-5 ms-2">{{this.newPrice}}</span>
@@ -259,19 +260,20 @@
                                 <i class="fa-solid fa-check"></i>
                                 <span>Đã bán {{this.sold}}</span>
 
-                                <div>
+                                <div {{#if dark}}style="color: yellow;" class="fs-3"{{else}}class="text-danger"{{/if}}>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star-half-stroke"></i>
-                                    ({{this.numComments}})
+                                    <span class="card-text text-light">({{this.numComments}})</span>
                                 </div>
                             </div>
 
                             <div class="progress mt-2" style="height: 0.65rem;">
-                                <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: {{this.rate}}%;"
-                                    aria-valuenow="{{this.rate}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-linear-gradient" role="progressbar"
+                                    style="width: {{this.rate}}%;" aria-valuenow="{{this.rate}}" aria-valuemin="0"
+                                    aria-valuemax="100"></div>
                             </div>
                         </div>
                     </div>
@@ -280,14 +282,95 @@
             </div>
         </div>
         <div class="d-flex justify-content-center">
-            <button type="button" class="btn fs-5">Xem thêm</button>
+            <button type="button" class="btn fs-5" id="see-more-home-page">Xem thêm</button>
         </div>
     </div>
 </div>
 
 <script>
     $(() => {
-        $('.col').on('click', function() {
+        $('#see-more-home-page').on('click', function () {
+            const numProductsCurrent = $('.products-in-recommend').length + 20;
+
+            $.ajax({
+                url: `http://localhost:3000/home/getMoreProductsRecommend?page=${numProductsCurrent / 20}`,
+                method: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    const rs = data.success;
+                    for (const product of rs) {
+                        let rt =
+                            `
+                        <div class="col products-in-recommend" data-id="${product.id}">
+                            <div class="card card-home h-100">
+                                <img src="${product.thumbnail}" class="card-img-top" alt="..." style="height: 18rem;">
+                                <div class="card-body">
+                                    <div style="height: 5rem;">
+                                        <p class="fw-bold show-text-overflow">${product.name}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between opacity-25">
+                                        <span>${product.for}</span>
+                                        <span>Kích cỡ: S - Freesize</span>
+                                    </div>
+                                    <div class="d-flex mt-2">`
+                                        
+                                        for (let i = 0; i < product.holdColors.length; i++) {
+                                            rt += `<img src="/color/${product.holdColors[i]}.png" class="rounded-circle me-1" style="width: 1rem;" alt="">`
+                                        }
+                                        
+                                    rt +=
+                                    `</div>
+                                    <div class="mt-3 d-flex align-items-start" style="color: orange; margin-left: -1rem;">
+                                        <span class="align-baseline fs-5 ms-2">${product.newPrice}</span>
+                                        <span class="align-baseline me-2" style="line-height: 1.75rem">₫</span>`;
+
+                        if (product.check) {
+                            rt += `<span class="text-success" style="line-height: 2rem;">(<i
+                                                class="fa-solid fa-arrow-down"></i> ${product.sale})</span>`;
+                        } else {
+                            rt += `<span class="text-danger" style="line-height: 2rem;">(<i
+                                                class="fa-solid fa-arrow-up"></i> ${product.sale})</span>`;
+                        }
+                        rt +=
+                        `</div>
+
+                                    <div class="mt-2">
+                                        <i class="fa-solid fa-check"></i>
+                                        <span>Đã bán ${product.sold}</span>
+
+                                        <div>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star-half-stroke"></i>
+                                            (${product.numComments})
+                                        </div>
+                                    </div>
+
+                                    <div class="progress mt-2" style="height: 0.65rem;">
+                                        <div class="progress-bar bg-linear-gradient" role="progressbar" style="width: ${product.rate}%;"
+                                            aria-valuenow="${product.rate}" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        `;
+                        $('.get-more-products-in-recommend').append(rt);
+                    }
+
+                    $('.col').on('click', function () {
+                        const product_id = $(this).data('id');
+                        window.location.href = `/details?id=${product_id}`;
+                    });
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $('.col').on('click', function () {
             const product_id = $(this).data('id');
             window.location.href = `/details?id=${product_id}`;
         });

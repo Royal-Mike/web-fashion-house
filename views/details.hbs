@@ -7,7 +7,10 @@
             <div class="col-md-8">
                 <div class="card-body">
                     <h2 class="card-title text-info text-center fs-1">Chi tiết sản phẩm</h2>
-                    <p class="card-text fs-2">Tên sản phẩm: <b>{{name}}</b></p>
+                    <p class="card-text fs-2">
+                        <span style="width: 14rem; display:inline-block">Tên sản phẩm: </span>
+                        <b>{{name}}</b>
+                    </p>
                     <div class="d-flex fs-3 text-danger">
                         <p class="me-3">
                             {{stars}}
@@ -27,14 +30,29 @@
                             {{sold}} Đã bán
                         </p>
                     </div>
-                    <p class="card-text fs-3">Giá tiền: {{price}}₫ | <span
-                            class="bg-success rounded text-warning p-1"><i class="fa-solid fa-fire"></i>
-                            {{offer}}</span></p>
-                    <p class="card-text fs-3">Màu sắc: {{color}}</p>
-                    <p class="card-text fs-3">Ngày sản xuất: {{create}}</p>
-                    <p class="card-text fs-3">Nhãn hiệu: {{brand}}</p>
-                    <p class="card-text fs-3">Vận chuyển: <small class="text-body-secondary">🚛 Miễn phí vận chuyển toàn
-                            quốc</small></p>
+                    <p class="card-text fs-3">
+                        <span style="width: 14rem; display:inline-block">Giá tiền: </span>
+                        {{price}}₫ <span class="bg-success rounded text-warning p-1 ms-4"><i
+                                class="fa-solid fa-fire"></i>
+                            {{offer}}</span>
+                    </p>
+                    <p class="card-text fs-3">
+                        <span style="width: 14rem; display:inline-block">Màu sắc: </span>
+                        {{color}}
+                    </p>
+                    <p class="card-text fs-3">
+                        <span style="width: 14rem; display:inline-block">Ngày sản xuất: </span>
+                        {{create}}
+                    </p>
+                    <p class="card-text fs-3">
+                        <span style="width: 14rem; display:inline-block">Nhãn hiệu: </span>
+                        {{brand}}
+                    </p>
+                    <p class="card-text fs-3">
+                        <span style="width: 14rem; display:inline-block">Vận chuyển: </span>
+                        <small class="text-body-secondary">🚛 Miễn phí vận chuyển toàn
+                            quốc</small>
+                    </p>
                     <p class="card-text fs-3">Kích cỡ:
                     <div class="btn-group" role="group" aria-label="Vertical radio toggle button group">
                         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off"
@@ -56,7 +74,8 @@
                         <label class="btn btn-outline-danger" for="vbtn-radio8" style="width: 6rem;">Freesize</label>
                     </div>
                     </p>
-                    <p class="card-text fs-3 d-flex mt-5">Số lượng:
+                    <p class="card-text fs-3 d-flex mt-5">
+                        <span style="width: 14rem; display:inline-block">Số lượng: </span>
                         <span class="input-group ms-3 me-3" style="width: 9.8rem;">
                             <button class="btn btn-outline-secondary fs-5" type="button" style="width: 3rem;"><i
                                     class="fa-solid fa-minus"></i></button>
@@ -69,7 +88,7 @@
 
                     <div class="d-flex mt-5">
                         <a href="#" class="btn border fs-1" role="button" data-bs-toggle="button"
-                            style="background-color: rgb(230, 188, 110);"><i class="fa-solid fa-cart-plus"></i> Thêm vào
+                            style="background-color: rgb(214, 151, 34);"><i class="fa-solid fa-cart-plus"></i> Thêm vào
                             giỏ hàng</a>
                         <a href="#" class="btn btn-danger ms-3 fs-1 border" role="button" data-bs-toggle="button">Mua
                             ngay</a>
@@ -86,7 +105,7 @@
         </div>
     </div>
 
-    <div class="ms-5 me-5">
+    <div class="ms-5 me-5 mt-3">
         <h2 class="bg-secondary-subtle" style="line-height: 3rem;">MÀU SẮC</h2>
         {{#if checkOtherColors}}
         <div class="row row-cols-1 row-cols-md-4 g-4">
@@ -95,7 +114,8 @@
                 <div class="card card-home h-100">
                     <img src="{{this.thumbnail}}" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <span class="fs-4">Màu sắc: <h5 class="card-title text-info fs-3 d-inline">{{this.color}}</h5></span>
+                        <span class="fs-4">Màu sắc: <h5 class="card-title text-info fs-3 d-inline">{{this.color}}</h5>
+                        </span>
                         <p class="card-text">Đã bán {{this.sold}}</p>
                     </div>
                 </div>
@@ -111,22 +131,37 @@
         <h2 class="bg-secondary-subtle" style="line-height: 3rem;">CÁC SẢN PHẨM LIÊN QUAN ({{cate}})</h2>
         <div class="row row-cols-1 row-cols-md-6 g-4">
             {{#each relateProducts}}
-            <div class="col" data-id="{{this.id}}">
+            <div class="col" data-id="{{this.id}}" title="{{this.name}}">
                 <div class="card card-home h-100">
                     <img src="{{this.thumbnail}}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{this.name}}</h5>
-                        <p class="card-text">{{this.newPrice}}₫ | {{this.sale}}</p>
-                        <p class="card-text">Đã bán {{this.sold}}</p>
+                        <p class="card-text">
+                            <span style="width: 5rem; display: inline-block" class="text-info">{{this.newPrice}}₫</span>
+                            <span class="rounded p-1 ms-2" style="background-color: rgb(232, 72, 63); color: rgb(223, 243, 0)"><i class="fa-solid fa-fire"></i>
+                                {{this.sale}}</span>
+                        </p>
+                        <div {{#if dark}}style="color: yellow;"{{else}}class="text-danger"{{/if}}>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <p class="card-text mt-1">Đã bán {{this.sold}}</p>
                     </div>
                 </div>
             </div>
             {{/each}}
         </div>
-        
+
+        {{#if check_exists_more}}
         <div class="d-flex justify-content-center mt-3 mb-3">
             <button type="button" class="btn fs-5 border" id="see-more-from-details">Xem thêm</button>
         </div>
+        {{else}}
+        <div class="mb-3"></div>
+        {{/if}}
     </div>
 </div>
 
@@ -151,9 +186,10 @@
             window.location.href = `/details?id=${product_id}`;
         });
 
-        $('#see-more-from-details').on('click', function() {
+        $('#see-more-from-details').on('click', function () {
             let type = '{{cate}}';
-            window.location.href = `/relating-products?type=${type}&page=2`;
+            type = type.replace('&#x60;', '`');
+            window.location.href = `/relating-products?type=${type}&page=1`;
         });
     });
 </script>
