@@ -11,6 +11,8 @@ const homeC = require("../controllers/home.c");
 const detailsR = require("./details.r");
 const relateR = require("./relate_products.r");
 
+const cartR = require("./cart.r");
+
 router.get('/', async (req, res) => {
     let theme = req.cookies.theme;
     let dark = theme === "dark" ? true : false;
@@ -50,7 +52,7 @@ router.get('/oauth', requireAuth, homeC.home);
 
 router.get('/oauth/logout', (req, res) => {
     req.logout(err => {
-        if(err) {
+        if (err) {
             throw err;
         }
     });
@@ -100,16 +102,16 @@ router.get('/gg/auth', async (req, res, next) => {
         try {
             const existingEmail = await accountM.getEmail(decodedToken.email);
 
-			if (existingEmail === null) {
+            if (existingEmail === null) {
                 await accountM.createAccount(new accountM(decodedToken.email, decodedToken.email, decodedToken.name, null, '', 'user'));
                 console.log("Oauth");
-			}
-            
+            }
+
         } catch (error) {
             console.error('Error in signup:', error);
             res.status(500).send('Internal Server Error');
         }
-        
+
         req.session.oauthUser = true;
 
         res.redirect('/oauth');
@@ -121,5 +123,7 @@ router.get('/gg/auth', async (req, res, next) => {
 });
 
 router.use('/relating-products', relateR);
+
+router.use("/cart", cartR);
 
 module.exports = router;

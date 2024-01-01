@@ -68,9 +68,9 @@
                     </p>
 
                     <div class="d-flex mt-5">
-                        <a href="#" class="btn border fs-1" role="button" data-bs-toggle="button"
+                        <button href="#" id="addToCart" class="btn border fs-1" role="button" data-bs-toggle="button"
                             style="background-color: rgb(230, 188, 110);"><i class="fa-solid fa-cart-plus"></i> Thêm vào
-                            giỏ hàng</a>
+                            giỏ hàng</button>
                         <a href="#" class="btn btn-danger ms-3 fs-1 border" role="button" data-bs-toggle="button">Mua
                             ngay</a>
                     </div>
@@ -95,7 +95,8 @@
                 <div class="card card-home h-100">
                     <img src="{{this.thumbnail}}" class="card-img-top" alt="...">
                     <div class="card-body">
-                        <span class="fs-4">Màu sắc: <h5 class="card-title text-info fs-3 d-inline">{{this.color}}</h5></span>
+                        <span class="fs-4">Màu sắc: <h5 class="card-title text-info fs-3 d-inline">{{this.color}}</h5>
+                        </span>
                         <p class="card-text">Đã bán {{this.sold}}</p>
                     </div>
                 </div>
@@ -123,7 +124,7 @@
             </div>
             {{/each}}
         </div>
-        
+
         <div class="d-flex justify-content-center mt-3 mb-3">
             <button type="button" class="btn fs-5 border" id="see-more-from-details">Xem thêm</button>
         </div>
@@ -151,9 +152,14 @@
             window.location.href = `/details?id=${product_id}`;
         });
 
-        $('#see-more-from-details').on('click', function() {
+        $('#see-more-from-details').on('click', function () {
             let type = '{{cate}}';
             window.location.href = `/relating-products?type=${type}&page=2`;
+        });
+        // add item to cart
+        $('#addToCart').on('click', function () {
+            let id = '{{id}}';
+            window.location.href = `/cart/addToCart?id=${id}`;
         });
     });
 </script>

@@ -41,7 +41,8 @@ module.exports = {
             relateProducts: product.relateProducts,
             otherColorProducts: product.otherColorProducts,
             checkOtherColors: product.checkOtherColors,
-            cate: product.category
+            cate: product.category,
+            id: req.query.id, // for add to cart
         })
     },
     getDescription: async (req, res) => {
