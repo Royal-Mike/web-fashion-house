@@ -212,6 +212,18 @@ module.exports = {
             const endIndex = startIndex + 10;
             rs = rs.slice(startIndex, endIndex);
 
+            await con.none(`
+            CREATE TABLE IF NOT EXISTS catalogue (
+                id SERIAL PRIMARY KEY,
+                category TEXT
+            )
+            `)
+
+            let getCatalogue = await con.any(`SELECT distinct(category) FROM products`);
+            for (const catalogue of getCatalogue) {
+                await con.none(`INSERT INTO catalogue(category) VALUES($1)`, [catalogue.category])
+            }
+
             colorBestSeller = [];
 
             for (const product of rs) {
