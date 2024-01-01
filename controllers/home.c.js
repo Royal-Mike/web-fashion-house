@@ -55,8 +55,6 @@ module.exports = {
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
         const allRs = await homeM.getRelatingPage(req.query.type, req.query.page);
-        let theme = req.cookies.theme;
-        let dark = theme === "dark" ? true : false;
         const rs = allRs[0];
         const length = allRs[1];
         let onePage;
