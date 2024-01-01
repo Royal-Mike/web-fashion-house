@@ -9,19 +9,24 @@ module.exports = {
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
 
+        // const categories = await adminM.getAllCategories();
         const products = await adminM.getAllProducts();
         const users = await adminM.getAllUsers();
 
+        // const page_c = Math.ceil(categories.length / 10);
         const pages_p = Math.ceil(products.length / 100);
         const pages_u = Math.ceil(users.length / 10);
+
+        function makeArray(pages) {
+            return [...Array(pages + 1).keys()].slice(1)
+        }
 
         res.render('admin/home', {
             title: 'Admin',
             dark: dark,
-            products: products,
-            users: users,
-            pages_p: [...Array(pages_p + 1).keys()].slice(1),
-            pages_u: [...Array(pages_u + 1).keys()].slice(1)
+            // pages_c: makeArray(pages_c),
+            pages_p: makeArray(pages_p),
+            pages_u: makeArray(pages_u)
         });
     },
     getPro: async (req, res) => {

@@ -571,12 +571,12 @@ module.exports = {
             }
         }
     },
-    updateUser: async (data) => {
+    updateCat: async (data) => {
         let con = null;
         try {
             con = await db.connect();
-            const condition = pgp.as.format(' WHERE username = ${usernameOld}', data);
-            let sql = pgp.helpers.update(data, ['username', 'fullname', 'email', 'dob', 'role'], 'accounts') + condition;
+            const condition = pgp.as.format(' WHERE id = ${id}', data);
+            let sql = pgp.helpers.update(data, ['name'], 'categories') + condition;
             await con.none(sql);
             return 1;
         } catch (error) {
@@ -593,6 +593,22 @@ module.exports = {
             con = await db.connect();
             const condition = pgp.as.format(' WHERE id = ${id}', data);
             let sql = pgp.helpers.update(data, ['name', 'create_date', 'brand', 'color', 'images', 'price', 'description', 'sale', 'for', 'category'], 'products') + condition;
+            await con.none(sql);
+            return 1;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    updateUser: async (data) => {
+        let con = null;
+        try {
+            con = await db.connect();
+            const condition = pgp.as.format(' WHERE username = ${usernameOld}', data);
+            let sql = pgp.helpers.update(data, ['username', 'fullname', 'email', 'dob', 'role'], 'accounts') + condition;
             await con.none(sql);
             return 1;
         } catch (error) {
