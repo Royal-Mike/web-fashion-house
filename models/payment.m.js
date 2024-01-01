@@ -9,4 +9,9 @@ module.exports = class Payment {
         const rs = await db.checkout(data);
         return rs;
     }
+    static async createPaymentAccount(data) {
+        // console.log(data);
+        const rs = await db.createPaymentAccount("payments", data);
+        return rs;
+    }
 }

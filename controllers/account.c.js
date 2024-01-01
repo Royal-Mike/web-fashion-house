@@ -1,4 +1,5 @@
 const accountM = require("../models/account.m");
+const paymentM = require("../models/payment.m");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -46,6 +47,8 @@ module.exports = {
 					return next(err);
 				}
 				const rs = await accountM.createAccount(new accountM(un, email, fn, dob, hash, role));
+				// initialize payment account
+				const paymentAccount = await paymentM.createPaymentAccount(new paymentM(un, 0));
 				req.flash("success", "Tạo tài khoản thành công!");
 				res.redirect("/");
 			});

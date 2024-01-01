@@ -710,13 +710,29 @@ module.exports = {
     checkout: async (tbName, paymentJson) => {
         let con = null;
         try {
-            console.log(paymentJson);
+            const username = paymentJson.username;
+            const totalmoney = paymentJson.totalmoney;
             con = await db.connect();
-            // const username = paymentJson.username;
-            // const totalMoney = paymentJson.totalMoney;
-            // await con.none(`INSERT INTO ${tbName} ("username", "totalmoney") VALUES ($1, $2);`, [username, totalMoney]);
-            let sql = pgp.helpers.insert(paymentJson, null, tbName);
-            console.log(sql);
+            let updateSql = `UPDATE ${tbName}
+                            SET totalmoney = $1
+                            WHERE username = $2;`
+            await con.none(updateSql, [totalmoney, username]);
+            return 1;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    createPaymentAccount: async (tbName, obj) => {
+        let con = null;
+        try {
+            console.log("obj: ", obj);
+            con = await db.connect();
+            let sql = pgp.helpers.insert(obj, null, tbName);
+            console.log("insert sql:", sql);
             await con.none(sql);
             return 1;
         } catch (error) {

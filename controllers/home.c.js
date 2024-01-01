@@ -44,7 +44,8 @@ module.exports = {
             otherColorProducts: product.otherColorProducts,
             checkOtherColors: product.checkOtherColors,
             cate: product.category,
-            check_exists_more: product.relateProducts.length === 24 ? true : false
+            check_exists_more: product.relateProducts.length === 24 ? true : false,
+            id: req.query.id, // for add to cart
         })
     },
     getDescription: async (req, res) => {

@@ -13,6 +13,8 @@ const userC = require("../controllers/home.c");
 const detailsR = require("./details.r");
 const relateR = require("./relate_products.r");
 
+const cartR = require("./cart.r");
+
 router.get('/', async (req, res) => {
     let theme = req.cookies.theme;
     let dark = theme === "dark" ? true : false;
@@ -62,7 +64,7 @@ router.get('/gmail', requireAuth, userC.home);
 
 router.get('/logout', (req, res) => {
     req.logout(err => {
-        if(err) {
+        if (err) {
             throw err;
         }
     });
@@ -134,5 +136,7 @@ router.get('/gg/auth', async (req, res, next) => {
 });
 
 router.use('/relating-products', relateR);
+
+router.use("/cart", cartR);
 
 module.exports = router;
