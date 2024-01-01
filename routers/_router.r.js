@@ -1,12 +1,15 @@
 const express = require("express");
+const jwt = require('jsonwebtoken');
 const router = express.Router();
+
 const accountR = require("./account.r");
 const homeR = require("./home.r");
 const adminR = require("./admin.r");
 
-const accountM = require("../models/account.m");
+const accountC = require("../controllers/account.c");
 const userC = require("../controllers/home.c");
 
+const accountM = require("../models/account.m");
 
 router.get('/', async (req, res) => {
     let theme = req.cookies.theme;
@@ -32,7 +35,17 @@ router.use('/acc', accountR);
 router.use('/home', homeR);
 router.use('/admin', adminR);
 
-const jwt = require('jsonwebtoken');
+router.get('/oauthSignup', async (req, res) => {
+    let theme = req.cookies.theme;
+    let dark = theme === "dark" ? true : false;
+    res.render('account/oauth', {
+        title: 'Sign Up',
+        home: false,
+        dark: dark
+    })
+});
+
+router.post("/oauthSubmit", accountC.oauthSignup);
 
 const requireAuth = (req, res, next) => {
     if (!req.session.oauthUser) {
@@ -41,9 +54,9 @@ const requireAuth = (req, res, next) => {
     next();
 };
 
-router.get('/oauth', requireAuth, userC.home);
+router.get('/gmail', requireAuth, userC.home);
 
-router.get('/oauth/logout', (req, res) => {
+router.get('/logout', (req, res) => {
     req.logout(err => {
         if(err) {
             throw err;
@@ -92,22 +105,23 @@ router.get('/gg/auth', async (req, res, next) => {
         const idToken = tokenData.id_token;
         const decodedToken = jwt.decode(idToken, 21127561); //secret
 
+        req.session.oauthUser = true;
+        req.flash("role", "/home");
+
         try {
             const existingEmail = await accountM.GetEmail(decodedToken.email);
 
+            req.session.oauth = decodedToken.email;
+
 			if (existingEmail === null) {
-                await accountM.createAccount(new accountM(decodedToken.email, decodedToken.email, decodedToken.name, null, '', 'user'));
-                console.log("Oauth");
+                return res.redirect('/oauthSignup');
 			}
             
         } catch (error) {
             console.error('Error in signup:', error);
             res.status(500).send('Internal Server Error');
         }
-        
-        req.session.oauthUser = true;
-
-        res.redirect('/oauth');
+        res.redirect('/gmail');
 
     } catch (error) {
         console.error('Error fetching token:', error);

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS public.accounts
     email text COLLATE pg_catalog."default",
     fullname text COLLATE pg_catalog."default",
     dob date,
-    password character varying(100) COLLATE pg_catalog."default" NOT NULL,
+    password character varying(100) COLLATE pg_catalog."default",
     role text COLLATE pg_catalog."default",
     CONSTRAINT "accountDb_pkey" PRIMARY KEY (username)
 )

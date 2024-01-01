@@ -53,5 +53,29 @@ module.exports = {
 			throw error;
 		}
 	},
+	oauthSignup: async (req, res, next) => {
+		try {
+			const email = req.session.oauth;
+
+			const un = req.body.username;
+			const fn = req.body.fullname;
+			const dob = req.body.dob;
+			const role = 'user';
+			
+			const existingUser = await accountM.getAccount(un);
+			
+			if (existingUser) {
+				req.flash("errorUser", "Tên người dùng đã tồn tại. Vui lòng chọn tên khác!");
+				req.flash('fnValue', fn);
+				req.flash('dobValue', dob);
+				return res.redirect('/oauthSignup');
+			} 
+			const rs = await accountM.createAccount(new accountM(un, email, fn, dob, null, role));
+			res.redirect("/gmail");
+
+		} catch (error) {
+			throw error;
+		}
+	},
 };
 
