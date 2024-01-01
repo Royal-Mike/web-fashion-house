@@ -508,6 +508,10 @@ module.exports = {
         let con = null;
         try {
             con = await db.connect();
+            if (tbName !== "accounts") {
+                const rs = await con.one(`SELECT MAX(id) FROM ${tbName}`);
+                obj.id = rs.max + 1;
+            }
             let sql = pgp.helpers.insert(obj, null, tbName);
             await con.none(sql);
             return 1;
