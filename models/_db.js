@@ -366,7 +366,7 @@ module.exports = {
     getDataWithInput: async (input) => {
         try {
             con = await db.connect();
-            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE name ILIKE '%${input}%' AND (sale LIKE '1%' OR sale LIKE '-%') LIMIT 15`);
+            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE (name ILIKE '%${input}%' OR category ILIKE '%${input}%') AND (sale LIKE '1%' OR sale LIKE '-%') LIMIT 15`);
             rs.forEach(product => {
                 product.name = product.name.replace(/\d/g, '');
                 product.thumbnail = product.images[0];
@@ -507,7 +507,18 @@ module.exports = {
     getRelatingPage: async (type, page) => {
         try {
             con = await db.connect();
-            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE category ILIKE '%${type}%' OR name ILIKE '%${type}%'`);
+            let rs;
+            if (type === "nam") {
+                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE "for" = 'Nam'`);
+            } else if (type === "nữ") {
+                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE "for" = 'Nữ'`);
+            } else if (type === "giảm-giá") {
+                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE sale LIKE '1%' OR sale LIKE '-%'`);
+            } else if (type === "thể-thao") {
+                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE category ILIKE '%Sport%'`);
+            } else {
+                rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE category ILIKE '%${type}%' OR name ILIKE '%${type}%'`);
+            }
             const length = rs.length;
             const startIndex = (page - 1) * 24;
             const endIndex = startIndex + 24;

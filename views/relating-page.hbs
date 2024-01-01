@@ -2,16 +2,25 @@
     <h3>Tìm kiếm "{{type}}"</h3>
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {{#each moreRelateProducts}}
-        <div class="col" data-id="{{this.id}}">
+        <div class="col" data-id="{{this.id}}" title="{{this.name}}">
             <div class="card card-home h-100">
                 <img src="{{this.thumbnail}}" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">{{this.name}}</h5>
-                    <p class="card-text">{{this.newPrice}}₫ | {{this.sale}}</p>
-                    <div class="d-flex justify-content-around">
-                        <p class="card-text">Đã bán {{this.sold}}</p>
-                        <p class="card-text">Đánh giá {{this.numComments}}</p>
-                    </div>
+                    <h5 class="card-title fs-3">{{this.name}}</h5>
+                    <p class="card-text">
+                            <span style="width: 9rem; display: inline-block" class="text-info fs-4">{{this.newPrice}}₫</span>
+                            <span class="rounded p-1 ms-2 fs-4" style="background-color: rgb(232, 72, 63); color: rgb(223, 243, 0)"><i class="fa-solid fa-fire"></i>
+                                {{this.sale}}</span>
+                        </p>
+                        <div {{#if dark}}style="color: yellow;" class="fs-3"{{else}}class="text-danger"{{/if}}>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                            <span class="card-text text-light">({{this.numComments}})</span>
+                        </div>
+                        <p class="card-text mt-1 fs-5">Đã bán {{this.sold}}</p>
                 </div>
             </div>
         </div>

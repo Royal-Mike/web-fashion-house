@@ -131,7 +131,7 @@
         <h2 class="bg-secondary-subtle" style="line-height: 3rem;">CÁC SẢN PHẨM LIÊN QUAN ({{cate}})</h2>
         <div class="row row-cols-1 row-cols-md-6 g-4">
             {{#each relateProducts}}
-            <div class="col" data-id="{{this.id}}">
+            <div class="col" data-id="{{this.id}}" title="{{this.name}}">
                 <div class="card card-home h-100">
                     <img src="{{this.thumbnail}}" class="card-img-top" alt="...">
                     <div class="card-body">
@@ -141,7 +141,7 @@
                             <span class="rounded p-1 ms-2" style="background-color: rgb(232, 72, 63); color: rgb(223, 243, 0)"><i class="fa-solid fa-fire"></i>
                                 {{this.sale}}</span>
                         </p>
-                        <div style="color: yellow;">
+                        <div {{#if dark}}style="color: yellow;"{{else}}class="text-danger"{{/if}}>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>

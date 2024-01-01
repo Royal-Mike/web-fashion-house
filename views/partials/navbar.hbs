@@ -12,7 +12,7 @@
                 <button class="btn btn-outline-success fs-4">Tìm kiếm</button>
             </form>
             <div id="get-products-with-input" class="bg-black"
-                style="position: absolute; z-index: 1; overflow: auto; height: 48rem">
+                style="position: absolute; z-index: 3; overflow: auto; height: 48rem">
 
             </div>
         </div>
@@ -30,6 +30,62 @@
 <script>
     $(() => {
         $('#user-input-products').on('input', function () {
+            const input = $('#user-input-products').val();
+            if (input) {
+                setTimeout(() => {
+                    $.ajax({
+                        url: `http://localhost:3000/home/getDataWithInput?input=${input}`,
+                        method: 'get',
+                        dataType: 'json',
+                        success: function (data) {
+                            const received = data.data;
+                            $('#get-products-with-input').empty();
+                            if (received.length > 0) {
+                                for (const product of received) {
+                                    $('#get-products-with-input').append(
+                                        `<div class="card card-home card-in-search mb-1" data-id="${product.id}" style="max-width: 1000px;">
+                                    <div class="row g-0" style="width: 39rem">
+                                        <div class="col-md-4">
+                                        <img src="${product.thumbnail}" style="width: 10rem; height: 11rem" class="img-fluid rounded-start" alt="...">
+                                        </div>
+                                        <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title">${product.name}</h5>
+                                            <p class="card-text">Giá tiền: ${product.newPrice}₫</p>
+                                            <p class="card-text text-warning">Ưu đãi: ${product.sale}</p>
+                                            <p class="card-text"><small class="text-body-secondary">Dành cho: ${product.for}</small></p>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>`
+                                    )
+                                }
+                                $('#get-products-with-input').append(
+                                    `<div class="d-flex justify-content-center bg-secondary rounded" id="button-in-search-list">
+                                <button type="button" class="btn fs-5">Xem thêm</button>
+                            </div>`
+                                )
+                                $('.card-in-search').on('click', function () {
+                                    const product_id = $(this).data('id');
+                                    window.location.href = `/details?id=${product_id}`;
+                                });
+                                $('#button-in-search-list').on('click', function () {
+                                    const inputSearch = $('#user-input-products').val();
+                                    window.location.href = `/relating-products?type=${inputSearch}&page=1`;
+                                });
+                            }
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                }, 1000)
+            } else {
+                $('#get-products-with-input').empty();
+            }
+        });
+
+        $('#user-input-products').on('focusin', function () {
             const input = $('#user-input-products').val();
             if (input) {
                 setTimeout(() => {
@@ -60,65 +116,18 @@
                                 )
                             }
                             $('#get-products-with-input').append(
-                                `<div class="d-flex justify-content-center bg-secondary rounded" id="button-in-search-list">
-                                <button type="button" class="btn fs-5">Xem thêm</button>
-                            </div>`
-                            )
-                        },
-                        error: function (error) {
-                            console.log(error);
-                        }
-                    });
-                }, 1000)
-            } else {
-                $('#get-products-with-input').empty();
-            }
-        });
-
-        $('.card-in-search').on('click', function () {
-            const product_id = $(this).data('id');
-            window.location.href = `/details?id=${product_id}`;
-        });
-        $('#button-in-search-list').on('click', function () {
-            const inputSearch = $('#user-input-products').val();
-            window.location.href = `/relating-products?type=${inputSearch}&page=1`;
-        });
-
-        $('#user-input-products').on('focusin', function () {
-            const input = $('#user-input-products').val();
-            if (input) {
-                setTimeout(() => {
-                    $.ajax({
-                        url: `http://localhost:3000/home/getDataWithInput?input=${input}`,
-                        method: 'get',
-                        dataType: 'json',
-                        success: function (data) {
-                            const received = data.data;
-                            $('#get-products-with-input').empty();
-                            for (const product of received) {
-                                $('#get-products-with-input').append(
-                                    `<div class="card card-home card-in-search mb-1" data-id="${product.id}" style="max-width: 1000px;">
-                                    <div class="row g-0" style="width: 40rem">
-                                        <div class="col-md-4">
-                                        <img src="${product.thumbnail}" style="width: 10rem; height: 11rem" class="img-fluid rounded-start" alt="...">
-                                        </div>
-                                        <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h5 class="card-title">${product.name}</h5>
-                                            <p class="card-text">Giá tiền: ${product.newPrice}₫</p>
-                                            <p class="card-text text-warning">Ưu đãi: ${product.sale}</p>
-                                            <p class="card-text"><small class="text-body-secondary">Dành cho: ${product.for}</small></p>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>`
-                                )
-                            }
-                            $('#get-products-with-input').append(
                                 `<div class="d-flex justify-content-center bg-secondary rounded"  id="button-in-search-list">
                                     <button type="button" class="btn fs-5">Xem thêm</button>
                                 </div>`
                             )
+                            $('.card-in-search').on('click', function () {
+                                const product_id = $(this).data('id');
+                                window.location.href = `/details?id=${product_id}`;
+                            });
+                            $('#button-in-search-list').on('click', function () {
+                                const inputSearch = $('#user-input-products').val();
+                                window.location.href = `/relating-products?type=${inputSearch}&page=1`;
+                            });
                         },
                         error: function (error) {
                             console.log(error);

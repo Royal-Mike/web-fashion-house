@@ -81,22 +81,22 @@
     </div>
     <!-- Genre Search -->
     <ul class="list-group list-group-horizontal justify-content-center mb-2">
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=giảm-giá&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Giảm giá</li>
         </a>
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=nam&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Nam</li>
         </a>
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=nữ&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Nữ</li>
         </a>
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=trẻ&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Trẻ</li>
         </a>
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=em-bé&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Em bé</li>
         </a>
-        <a href="#" style="text-decoration: none;" class="text-center border rounded mx-2">
+        <a href="/relating-products?type=thể-thao&page=1" style="text-decoration: none;" class="text-center border rounded mx-2">
             <li class="list-group-item fs-4 border border-0">Thể thao</li>
         </a>
     </ul>
@@ -143,13 +143,13 @@
                                 <i class="fa-solid fa-check"></i>
                                 <span>Đã bán {{this.sold}}</span>
 
-                                <div>
+                                <div {{#if dark}}style="color: yellow;" class="fs-3"{{else}}class="text-danger"{{/if}}>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star-half-stroke"></i>
-                                    ({{this.numComments}})
+                                    <span class="card-text text-light">({{this.numComments}})</span>
                                 </div>
                             </div>
 
@@ -200,13 +200,13 @@
                                 <i class="fa-solid fa-check"></i>
                                 <span>Đã bán {{this.sold}}</span>
 
-                                <div>
+                                <div {{#if dark}}style="color: yellow;" class="fs-3"{{else}}class="text-danger"{{/if}}>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star-half-stroke"></i>
-                                    ({{this.numComments}})
+                                    <span class="card-text text-light">({{this.numComments}})</span>
                                 </div>
                             </div>
 
@@ -260,13 +260,13 @@
                                 <i class="fa-solid fa-check"></i>
                                 <span>Đã bán {{this.sold}}</span>
 
-                                <div>
+                                <div {{#if dark}}style="color: yellow;" class="fs-3"{{else}}class="text-danger"{{/if}}>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star"></i>
                                     <i class="fa-solid fa-star-half-stroke"></i>
-                                    ({{this.numComments}})
+                                    <span class="card-text text-light">({{this.numComments}})</span>
                                 </div>
                             </div>
 
