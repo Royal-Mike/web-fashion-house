@@ -1,7 +1,7 @@
 <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary mb-5">
     <div class="container-fluid py-2">
-        <a class="m-0 fs-1" style="font-family: Rouge; text-decoration: none; color: initial" href="/home">Fashion
-            House</a>
+        <a class="m-0 fs-1" style="font-family: Rouge; text-decoration: none; color: initial"
+            href="{{messages.role}}">Fashion House</a>
         {{#if home}}
         <div style="position: relative;">
             <form action="/relating-products" class="d-flex" role="search">
@@ -23,6 +23,13 @@
             <label for="sw-theme" class="form-check-label">
                 <i class="fa-solid {{#if dark}} fa-moon {{else}} fa-sun {{/if}} fs-2"></i>
             </label>
+            {{#if home}}
+            <label>
+                <a title="Đăng xuất" href="/logout">
+                    <i class="fa-solid fa-right-to-bracket" style="font-size: 30px;"></i>
+                </a>
+            </label>
+            {{/if}}
         </div>
     </div>
 </nav>

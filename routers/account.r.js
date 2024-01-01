@@ -13,7 +13,7 @@ router.post(
 		if (req.user.role === "admin") {
 			res.redirect("/admin");
 		} else {
-			// console.log("Đăng nhập thành công");
+			req.flash("role", "/home");
 			res.redirect("/home");
 		}
 	}
