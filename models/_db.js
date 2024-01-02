@@ -224,6 +224,17 @@ module.exports = {
                 await con.none(`INSERT INTO catalogue(category) VALUES($1)`, [catalogue.category])
             }
 
+            await con.none(`
+            CREATE TABLE IF NOT EXISTS orders (
+                id SERIAL PRIMARY KEY,
+                customer TEXT,
+                products_id INTEGER[], 
+                quantity INTEGER[],
+                price REAL,
+                order_date DATE
+            )
+            `)
+
             colorBestSeller = [];
 
             for (const product of rs) {
