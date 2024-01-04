@@ -191,26 +191,6 @@ module.exports = {
             ) AS uv
             WHERE products.id = uv.related_id;
             `)
-        } catch (error) {
-            throw error;
-        } finally {
-            if (con) {
-                con.done();
-            }
-        }
-    },
-    getBestseller: async (page) => {
-        try {
-            con = await db.connect();
-            let rs = await con.any(`
-            SELECT DISTINCT ON (relation) * FROM 
-            (SELECT * FROM products WHERE sale LIKE '-%') AS onsale 
-            NATURAL JOIN 
-            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
-            `);
-            const startIndex = (page - 1) * 10;
-            const endIndex = startIndex + 10;
-            rs = rs.slice(startIndex, endIndex);
 
             await con.none(`
             CREATE TABLE IF NOT EXISTS catalogue (
@@ -234,6 +214,33 @@ module.exports = {
                 order_date DATE
             )
             `)
+
+            await con.none(`
+            UPDATE products
+            SET category = up.id
+            FROM catalogue AS up
+            WHERE products.category = up.category
+            `)
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getBestseller: async (page) => {
+        try {
+            con = await db.connect();
+            let rs = await con.any(`
+            SELECT DISTINCT ON (relation) * FROM 
+            (SELECT * FROM products WHERE sale LIKE '-%') AS onsale 
+            NATURAL JOIN 
+            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            `);
+            const startIndex = (page - 1) * 10;
+            const endIndex = startIndex + 10;
+            rs = rs.slice(startIndex, endIndex);
 
             colorBestSeller = [];
 
