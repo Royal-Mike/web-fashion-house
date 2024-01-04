@@ -74,7 +74,7 @@ module.exports = {
             stars REAL,
             "for" TEXT,
             relation INTEGER[],
-            category TEXT
+            id_category TEXT
         )
         `);
         await con.none(`
@@ -106,7 +106,7 @@ module.exports = {
                 save.sold = 0; // integer
                 save.comments = []; // text[]
                 save.stars = 0; // real
-                save.category = product.category.__cdata; // text
+                save.id_category = product.category.__cdata; // text
                 save.for = "Nam"; // text
                 save.relation = product.other_colors ? product.other_colors.productId : [0]; // integer[]
 
@@ -154,7 +154,7 @@ module.exports = {
                 save.sold = 0;
                 save.comments = [];
                 save.stars = 0;
-                save.category = product.category.__cdata;
+                save.id_category = product.category.__cdata;
                 save.for = "Nữ";
                 save.relation = product.other_colors ? product.other_colors.productId : [0];
 
@@ -194,14 +194,14 @@ module.exports = {
 
             await con.none(`
             CREATE TABLE IF NOT EXISTS catalogue (
-                id SERIAL PRIMARY KEY,
+                id_category SERIAL PRIMARY KEY,
                 category TEXT
             )
             `)
 
-            let getCatalogue = await con.any(`SELECT distinct(category) FROM products`);
+            let getCatalogue = await con.any(`SELECT distinct(id_category) FROM products`);
             for (const catalogue of getCatalogue) {
-                await con.none(`INSERT INTO catalogue(category) VALUES($1)`, [catalogue.category])
+                await con.none(`INSERT INTO catalogue(category) VALUES($1)`, [catalogue.id_category])
             }
 
             await con.none(`
@@ -217,9 +217,9 @@ module.exports = {
 
             await con.none(`
             UPDATE products
-            SET category = up.id
+            SET id_category = up.id_category
             FROM catalogue AS up
-            WHERE products.category = up.category
+            WHERE products.id_category = up.category
             `)
         } catch (error) {
             throw error;
@@ -396,7 +396,12 @@ module.exports = {
     getDataWithInput: async (input) => {
         try {
             con = await db.connect();
-            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE (name ILIKE '%${input}%' OR category ILIKE '%${input}%') AND (sale LIKE '1%' OR sale LIKE '-%') LIMIT 15`);
+            let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM 
+            (
+                SELECT * FROM products
+                LEFT JOIN catalogue AS cata ON products.id_category::INTEGER = cata.id_category
+            ) AS change
+            WHERE (name ILIKE '%${input}%' OR category ILIKE '%${input}%') AND (sale LIKE '1%' OR sale LIKE '-%') LIMIT 15;`);
             rs.forEach(product => {
                 product.name = product.name.replace(/\d/g, '');
                 product.thumbnail = product.images[0];
@@ -445,21 +450,22 @@ module.exports = {
                 p.stars,
                 p."for",
                 p.relation,
-                p.category,
+                cata.category,
                 SUM(sd.stock) AS allStock
             FROM
                 products AS p
-                NATURAL JOIN size_division AS sd
+            LEFT JOIN catalogue AS cata ON p.id_category::INTEGER = cata.id_category
+            JOIN size_division AS sd ON p.id = sd.id
             WHERE
                 p.id = ${id}
             GROUP BY
-                p."id";
+                p."id", cata.category;
             `);
 
             let relateProducts = await con.any(`
             SELECT DISTINCT ON (relation) * FROM 
             (
-                SELECT category FROM products WHERE id = ${id}
+                SELECT id_category FROM products WHERE id = ${id}
             ) AS cate
             NATURAL JOIN products
             WHERE id <> ${id} AND id <> ALL(ARRAY[${rs[0].relation}])
@@ -539,15 +545,40 @@ module.exports = {
             con = await db.connect();
             let rs;
             if (type === "nam") {
-                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE "for" = 'Nam'`);
+                rs = await con.any(`SELECT DISTINCT ON (relation) * FROM 
+                (
+                    SELECT * FROM products
+                    LEFT JOIN catalogue AS cata ON products.id_category::INTEGER = cata.id_category
+                ) AS change
+                WHERE "for" = 'Nam'`);
             } else if (type === "nữ") {
-                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE "for" = 'Nữ'`);
+                rs = await con.any(`SELECT DISTINCT ON (relation) * FROM 
+                (
+                    SELECT * FROM products
+                    LEFT JOIN catalogue AS cata ON products.id_category::INTEGER = cata.id_category
+                ) AS change
+                WHERE "for" = 'Nữ'`);
             } else if (type === "giảm-giá") {
-                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE sale LIKE '1%' OR sale LIKE '-%'`);
+                rs = await con.any(`SELECT DISTINCT ON (relation) * FROM 
+                (
+                    SELECT * FROM products
+                    LEFT JOIN catalogue AS cata ON products.id_category::INTEGER = cata.id_category
+                ) AS change
+                WHERE sale LIKE '1%' OR sale LIKE '-%'`);
             } else if (type === "thể-thao") {
-                rs = await con.any(`SELECT DISTINCT ON(relation) * FROM products WHERE category ILIKE '%Sport%'`);
+                rs = await con.any(`SELECT DISTINCT ON (relation) * FROM 
+                (
+                    SELECT * FROM products
+                    LEFT JOIN catalogue AS cata ON products.id_category::INTEGER = cata.id_category
+                ) AS change
+                WHERE category ILIKE '%sport%'`);
             } else {
-                rs = await con.any(`SELECT DISTINCT ON (relation) * FROM products WHERE category ILIKE '%${type}%' OR name ILIKE '%${type}%'`);
+                rs = await con.any(`SELECT DISTINCT ON (relation) * FROM 
+                (
+                    SELECT * FROM products
+                    LEFT JOIN catalogue AS cata ON products.id_category::INTEGER = cata.id_category
+                ) AS change
+                WHERE (name ILIKE '%${type}%' OR category ILIKE '%${type}%')`);
             }
             const length = rs.length;
             const startIndex = (page - 1) * 24;
@@ -597,6 +628,19 @@ module.exports = {
                 product.description = tempDesc;
             });
             return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getCategory: async () => {
+        try {
+            con = await db.connect();
+            const catalogue = await con.any(`SELECT * FROM catalogue`);
+            return catalogue;
         } catch (error) {
             throw error;
         } finally {

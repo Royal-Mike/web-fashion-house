@@ -9,6 +9,7 @@ module.exports = {
         const bestseller = await homeM.getBestseller(1);
         const news = await homeM.getNewarrival(1);
         const recommend = await homeM.getRecommend(1);
+        const catalogue = await homeM.getCategory();
         res.render('home', {
             title: 'Home',
             home: true,
@@ -16,6 +17,7 @@ module.exports = {
             bestseller: bestseller,
             newarrival: news,
             recommend: recommend,
+            catalogue: catalogue
         })
     },
     getDataWithInput: async (req, res) => {
@@ -74,5 +76,10 @@ module.exports = {
     getMoreProductsRecommend: async (req, res) => {
         const data = await homeM.getRecommend(req.query.page);
         res.json({ success: data });
+    },
+    getFilterProducts: async (req, res) => {
+        let theme = req.cookies.theme;
+        let dark = theme === "dark" ? true : false;
+        const filterProducts = await homeM.getFilterProducts(req.query.catalogue, req.query.typeProducts, req.query.typePrice, req.query.typeStars, req.query.gender);
     }
 };
