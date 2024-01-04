@@ -605,6 +605,19 @@ module.exports = {
             }
         }
     },
+    getStatsBestSeller: async () => {
+        try {
+            con = await db.connect();
+            let rs = await con.any(`SELECT * FROM products ORDER BY sold DESC LIMIT 5`);
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
     add: async (tbName, obj) => {
         let con = null;
         try {

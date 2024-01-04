@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const adminC = require("../controllers/admin.c");
+const statsC = require("../controllers/stats.c");
 
 router.use((req, res, next) => {
     if (req.isAuthenticated() && req.user.role === "admin") {
@@ -10,6 +11,8 @@ router.use((req, res, next) => {
 });
 
 router.get('/', adminC.home);
+
+router.post('/stats', statsC.getAll);
 
 router.post('/getcat', adminC.getCat);
 router.post('/updcat', adminC.updateCat);
