@@ -5,4 +5,8 @@ module.exports = class Admin {
         const rs = await db.getStatsBestSeller();
         return rs;
     }
+    static async getProductsAdd() {
+        const rs = await db.getStatsProductsAdd();
+        return rs;
+    }
 }

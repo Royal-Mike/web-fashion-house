@@ -618,6 +618,21 @@ module.exports = {
             }
         }
     },
+    getStatsProductsAdd: async () => {
+        try {
+            con = await db.connect();
+            let rs = await con.any(`SELECT year, COUNT(year) AS amount FROM
+            (SELECT SPLIT_PART(create_date, '-', 1) AS year FROM products)
+            GROUP BY year ORDER BY year`);
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
     add: async (tbName, obj) => {
         let con = null;
         try {
