@@ -25,6 +25,7 @@ module.exports = {
         res.render('admin/home', {
             title: 'Admin',
             dark: dark,
+            catalogues: catalogues,
             pages_c: makeArray(pages_c),
             pages_p: makeArray(pages_p),
             pages_u: makeArray(pages_u)

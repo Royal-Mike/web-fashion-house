@@ -48,8 +48,9 @@
         <div class="input-group mb-3">
             <span class="input-group-text" style="width:15%" id="pro-category">Danh mục</span>
             <select class="form-select">
-                <option value="cat_name_1">Category 1</option>
-                <option value="cat_name_2">Category 2</option>
+                {{#each catalogues}}
+                <option value="cat_{{id}}">{{category}}</option>
+                {{/each}}
             </select>
         </div>
         <div class="d-flex mb-2">
