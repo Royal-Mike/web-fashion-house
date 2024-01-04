@@ -83,7 +83,7 @@
                 data: proAdd,
                 success: function(result) {
                     alert('Thêm sản phẩm thành công!');
-                    $("#pro-pagination .page-link-num.active").trigger("click");
+                    window.location.reload();
                 },
                 error: function(result) {
                     console.log(result);
@@ -122,8 +122,7 @@
                 data: proUpdate,
                 success: function(result) {
                     alert('Sản phẩm cập nhật thành công!');
-                    $("#pro-pagination .page-link-num.active").trigger("click");
-                    $("#cancel-edit-pro").trigger("click");
+                    window.location.reload();
                 },
                 error: function(result) {
                     console.log(result);
@@ -146,8 +145,7 @@
                 },
                 success: function(result) {
                     alert('Xóa sản phẩm thành công!');
-                    $("#pro-pagination .page-link-num.active").trigger("click");
-                    $("#cancel-edit-pro").trigger("click");
+                    window.location.reload();
                 },
                 error: function(result) {
                     console.log(result);
