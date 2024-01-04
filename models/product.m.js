@@ -3,11 +3,12 @@ const table = 'products';
 
 module.exports = class Product {
     constructor(data) {
+        this.id = data.id;
         this.name = data.name;
         this.create_date = data.create_date;
         this.brand = data.brand;
         this.color = data.color;
-        this.images = data.images;
+        this.images = data.images.split(",");
         this.price = data.price;
         this.description = data.description;
         this.sale = data.sale;

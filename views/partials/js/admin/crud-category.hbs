@@ -115,8 +115,7 @@
                 data: catUpdate,
                 success: function(result) {
                     alert('Danh mục cập nhật thành công!');
-                    $("#cat-pagination .page-link-num.active").trigger("click");
-                    $("#cancel-edit-cat").trigger("click");
+                    window.location.reload();
                 },
                 error: function(result) {
                     console.log(result);
@@ -139,8 +138,7 @@
                 },
                 success: function(result) {
                     alert('Xóa danh mục thành công!');
-                    $("#cat-pagination .page-link-num.active").trigger("click");
-                    $("#cancel-edit-cat").trigger("click");
+                    window.location.reload();
                 },
                 error: function(result) {
                     console.log(result);
