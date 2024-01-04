@@ -1,6 +1,7 @@
 const adminM = require('../models/admin.m');
 const accountM = require("../models/account.m");
 const productM = require("../models/product.m");
+const catalogueM = require("../models/catalogue.m");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
@@ -9,11 +10,11 @@ module.exports = {
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
 
-        // const categories = await adminM.getAllCategories();
+        const catalogues = await adminM.getAllCatalogues();
         const products = await adminM.getAllProducts();
         const users = await adminM.getAllUsers();
 
-        // const page_c = Math.ceil(categories.length / 10);
+        const pages_c = Math.ceil(catalogues.length / 10);
         const pages_p = Math.ceil(products.length / 100);
         const pages_u = Math.ceil(users.length / 10);
 
@@ -24,10 +25,30 @@ module.exports = {
         res.render('admin/home', {
             title: 'Admin',
             dark: dark,
-            // pages_c: makeArray(pages_c),
+            pages_c: makeArray(pages_c),
             pages_p: makeArray(pages_p),
             pages_u: makeArray(pages_u)
         });
+    },
+    getCat: async (req, res) => {
+        let page = req.body.page;
+        let indexStart = (page - 1) * 10;
+        let indexEnd = indexStart + 10;
+        const catalogues = await adminM.getAllCatalogues();
+        const cataloguesPage = catalogues.slice(indexStart, indexEnd);
+        res.send(cataloguesPage);
+    },
+    updateCat: async (req, res) => {
+        await catalogueM.updateCat(new catalogueM(req.body));
+        res.send('success');
+    },
+    addCat: async (req, res) => {
+        await catalogueM.addCat(new catalogueM(req.body));
+        res.send('success');
+    },
+    deleteCat: async (req, res) => {
+        await catalogueM.deleteCat(req.body.id);
+        res.send('success');
     },
     getPro: async (req, res) => {
         let page = req.body.page;

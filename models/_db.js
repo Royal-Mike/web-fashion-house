@@ -621,7 +621,13 @@ module.exports = {
         let con = null;
         try {
             con = await db.connect();
-            const rs = await con.any(`SELECT * FROM "${tbName}" ORDER BY ${order}`);
+            let rs;
+            if (tbName === "catalogue") {
+                rs = await con.any(`SELECT A.*, COUNT(B.category) AS amount FROM catalogue A JOIN products B ON A.category = B.category GROUP BY A.id, A.category ORDER BY id`);
+            }
+            else {
+                rs = await con.any(`SELECT * FROM "${tbName}" ORDER BY ${order}`);
+            }
             return rs;
         } catch (error) {
             throw error;
@@ -670,7 +676,7 @@ module.exports = {
         try {
             con = await db.connect();
             const condition = pgp.as.format(' WHERE id = ${id}', data);
-            let sql = pgp.helpers.update(data, ['name'], 'categories') + condition;
+            let sql = pgp.helpers.update(data, ['category'], 'catalogue') + condition;
             await con.none(sql);
             return 1;
         } catch (error) {

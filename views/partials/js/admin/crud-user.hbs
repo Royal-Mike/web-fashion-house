@@ -8,7 +8,7 @@
             $(".page-user.active").removeClass("active");
             $(this).addClass("active");
 
-            $(".page-arrows a.disabled").removeClass("disabled");
+            $("#user-pagination .page-arrows a.disabled").removeClass("disabled");
             if ($(this).parent().next().hasClass("page-arrows")) $("#page-user-next").addClass("disabled");
             if ($(this).parent().prev().hasClass("page-arrows")) $("#page-user-prev").addClass("disabled");
 
@@ -25,6 +25,7 @@
                 },
                 success: function(result) {
                     data = result;
+                    userCur = data[0];
                     result.forEach(item => {
                         $("#user-container").append(
                             `<a class="list-group-item list-group-item-action list-item-user">
@@ -43,7 +44,7 @@
             });
         });
 
-        $(".page-arrows a").on("click", function() {
+        $("#user-pagination .page-arrows a").on("click", function() {
             let id = $(this).attr("id");
 
             if (id.includes("prev")) pageCur--;

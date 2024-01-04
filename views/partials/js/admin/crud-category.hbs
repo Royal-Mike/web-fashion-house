@@ -3,14 +3,14 @@
         let data, catCur;
         let pageCur = 1;
 
-        const fields = ['name'];
+        const fields = ['category'];
 
         // Pagination
         $(".page-cat").on("click", function() {
             $(".page-cat.active").removeClass("active");
             $(this).addClass("active");
 
-            $(".page-arrows a.disabled").removeClass("disabled");
+            $("#cat-pagination .page-arrows a.disabled").removeClass("disabled");
             if ($(this).parent().next().hasClass("page-arrows")) $("#page-cat-next").addClass("disabled");
             if ($(this).parent().prev().hasClass("page-arrows")) $("#page-cat-prev").addClass("disabled");
 
@@ -27,14 +27,15 @@
                 },
                 success: function(result) {
                     data = result;
+                    catCur = data[0];
                     result.forEach(item => {
                         $("#cat-container").append(
                             `<a class="list-group-item list-group-item-action list-item-cat">
                                 <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">${item.id}</h5>
+                                    <h5 class="mb-1">#${item.id}</h5>
+                                    <small>${item.amount} Products</small>
                                 </div>
-                                <p class="mb-1">${item.name}</p>
-                                <small>${item.amount} Products</small>
+                                <p class="mb-1">${item.category}</p>
                             </a>`
                         );
                     });
@@ -45,7 +46,7 @@
             });
         });
 
-        $(".page-arrows a").on("click", function() {
+        $("#cat-pagination .page-arrows a").on("click", function() {
             let id = $(this).attr("id");
 
             if (id.includes("prev")) pageCur--;
@@ -66,6 +67,7 @@
         $("#add-cat").on("click", function() {
             let catAdd = {};
             for (const key in catCur) {
+                if (!fields.includes(key)) continue;
                 catAdd[key] = $(`#cat-${key}`).next().val();
                 if (!catAdd[key]) return alert('Xin hãy điền đầy đủ thông tin!');
             }
@@ -76,7 +78,7 @@
                 data: catAdd,
                 success: function(result) {
                     alert('Thêm danh mục thành công!');
-                    $("#cat-pagination .page-link-num.active").trigger("click");
+                    window.location.reload();
                 },
                 error: function(result) {
                     console.log(result);
@@ -94,8 +96,6 @@
             for (const key in catCur) {
                 if (!fields.includes(key)) continue;
                 let value = catCur[key];
-                if (key === "create_date") value = value.split(" ")[0];
-                if (typeof value === "string") value = value.trim();
                 $(`#cat-${key}`).next().val(value);
             }
         });
