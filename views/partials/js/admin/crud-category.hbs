@@ -130,6 +130,9 @@
 
         // CRUD - Delete
         $("#delete-edit-cat").on("click", function() {
+            if (Number(catCur.amount) > 0)
+            return alert('Không thể xóa danh mục có sản phẩm!');
+
             $.ajax({
                 type: 'POST',
                 url: '/admin/delcat',

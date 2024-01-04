@@ -630,10 +630,10 @@ module.exports = {
             con = await db.connect();
             let rs;
             if (tbName === "catalogue") {
-                rs = await con.any(`SELECT A.*, COUNT(B.category) AS amount FROM catalogue A JOIN products B ON A.id = B.category::int GROUP BY A.id, A.category ORDER BY id`);
+                rs = await con.any(`SELECT A.*, COUNT(B.category) AS amount FROM catalogue A LEFT JOIN products B ON A.id = B.category::int GROUP BY A.id, A.category ORDER BY id`);
             }
             else if (tbName === "products") {
-                rs = await con.any(`SELECT A.*, B.category AS categoryname FROM products A JOIN catalogue B ON A.category::int = B.id ORDER BY A.id`);
+                rs = await con.any(`SELECT A.*, B.category AS categoryname FROM products A LEFT JOIN catalogue B ON A.category::int = B.id ORDER BY A.id`);
             }
             else {
                 rs = await con.any(`SELECT * FROM "${tbName}" ORDER BY ${order}`);
