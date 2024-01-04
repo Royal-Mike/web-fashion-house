@@ -605,10 +605,12 @@ module.exports = {
             }
         }
     },
-    getStatsBestSeller: async () => {
+    getStatsProductsAdd: async () => {
         try {
             con = await db.connect();
-            let rs = await con.any(`SELECT * FROM products ORDER BY sold DESC LIMIT 5`);
+            let rs = await con.any(`SELECT year, COUNT(year) AS amount FROM
+            (SELECT SPLIT_PART(create_date, '-', 1) AS year FROM products)
+            GROUP BY year ORDER BY year`);
             return rs;
         } catch (error) {
             throw error;
@@ -618,12 +620,25 @@ module.exports = {
             }
         }
     },
-    getStatsProductsAdd: async () => {
+    getStatsRevenueYear: async () => {
         try {
             con = await db.connect();
-            let rs = await con.any(`SELECT year, COUNT(year) AS amount FROM
-            (SELECT SPLIT_PART(create_date, '-', 1) AS year FROM products)
+            let rs = await con.any(`SELECT year, SUM(sold * price) AS amount FROM
+            (SELECT SPLIT_PART(create_date, '-', 1) AS year, sold, price FROM products)
             GROUP BY year ORDER BY year`);
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getStatsBestSeller: async () => {
+        try {
+            con = await db.connect();
+            let rs = await con.any(`SELECT * FROM products ORDER BY sold DESC LIMIT 5`);
             return rs;
         } catch (error) {
             throw error;

@@ -31,17 +31,21 @@
                     }
                 });
 
-                // Revenue
-                {{!-- new Chart("chart-revenue", {
+                // Revenue (Product's Year)
+                const revenueYear = result.revenueYear;
+                const ry_year = revenueYear.map(e => e.year);
+                const ry_amount = revenueYear.map(e => e.amount);
+
+                new Chart("chart-revenue", {
                     type: "line",
                     data: {
-                        labels: xValues,
+                        labels: ry_year,
                         datasets: [{
-                            label: "Test",
+                            label: "Doanh thu",
                             backgroundColor: "lime",
                             borderColor: "lime",
                             fill: false,
-                            data: yValues
+                            data: ry_amount
                         }]
                     },
                     options: {
@@ -51,7 +55,7 @@
                             }
                         }
                     }
-                }); --}}
+                });
 
                 // Best Seller
                 const bestSeller = result.bestSeller;
