@@ -78,60 +78,120 @@
         const nameSearch = '{{type}}';
         const pagination = PaginationWithDot(curPage, numPage, 3);
 
-        
+        const params = new URLSearchParams(window.location.search);
         let pagination_append = ``;
-
-        if (curPage === 1) {
+        if (params.size === 2) {
+            if (curPage === 1) {
                 pagination_append += 
-            `
-            <li class="page-item disabled">
-                <a class="page-link fs-3" aria-label="Previous"><<</a>
-            </li>
-            `
-        } else {
-            pagination_append += 
-            `
-            <li class="page-item">
-                <a class="page-link fs-3" aria-label="Previous" href="relating-products?type=${nameSearch}&page=${curPage - 1}"><<</a>
-            </li>
-            `
-        }
-        for (let i = 0; i < pagination.length; i++) {
-            let parseValue = parseInt(pagination[i]);
-            if (parseValue) {
-                if (parseValue === curPage) {
-                    pagination_append += 
-                    `
-                    <li class="page-item active" aria-current="page"><a class="page-link fs-3" href="relating-products?type=${nameSearch}&page=${parseValue}">${parseValue}</a></li>
-                    `
-                } else {
-                    pagination_append += 
-                    `
-                    <li class="page-item"><a class="page-link fs-3" href="relating-products?type=${nameSearch}&page=${parseValue}">${parseValue}</a></li>
-                    `
-                }
+                `
+                <li class="page-item disabled">
+                    <a class="page-link fs-3" aria-label="Previous"><<</a>
+                </li>
+                `
             } else {
                 pagination_append += 
-                    `
-                    <li class="page-item"><a class="page-link fs-3">${pagination[i]}</a></li>
-                    `
+                `
+                <li class="page-item">
+                    <a class="page-link fs-3" aria-label="Previous" href="relating-products?type=${nameSearch}&page=${curPage - 1}"><<</a>
+                </li>
+                `
             }
-        }
+            for (let i = 0; i < pagination.length; i++) {
+                let parseValue = parseInt(pagination[i]);
+                if (parseValue) {
+                    if (parseValue === curPage) {
+                        pagination_append += 
+                        `
+                        <li class="page-item active" aria-current="page"><a class="page-link fs-3" href="relating-products?type=${nameSearch}&page=${parseValue}">${parseValue}</a></li>
+                        `
+                    } else {
+                        pagination_append += 
+                        `
+                        <li class="page-item"><a class="page-link fs-3" href="relating-products?type=${nameSearch}&page=${parseValue}">${parseValue}</a></li>
+                        `
+                    }
+                } else {
+                    pagination_append += 
+                        `
+                        <li class="page-item"><a class="page-link fs-3">${pagination[i]}</a></li>
+                        `
+                }
+            }
 
-        if (curPage === numPage) {
-            pagination_append += 
-            `
-            <li class="page-item disabled">
-                <a class="page-link fs-3" aria-label="Next">>></a>
-            </li>
-            `
-        } else {
-            pagination_append += 
-            `
-            <li class="page-item">
-                <a class="page-link fs-3" aria-label="Next" href="relating-products?type=${nameSearch}&page=${curPage + 1}">>></a>
-            </li>
-            `
+            if (curPage === numPage) {
+                pagination_append += 
+                `
+                <li class="page-item disabled">
+                    <a class="page-link fs-3" aria-label="Next">>></a>
+                </li>
+                `
+            } else {
+                pagination_append += 
+                `
+                <li class="page-item">
+                    <a class="page-link fs-3" aria-label="Next" href="relating-products?type=${nameSearch}&page=${curPage + 1}">>></a>
+                </li>
+                `
+            }
+        } 
+        else {
+            const catalogue = params.get('catalogue')
+            const typeProducts = params.get('typeProducts')
+            const typePrice = params.get('typePrice')
+            const typeStars = params.get('typeStars')
+            const gender = params.get('gender')
+            if (curPage === 1) {
+                pagination_append += 
+                `
+                <li class="page-item disabled">
+                    <a class="page-link fs-3" aria-label="Previous"><<</a>
+                </li>
+                `
+            } else {
+                pagination_append += 
+                `
+                <li class="page-item">
+                    <a class="page-link fs-3" aria-label="Previous" href="relating-products?catalogue=${catalogue}&page=${curPage - 1}&typeProducts=${typeProducts}&typePrice=${typePrice}&typeStars=${typeStars}&gender=${gender}"><<</a>
+                </li>
+                `
+            }
+            for (let i = 0; i < pagination.length; i++) {
+                let parseValue = parseInt(pagination[i]);
+                if (parseValue) {
+                    if (parseValue === curPage) {
+                        pagination_append += 
+                        `
+                        <li class="page-item active" aria-current="page"><a class="page-link fs-3" href="relating-products?catalogue=${catalogue}&page=${parseValue}&typeProducts=${typeProducts}&typePrice=${typePrice}&typeStars=${typeStars}&gender=${gender}">${parseValue}</a></li>
+                        `
+                    } else {
+                        pagination_append += 
+                        `
+                        <li class="page-item"><a class="page-link fs-3" href="relating-products?catalogue=${catalogue}&page=${parseValue}&typeProducts=${typeProducts}&typePrice=${typePrice}&typeStars=${typeStars}&gender=${gender}">${parseValue}</a></li>
+                        `
+                    }
+                } else {
+                    pagination_append += 
+                        `
+                        <li class="page-item"><a class="page-link fs-3">${pagination[i]}</a></li>
+                        `
+                }
+            }
+
+            if (curPage === numPage) {
+                pagination_append += 
+                `
+                <li class="page-item disabled">
+                    <a class="page-link fs-3" aria-label="Next">>></a>
+                </li>
+                `
+            } else {
+                pagination_append += 
+                `
+                <li class="page-item">
+                    <a class="page-link fs-3" aria-label="Next" href="relating-products?catalogue=${catalogue}&page=${curPage + 1}&typeProducts=${typeProducts}&typePrice=${typePrice}&typeStars=${typeStars}&gender=${gender}">>></a>
+                </li>
+                `
+            }
         }
 
         $('.pagination-in-search').append(pagination_append);

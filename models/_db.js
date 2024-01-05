@@ -62,7 +62,7 @@ module.exports = {
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY,
             name TEXT,
-            create_date TEXT,
+            create_date TIMESTAMP,
             brand TEXT,
             color TEXT,
             images TEXT[],
@@ -103,9 +103,9 @@ module.exports = {
                 save.id = parseInt(product.name.__cdata.replace(/\D/g, '')); // integer
                 let index = Math.floor(Math.random() * lengthOffer);
                 save.sale = offer[index]; // text
-                save.sold = 0; // integer
+                save.sold = Math.floor(Math.random() * 999); // integer
                 save.comments = []; // text[]
-                save.stars = 0; // real
+                save.stars = (Math.round(Math.random() * 10) / 2).toFixed(1); // real
                 save.id_category = product.category.__cdata; // text
                 save.for = "Nam"; // text
                 save.relation = product.other_colors ? product.other_colors.productId : [0]; // integer[]
@@ -151,9 +151,9 @@ module.exports = {
                 save.id = parseInt(product.name.__cdata.replace(/\D/g, ''));
                 let index = Math.floor(Math.random() * lengthOffer);
                 save.sale = offer[index];
-                save.sold = 0;
+                save.sold = Math.floor(Math.random() * 999);
                 save.comments = [];
-                save.stars = 0;
+                save.stars = (Math.round(Math.random() * 10) / 2).toFixed(1);
                 save.id_category = product.category.__cdata;
                 save.for = "Nữ";
                 save.relation = product.other_colors ? product.other_colors.productId : [0];
@@ -199,6 +199,10 @@ module.exports = {
             )
             `)
 
+            await con.none(`
+            DELETE FROM products WHERE images = ARRAY[NULL];
+            `)
+
             let getCatalogue = await con.any(`SELECT distinct(id_category) FROM products`);
             for (const catalogue of getCatalogue) {
                 await con.none(`INSERT INTO catalogue(category) VALUES($1)`, [catalogue.id_category])
@@ -221,6 +225,11 @@ module.exports = {
             FROM catalogue AS up
             WHERE products.id_category = up.category
             `)
+
+            await con.none(`
+            UPDATE products
+            SET id_category = CAST(id_category AS INTEGER)
+            `)
         } catch (error) {
             throw error;
         } finally {
@@ -233,10 +242,15 @@ module.exports = {
         try {
             con = await db.connect();
             let rs = await con.any(`
-            SELECT DISTINCT ON (relation) * FROM 
-            (SELECT * FROM products WHERE sale LIKE '-%') AS onsale 
-            NATURAL JOIN 
-            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            SELECT * FROM 
+            (
+                SELECT DISTINCT ON (relation) * FROM 
+                (SELECT * FROM products) AS allsold
+                NATURAL JOIN 
+                (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id)
+                ORDER BY relation, sold DESC
+            ) AS newtable 
+            ORDER BY sold DESC;
             `);
             const startIndex = (page - 1) * 10;
             const endIndex = startIndex + 10;
@@ -258,9 +272,25 @@ module.exports = {
             }
 
             rs.forEach((product, index) => {
-                const sale = parseInt(product.sale.slice(1, 3));
-                product.newPrice = (parseFloat(product.price) * (100 - sale) * 23000 / 100.0).toLocaleString();
-                product.rate = product.sold * 1.0 / product.totalStock;
+                if (product.sale.startsWith('1')) {
+                    let temp = product.sale.replace('.', '')
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.sale = 'Giảm ' + product.sale.slice(2);
+
+                } else if (product.sale.startsWith('0')) {
+                    let temp = product.sale.replace('.', '');
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.sale = 'Tăng ' + product.sale.slice(2);
+                } else if (product.sale.startsWith('-')) {
+                    const sale = parseInt(product.sale.slice(1, 3));
+                    product.newPrice = (parseFloat(product.price) * (100 - sale) * 23000 / 100.0).toLocaleString();
+                } else {
+                    product.newPrice = (product.price * 23000).toLocaleString();
+                }
+                product.sale = product.sale === 'New arrival' ? 'Sản phẩm mới' : product.sale === 'None' ? 'Chưa có ưu đãi' : product.sale;
+                product.rate = product.sold * 100.0 / product.totalStock;
                 product.thumbnail = product.images[0];
                 product.name = product.name.replace(/\d/g, '');
                 product.price = (product.price * 23000).toLocaleString();
@@ -308,7 +338,7 @@ module.exports = {
             }
 
             rs.forEach((product, index) => {
-                product.rate = product.sold * 1.0 / product.totalStock;
+                product.rate = product.sold * 100.0 / product.totalStock;
                 product.thumbnail = product.images[0];
                 product.name = product.name.replace(/\d/g, '');
                 product.price = (product.price * 23000).toLocaleString();
@@ -363,7 +393,7 @@ module.exports = {
             }
 
             rs.forEach((product, index) => {
-                product.rate = product.sold * 1.0 / product.totalStock;
+                product.rate = product.sold * 100.0 / product.totalStock;
                 product.thumbnail = product.images[0];
                 product.name = product.name.replace(/\d/g, '');
                 if (product.sale.startsWith('1')) {
@@ -580,6 +610,98 @@ module.exports = {
                 ) AS change
                 WHERE (name ILIKE '%${type}%' OR category ILIKE '%${type}%')`);
             }
+            const length = rs.length;
+            const startIndex = (page - 1) * 24;
+            const endIndex = startIndex + 24;
+            rs = rs.slice(startIndex, endIndex);
+            rs.forEach(product => {
+                product.name = product.name.replace(/\d/g, '');
+                if (product.sale.startsWith('1')) {
+                    let temp = product.sale.replace('.', '')
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.sale = 'Giảm ' + product.sale.slice(2);
+
+                } else if (product.sale.startsWith('0')) {
+                    let temp = product.sale.replace('.', '');
+                    temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
+                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.sale = 'Tăng ' + product.sale.slice(2);
+                } else if (product.sale.startsWith('-')) {
+                    const sale = parseInt(product.sale.slice(1, 3));
+                    product.newPrice = (parseFloat(product.price) * (100 - sale) * 23000 / 100.0).toLocaleString();
+                } else {
+                    product.newPrice = (product.price * 23000).toLocaleString();
+                }
+                product.color = product.color[0].toUpperCase() + product.color.slice(1);
+                product.thumbnail = product.images[0];
+                product.numComments = product.comments.length;
+                product.sale = product.sale === 'New arrival' ? 'Sản phẩm mới' : product.sale === 'None' ? 'Chưa có ưu đãi' : product.sale;
+                product.sale = product.sale.replace('.', ',');
+            });
+            return [rs, length];
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getFilterProducts: async (catalogue, typeProducts, typePrice, typeStars, gender, page) => {
+        try {
+            con = await db.connect();
+            let getCatalogue = catalogue === 'Tất cả' ? '%%' : catalogue;
+            let getTypeProducts1;
+            let getTypeProducts2;
+            if (typeProducts === 'Tất cả') {
+                getTypeProducts1 = '%';
+                getTypeProducts2 = '%';
+            } else if (typeProducts === '1') {
+                getTypeProducts1 = 'New arrival';
+                getTypeProducts2 = 'New arrival';
+            } else if (typeProducts === '2') {
+                getTypeProducts1 = '-%';
+                getTypeProducts2 = '1%';
+            } else if (typeProducts === '3') {
+                
+            }
+            let getTypePrice1;
+            let getTypePrice2;
+            if (typePrice === 'Tất cả') {
+                getTypePrice1 = 0;
+                getTypePrice2 = Number.MAX_SAFE_INTEGER;
+            } else if (typePrice === '1') {
+                getTypePrice1 = 0;
+                getTypePrice2 = 50000;
+            } else if (typePrice === '2') {
+                getTypePrice1 = 50000;
+                getTypePrice2 = 100000;
+            } else if (typePrice === '3') {
+                getTypePrice1 = 100000;
+                getTypePrice2 = 200000;
+            } else if (typePrice === '4') {
+                getTypePrice1 = 200000;
+                getTypePrice2 = 300000;
+            } else if (typePrice === '5') {
+                getTypePrice1 = 300000;
+                getTypePrice2 = 400000;
+            } else if (typePrice === '6') {
+                getTypePrice1 = 400000;
+                getTypePrice2 = 500000;
+            } else if (typePrice === '7') {
+                getTypePrice1 = 500000;
+                getTypePrice2 = Number.MAX_SAFE_INTEGER;
+            }
+            gender = gender === 'Tất cả' ? '%' : gender;
+            let rs = await con.any(`
+            SELECT DISTINCT ON (relation) * FROM 
+            (
+                SELECT * FROM products
+                LEFT JOIN catalogue AS cata ON products.id_category::INTEGER = cata.id_category
+            ) AS change
+            WHERE category LIKE $1 AND (sale LIKE $2 OR sale LIKE $3) AND price * 23000 >= $4 AND price * 23000 < $5 AND stars >= $6 AND stars < $7 AND "for" LIKE $8
+            `, [getCatalogue, getTypeProducts1, getTypeProducts2, getTypePrice1, getTypePrice2, parseInt(typeStars), parseInt(typeStars) + 1, gender]);
             const length = rs.length;
             const startIndex = (page - 1) * 24;
             const endIndex = startIndex + 24;

@@ -111,21 +111,22 @@
     <div>
         <hr>
         <h3>Bộ lọc sản phẩm</h3>
-        <form action="/filter-products">
+        <form action="/relating-products">
             <div class="input-group mb-3 me-2">
                 <label class="input-group-text fs-4" for="catalogue">Danh mục</label>
                 <select class="form-select fs-4" id="catalogue" name="catalogue">
-                    <option selected>Tất cả</option>
+                    <option selected value="Tất cả">Tất cả</option>
                     {{#each catalogue}}
                     <option value="{{this.category}}">{{this.category}}</option>
                     {{/each}}
                 </select>
             </div>
+            <input type="text" value="1" name="page" class="d-none">
             <div class="d-flex">
                 <div class="input-group mb-3 me-2">
                     <label class="input-group-text fs-4" for="typeProducts">Sản phẩm</label>
                     <select class="form-select fs-4" id="typeProducts" name="typeProducts">
-                        <option selected>Tất cả</option>
+                        <option selected value="Tất cả">Tất cả</option>
                         <option value="1">Sản phẩm mới</option>
                         <option value="2">Sản phẩm có ưu đãi</option>
                         <option value="3">Sản phẩm phổ biến</option>
@@ -135,7 +136,7 @@
                 <div class="input-group mb-3 me-2">
                     <label class="input-group-text fs-4" for="typePrice">Giá tiền</label>
                     <select class="form-select fs-4" id="typePrice" name="typePrice">
-                        <option selected>Tất cả</option>
+                        <option selected value="Tất cả">Tất cả</option>
                         <option value="1">Dưới 50.000₫</option>
                         <option value="2">50.000 - 100.000₫</option>
                         <option value="3">100.000 - 200.000₫</option>
@@ -149,7 +150,8 @@
                 <div class="input-group mb-3 me-2">
                     <label class="input-group-text fs-4" for="typeStars">Đánh giá</label>
                     <select class="form-select fs-4" id="typeStars" name="typeStars">
-                        <option selected value="1">1 ⭐</option>
+                        <option selected value="0">Tất cả</option>
+                        <option value="1">1 ⭐</option>
                         <option value="2">2 ⭐</option>
                         <option value="3">3 ⭐</option>
                         <option value="4">4 ⭐</option>
@@ -160,10 +162,9 @@
                 <div class="input-group mb-3">
                     <label class="input-group-text fs-4" for="gender">Dành cho</label>
                     <select class="form-select fs-4" id="gender" name="gender">
-                        <option selected value="Tất-cả">Tất cả</option>
+                        <option selected value="Tất cả">Tất cả</option>
                         <option value="Nam">Nam</option>
                         <option value="Nữ">Nữ</option>
-                        <option value="Thể-thao">Thể thao</option>
                     </select>
                 </div>
             </div>
@@ -185,7 +186,7 @@
                         <img src="{{this.thumbnail}}" class="card-img-top" alt="..." style="height: 18rem;">
                         <div class="card-body">
                             <div style="height: 5rem;">
-                                <div style="width: 3rem; height: 1.5rem; background-color: rgb(255, 17, 0);"
+                                <div style="width: fit-content; height: 1.5rem; padding: .2rem; background-color: rgb(255, 17, 0);"
                                     class="rounded d-flex align-items-center justify-content-center text-light mb-1">
                                     {{this.sale}}
                                 </div>
