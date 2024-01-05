@@ -11,13 +11,4 @@ router.use((req, res, next) => {
 
 router.get("/", userC.home);
 
-router.get("/logout", (req, res) => {
-    req.logout((err) => {
-        if (err) {
-            throw err;
-        }
-    });
-    res.redirect("/");
-});
-
 module.exports = router;

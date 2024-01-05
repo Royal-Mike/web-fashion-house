@@ -37,8 +37,8 @@ app.use(express.static('./pic'))
 app.use('/js', express.static('./js'));
 app.use('/fonts', express.static('./fonts'))
 
-app.use(passport.initialize());
-app.use(passport.session());
+router.use(passport.initialize());
+router.use(passport.session());
 app.use(flash());
 app.use(router);
 

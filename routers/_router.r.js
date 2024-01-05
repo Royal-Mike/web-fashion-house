@@ -1,5 +1,5 @@
 const express = require("express");
-const jwt = require('jsonwebtoken');
+const passport = require("passport");
 const router = express.Router();
 
 const accountR = require("./account.r");
@@ -7,126 +7,147 @@ const homeR = require("./home.r");
 const adminR = require("./admin.r");
 
 const accountC = require("../controllers/account.c");
-const userC = require("../controllers/home.c");
-
 const accountM = require("../models/account.m");
 
-router.get('/', async (req, res) => {
-    let theme = req.cookies.theme;
-    let dark = theme === "dark" ? true : false;
-    res.render('account/login', {
-        title: 'Login',
-        home: false,
-        dark: dark
-    })
+const facebookStrategy = require("passport-facebook");
+const googleStrategy = require("passport-google-oauth20");
+
+router.get("/", async (req, res) => {
+  let theme = req.cookies.theme;
+  let dark = theme === "dark" ? true : false;
+  res.render("account/login", {
+    title: "Login",
+    home: false,
+    dark: dark,
+  });
 });
 
-router.get('/signup', async (req, res) => {
-    let theme = req.cookies.theme;
-    let dark = theme === "dark" ? true : false;
-    res.render('account/signup', {
-        title: 'Sign Up',
-        home: false,
-        dark: dark
-    })
+router.get("/signup", async (req, res) => {
+  let theme = req.cookies.theme;
+  let dark = theme === "dark" ? true : false;
+  res.render("account/signup", {
+    title: "Sign Up",
+    home: false,
+    dark: dark,
+  });
 });
 
-router.use('/acc', accountR);
-router.use('/home', homeR);
-router.use('/admin', adminR);
+router.use("/acc", accountR);
+router.use("/home", homeR);
+router.use("/admin", adminR);
 
-router.get('/oauthSignup', async (req, res) => {
-    let theme = req.cookies.theme;
-    let dark = theme === "dark" ? true : false;
-    res.render('account/oauth', {
-        title: 'Sign Up',
-        home: false,
-        dark: dark
-    })
+router.get("/gg-register", async (req, res) => {
+  let theme = req.cookies.theme;
+  let dark = theme === "dark" ? true : false;
+  res.render("account/gg", {
+    title: "Sign Up",
+    home: false,
+    dark: dark,
+  });
 });
 
-router.post("/oauthSubmit", accountC.oauthSignup);
+router.get("/fb-register", async (req, res) => {
+  let theme = req.cookies.theme;
+  let dark = theme === "dark" ? true : false;
+  res.render("account/fb", {
+    title: "Sign Up",
+    home: false,
+    dark: dark,
+  });
+});
 
-const requireAuth = (req, res, next) => {
-    if (!req.session.oauthUser) {
-        return res.redirect('/gg');
+router.post("/gg-submit", accountC.ggSignup);
+router.post("/fb-submit", accountC.fbSignup);
+
+passport.use(
+  new googleStrategy(
+    {
+      clientID:
+        "436389758736-p5lst40jnfjn3l9np4a8v2g07ffur99m.apps.googleusercontent.com",
+      clientSecret: "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",
+      callbackURL: "/auth/google/callback",
+    },
+    (accessToken, refreshToken, profile, done) => {
+      const user = {
+        displayName: profile.name,
+      };
+
+      return done(null, profile);
     }
-    next();
-};
+  )
+);
 
-router.get('/gmail', requireAuth, userC.home);
+passport.use(
+  new facebookStrategy(
+    {
+      clientID: "790776923086518",
+      clientSecret: "f9861767c8a2374425b88eaeba69c129",
+      callbackURL: "/auth/facebook/callback",
+    },
+    (accessToken, refreshToken, profile, done) => {
+      const user = {
+        displayName: profile.displayName,
+      };
 
-router.get('/logout', (req, res) => {
-    req.logout(err => {
-        if(err) {
-            throw err;
-        }
-    });
-    res.redirect('/');
-})
+      return done(null, profile);
+    }
+  )
+);
 
-const urlGG = 'https://accounts.google.com/o/oauth2/v2/auth';
-const access_type = 'offline';
-const response_type = 'code';
-const client_id = '436389758736-aapm1nvvhfgi9u05nt06l6ju5crib93g.apps.googleusercontent.com';
-const client_secret = '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';
-const redirect_uri = 'http://localhost:3000/gg/auth';
-const scope = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile'];
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
 
-router.get('/gg', (req, res) => {
-    const qs = new URLSearchParams({
-        access_type,
-        response_type,
-        redirect_uri,
-        client_id,
-        scope: scope.join(' '),
-    }).toString();
-    res.redirect(`${urlGG}?${qs}`);
-})
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
+});
 
-router.get('/gg/auth', async (req, res, next) => {
+router.get("/fb", passport.authenticate("facebook"));
+router.get("/gg", passport.authenticate("google", { scope: ["profile"] }));
+
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  async (req, res) => {
     try {
-        const code = req.query.code;
-        const options = {
-            code,
-            client_id,
-            client_secret,
-            redirect_uri,
-            grant_type: 'authorization_code'
-        };
+      const existingUser = await accountM.getAccount(req.user.displayName);
 
-        const response = await fetch('https://oauth2.googleapis.com/token', {
-            method: 'post',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(options)
-        });
-
-        const tokenData = await response.json();
-        const idToken = tokenData.id_token;
-        const decodedToken = jwt.decode(idToken, 21127561); //secret
-
-        req.session.oauthUser = true;
-        req.flash("role", "/home");
-
-        try {
-            const existingEmail = await accountM.GetEmail(decodedToken.email);
-
-            req.session.oauth = decodedToken.email;
-
-			if (existingEmail === null) {
-                return res.redirect('/oauthSignup');
-			}
-            
-        } catch (error) {
-            console.error('Error in signup:', error);
-            res.status(500).send('Internal Server Error');
-        }
-        res.redirect('/gmail');
-
+      if (existingUser === null) {
+        return res.redirect("/gg-register");
+      }
     } catch (error) {
-        console.error('Error fetching token:', error);
-        res.status(500).send('Internal Server Error');
+      console.error("Error fetching token:", error);
+      res.status(500).send("Internal Server Error");
     }
+    res.redirect("/home");
+  }
+);
+
+router.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/" }),
+  async (req, res) => {
+    try {
+      const existingUser = await accountM.getAccount(req.user.displayName);
+
+      if (existingUser === null) {
+        return res.redirect("/fb-register");
+      }
+    } catch (error) {
+      console.error("Error fetching token:", error);
+      res.status(500).send("Internal Server Error");
+    }
+    res.redirect("/home");
+  }
+);
+
+router.get("/logout", (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      throw err;
+    }
+  });
+  res.redirect("/");
 });
 
 module.exports = router;

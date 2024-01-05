@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid py-2">
         <a class="m-0 fs-1" style="font-family: Rouge; text-decoration: none; color: initial"
-            href="{{messages.role}}">Fashion House</a>
+            href="/">Fashion House</a>
         {{#if home}}
         <form class="d-flex" role="search">
             <input class="form-control me-2 fs-4" type="search" placeholder="Mặc gì hôm nay?" aria-label="Search"
@@ -17,9 +17,11 @@
             </label>
             {{#if home}}
             <label>
-                <a title="Đăng xuất" href="/logout">
-                    <i class="fa-solid fa-right-to-bracket" style="font-size: 30px;"></i>
-                </a>
+                <form action="/logout" method="get">
+                    <button type="submit" title="Đăng xuất" style="position: relative; bottom: 3px; border: 0; background: transparent; font-size: 25px">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </button>
+                </form>
             </label>
             {{/if}}
         </div>
