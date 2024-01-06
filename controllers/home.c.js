@@ -9,6 +9,7 @@ module.exports = {
         const bestseller = await homeM.getBestseller(1);
         const news = await homeM.getNewarrival(1);
         const recommend = await homeM.getRecommend(1);
+        const catalogue = await homeM.getCategory();
         res.render('home', {
             title: 'Home',
             home: true,
@@ -16,6 +17,7 @@ module.exports = {
             bestseller: bestseller,
             newarrival: news,
             recommend: recommend,
+            catalogue: catalogue
         })
     },
     getDataWithInput: async (req, res) => {
@@ -35,6 +37,7 @@ module.exports = {
             sold: product.sold,
             price: product.newPrice,
             color: product.color,
+            stars: product.stars,
             image: product.images[0],
             offer: product.sale === 'New arrival' ? 'Sản phẩm mới' : product.sale === 'None' ? 'Chưa có ưu đãi' : product.sale,
             numProducts: product.allstock,
@@ -55,7 +58,17 @@ module.exports = {
     getRelatingPage: async (req, res) => {
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
-        const allRs = await homeM.getRelatingPage(req.query.type, req.query.page);
+
+        let allRs;
+        let type;
+        if (req.query.type || req.query.type === "") {
+            allRs = await homeM.getRelatingPage(req.query.type, req.query.page);
+            type = req.query.type;
+        } else {
+            allRs = await homeM.getFilterProducts(req.query.catalogue, req.query.typeProducts, req.query.typePrice, req.query.typeStars, req.query.gender, req.query.page);
+            type = req.query.catalogue;
+        }
+
         const rs = allRs[0];
         const length = allRs[1];
         let onePage;
@@ -65,7 +78,7 @@ module.exports = {
         res.render('relating-page', {
             home: true,
             dark: dark,
-            type: req.query.type,
+            type: type,
             curpage: req.query.page,
             moreRelateProducts: rs,
             onePage: onePage,
@@ -75,5 +88,5 @@ module.exports = {
     getMoreProductsRecommend: async (req, res) => {
         const data = await homeM.getRecommend(req.query.page);
         res.json({ success: data });
-    }
+    },
 };

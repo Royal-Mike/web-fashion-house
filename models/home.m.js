@@ -32,4 +32,12 @@ module.exports = class Home {
         const rs = await db.getRelatingPage(type, page);
         return rs;
     }
+    static async getCategory() {
+        const rs = await db.getCategory();
+        return rs;
+    }
+    static async getFilterProducts(catalogue, typeProducts, typePrice, typeStars, gender, page) {
+        const rs = await db.getFilterProducts(catalogue, typeProducts, typePrice, typeStars, gender, page);
+        return rs;
+    }
 }
