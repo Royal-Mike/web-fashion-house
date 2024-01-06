@@ -65,7 +65,8 @@
 
         // CRUD - Create
         $("#open-add-pro").on("click", function() {
-            $("#edit-pro").removeClass("d-none").find("input").val("");
+            $(".file-input").show();
+            $("#edit-pro").removeClass("d-none").find("input,textarea").val("");
             $("#pro-container,#pro-pagination,.btn-edit-pro").addClass("d-none");
             $("#add-pro").removeClass("d-none");
         });
@@ -73,6 +74,7 @@
         $("#add-pro").on("click", function() {
             let proAdd = {};
             for (const key in proCur) {
+                if (!fields.includes(key)) continue;
                 proAdd[key] = $(`#pro-${key}`).next().val();
                 if (!proAdd[key]) return alert('Xin hãy điền đầy đủ thông tin!');
             }
@@ -93,6 +95,7 @@
 
         // CRUD - Read
         $("body").on("click", ".list-item-pro", function() {
+            $(".file-input").hide();
             $("#edit-pro").removeClass("d-none");
             $("#pro-container,#pro-pagination").addClass("d-none");
 
@@ -151,6 +154,17 @@
                     console.log(result);
                 }
             });
+        });
+
+        // Upload file
+        $("#pro-upload").fileinput({
+            uploadUrl: "/upload",
+            uploadAsync: false,
+            maxFileCount: 5
+        });
+
+        $("#pro-upload").on('filebatchuploadsuccess', function(event, data, previewId, index) {
+            $("#pro-images").next().val(data.response.files.map(e => e.destination + '/' + e.filename).join(","));
         });
     })
 </script>
