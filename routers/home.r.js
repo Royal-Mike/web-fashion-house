@@ -13,13 +13,4 @@ router.get("/getDataWithInput", userC.getDataWithInput);
 router.get("/getMoreProductsRecommend", userC.getMoreProductsRecommend);
 router.get("/", userC.home);
 
-router.get("/logout", (req, res) => {
-    req.logout((err) => {
-        if (err) {
-            throw err;
-        }
-    });
-    res.redirect("/");
-});
-
 module.exports = router;
