@@ -762,7 +762,7 @@ module.exports = {
         try {
             con = await db.connect();
             let rs = await con.any(`SELECT year, COUNT(year) AS amount FROM
-            (SELECT SPLIT_PART(create_date, '-', 1) AS year FROM products)
+            (SELECT EXTRACT(YEAR FROM create_date) AS year FROM products)
             GROUP BY year ORDER BY year`);
             return rs;
         } catch (error) {
@@ -777,7 +777,7 @@ module.exports = {
         try {
             con = await db.connect();
             let rs = await con.any(`SELECT year, SUM(sold * price) AS amount FROM
-            (SELECT SPLIT_PART(create_date, '-', 1) AS year, sold, price FROM products)
+            (SELECT EXTRACT(YEAR FROM create_date) AS year, sold, price FROM products)
             GROUP BY year ORDER BY year`);
             return rs;
         } catch (error) {
@@ -826,10 +826,10 @@ module.exports = {
             con = await db.connect();
             let rs;
             if (tbName === "catalogue") {
-                rs = await con.any(`SELECT A.*, COUNT(B.category) AS amount FROM catalogue A LEFT JOIN products B ON A.id = B.category::int GROUP BY A.id, A.category ORDER BY id`);
+                rs = await con.any(`SELECT A.*, COUNT(B.id_category) AS amount FROM catalogue A LEFT JOIN products B ON A.id_category = B.id_category::int GROUP BY A.id_category, A.category ORDER BY id_category`);
             }
             else if (tbName === "products") {
-                rs = await con.any(`SELECT A.*, B.category AS categoryname FROM products A LEFT JOIN catalogue B ON A.category::int = B.id ORDER BY A.id`);
+                rs = await con.any(`SELECT A.*, B.category AS categoryname FROM products A LEFT JOIN catalogue B ON A.id_category::int = B.id_category ORDER BY A.id_category`);
             }
             else {
                 rs = await con.any(`SELECT * FROM "${tbName}" ORDER BY ${order}`);

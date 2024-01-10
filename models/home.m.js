@@ -33,7 +33,7 @@ module.exports = class Home {
         return rs;
     }
     static async getCategory() {
-        const rs = await db.getCategory();
+        const rs = await db.getAll("catalogue", "id");
         return rs;
     }
     static async getFilterProducts(catalogue, typeProducts, typePrice, typeStars, gender, page) {
