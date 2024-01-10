@@ -257,6 +257,7 @@ module.exports = {
             rs = rs.slice(startIndex, endIndex);
 
             colorBestSeller = [];
+            // testing
 
             for (const product of rs) {
                 let tempColor = await con.any(`
@@ -664,7 +665,7 @@ module.exports = {
                 getTypeProducts1 = '-%';
                 getTypeProducts2 = '1%';
             } else if (typeProducts === '3') {
-                
+
             }
             let getTypePrice1;
             let getTypePrice2;
