@@ -17,6 +17,14 @@
             </label>
             {{#if home}}
             <label>
+                <form action="/home/myProfile" method="get">
+                    <button type="submit" title="Profile" style="position: relative; bottom: 3px; border: 0; background: transparent; font-size: 25px">
+                        <i class="fa-solid fa-user"></i>
+                    </button>
+                </form>
+            </label>
+
+            <label>
                 <form action="/logout" method="get">
                     <button type="submit" title="Đăng xuất" style="position: relative; bottom: 3px; border: 0; background: transparent; font-size: 25px">
                         <i class="fa-solid fa-right-to-bracket"></i>

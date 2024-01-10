@@ -13,7 +13,7 @@ router.post(
 		if (req.user.role === "admin") {
 			res.redirect("/admin");
 		} else {
-			req.flash("role", "/home");
+			req.session.username = req.body.username;
 			res.redirect("/home");
 		}
 	}

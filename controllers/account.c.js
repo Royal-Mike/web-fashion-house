@@ -16,8 +16,8 @@ module.exports = {
 			const existingEmail = await accountM.GetEmail(email);
 			
 			if (existingUser && (existingEmail && existingEmail.email === email)) {
-				req.flash("unValue", un);
-				req.flash("emailValue", email);
+				req.flash("unValue", "");
+				req.flash("emailValue", "");
 				req.flash('fnValue', fn);
 				req.flash('dobValue', dob);
 				req.flash('pwValue', pw);
@@ -53,46 +53,21 @@ module.exports = {
 			throw error;
 		}
 	},
-	ggSignup: async (req, res, next) => {
+	oauthSignup: async (req, res, next) => {
 		try {
-			const un = req.user.displayName;
-
+			const email = req.session.email;
+			const un = req.body.username;
 			const fn = req.body.fullname;
 			const dob = req.body.dob;
 			const role = 'user';
-			
+			req.session.username = un;
+
 			const existingUser = await accountM.getAccount(un);
-			
 			if (existingUser) {
 				req.flash("errorUser", "Tên người dùng đã tồn tại. Vui lòng chọn tên khác!");
 				req.flash('fnValue', fn);
 				req.flash('dobValue', dob);
-				return res.redirect('/gg-register');
-			} 
-			const rs = await accountM.createAccount(new accountM(un, null, fn, dob, null, role));
-			res.redirect("/home");
-
-		} catch (error) {
-			throw error;
-		}
-	},
-
-	fbSignup: async (req, res, next) => {
-		try {
-			const un = req.user.displayName;
-
-			const email = req.body.email;
-			const fn = req.body.fullname;
-			const dob = req.body.dob;
-			const role = 'user';
-			
-			const existingEmail = await accountM.GetEmail(email)
-			
-			if (existingEmail) {
-				req.flash("errorEmail", "Email đã tồn tại. Vui lòng chọn tên khác!");
-				req.flash('fnValue', fn);
-				req.flash('dobValue', dob);
-				return res.redirect('/fb-register');
+				return res.redirect('/oauthSignup');
 			} 
 			const rs = await accountM.createAccount(new accountM(un, email, fn, dob, null, role));
 			res.redirect("/home");

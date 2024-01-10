@@ -22,4 +22,12 @@ module.exports = class Account {
 		const rs = await db.email(table, "email", un);
 		return rs;
 	}
+	static async getAllEmailsExceptUsername(un) {
+		const rs = await db.getAllEmail(table, "username", un);
+		return rs;
+	}
+	static async updateMyProfile(un, fn, email, dob) {
+		const rs = await db.update(table, fn, email, dob, un);
+		return rs;
+	}
 };
