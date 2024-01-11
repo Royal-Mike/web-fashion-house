@@ -82,6 +82,9 @@ module.exports = {
             totalMoney INT NOT NULL,
             FOREIGN KEY (username) REFERENCES accounts(username)
         );`);
+        if (con) {
+            con.done();
+        }
     },
     checkExistTable: async () => {
         cn.database = process.env.DB_NAME;
@@ -96,6 +99,9 @@ module.exports = {
             WHERE table_schema = 'public' AND table_name = 'products'
         )
         `);
+        if (con) {
+            con.done();
+        }
         for (const temp of check) {
             return temp.count > 0;
         }
