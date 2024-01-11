@@ -131,7 +131,7 @@ router.get("/auth/google/callback", async (req, res, next) => {
     const decodedToken = jwt.decode(idToken);
     req.session.oauthUser = "gmail";
     try {
-      const existingEmail = await accountM.GetEmail(decodedToken.email);
+      const existingEmail = await accountM.getEmail(decodedToken.email);
       if(existingEmail) {
         req.session.username = existingEmail.username;
       }
