@@ -74,6 +74,14 @@ module.exports = {
         ALTER TABLE IF EXISTS public.accounts
             OWNER to postgres;
         `);
+
+        await con.none(`
+        CREATE TABLE payments (
+            payment_id SERIAL PRIMARY KEY,
+            username VARCHAR(100) NOT NULL,
+            totalMoney INT NOT NULL,
+            FOREIGN KEY (username) REFERENCES accounts(username)
+        );`);
     },
     checkExistTable: async () => {
         cn.database = process.env.DB_NAME;
