@@ -1052,4 +1052,34 @@ module.exports = {
             }
         }
     },
+    getAllEmail:  async (tbName, fieldName, value) => {
+        let con = null;
+        try {
+          con = await db.connect();
+          const result = await con.query(
+            `SELECT "email" FROM "${tbName}" WHERE "${fieldName}" <> $1;`,
+            [value]
+          );
+          return result.map(row => row.email);
+        } catch (error) {
+          throw error;
+        } finally {
+          if (con) con.done();
+        }
+    },
+    update:  async (tbName, fn, email, dob, un) => {
+        let con = null;
+        try {
+          con = await db.connect();
+          const result = await con.query(
+            `UPDATE "${tbName}" SET "fullname" = $1, "email" = $2, "dob" = $3 WHERE "username" = $4;`,
+            [fn, email, dob, un]
+          );
+          return result;
+        } catch (error) {
+          throw error;
+        } finally {
+          if (con) con.done();
+        }
+    }
 }

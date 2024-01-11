@@ -4,7 +4,18 @@
             <div class="card border-0 shadow rounded-3 my-5">
                 <div class="card-body p-4 p-sm-5">
                     <h5 class="card-title text-center mb-5 fw-light fs-5">Thông tin tài khoản</h5>
-                    <form action="/gg-submit" method="post">
+                    <form action="/oauthSubmit" method="post">
+                        <div class="form-floating mb-3">
+                            <input name="username" type="text" class="form-control" id="floatingUsername"
+                                placeholder="Ex: something..." value="{{messages.unValue}}" required/>
+                            <label for="floatingUsername">Tên tài khoản</label>
+                            {{#if messages.errorUser}}
+                            <div style="color: red;">
+                                {{messages.errorUser}}
+                            </div>
+                            {{/if}}
+                        </div>
+                    
                         <div class="form-floating mb-3">
                             <input name="fullname" type="text" class="form-control" id="floatingFullname"
                                 placeholder="Ex: something..." value="{{messages.fnValue}}" required />

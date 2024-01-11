@@ -1,14 +1,14 @@
 const express = require("express");
-const passport = require("passport");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 
 const accountR = require("./account.r");
 const accountC = require("../controllers/account.c");
+const userC = require("../controllers/home.c");
 const accountM = require("../models/account.m");
 const adminR = require("./admin.r");
 
 const homeR = require("./home.r");
-const userC = require("../controllers/home.c");
 
 const detailsR = require("./details.r");
 const relateR = require("./relate_products.r");
@@ -51,110 +51,26 @@ router.use("/acc", accountR);
 router.use("/home", homeR);
 router.use("/admin", adminR);
 
-router.get("/gg-register", async (req, res) => {
+router.get("/oauthSignup", async (req, res) => {
   let theme = req.cookies.theme;
   let dark = theme === "dark" ? true : false;
-  res.render("account/gg", {
+  res.render("account/oauth", {
     title: "Sign Up",
     home: false,
     dark: dark,
   });
 });
 
-router.get("/fb-register", async (req, res) => {
-  let theme = req.cookies.theme;
-  let dark = theme === "dark" ? true : false;
-  res.render("account/fb", {
-    title: "Sign Up",
-    home: false,
-    dark: dark,
-  });
-});
+router.post("/oauthSubmit", accountC.oauthSignup);
 
-router.post("/gg-submit", accountC.ggSignup);
-router.post("/fb-submit", accountC.fbSignup);
-
-passport.use(
-  new googleStrategy(
-    {
-      clientID:
-        "436389758736-p5lst40jnfjn3l9np4a8v2g07ffur99m.apps.googleusercontent.com",
-      clientSecret: "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",
-      callbackURL: "/auth/google/callback",
-    },
-    (accessToken, refreshToken, profile, done) => {
-      const user = {
-        displayName: profile.name,
-      };
-
-      return done(null, profile);
-    }
-  )
-);
-
-passport.use(
-  new facebookStrategy(
-    {
-      clientID: "790776923086518",
-      clientSecret: "f9861767c8a2374425b88eaeba69c129",
-      callbackURL: "/auth/facebook/callback",
-    },
-    (accessToken, refreshToken, profile, done) => {
-      const user = {
-        displayName: profile.displayName,
-      };
-
-      return done(null, profile);
-    }
-  )
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
-});
-
-router.get("/fb", passport.authenticate("facebook"));
-router.get("/gg", passport.authenticate("google", { scope: ["profile"] }));
-
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
-  async (req, res) => {
-    try {
-      const existingUser = await accountM.getAccount(req.user.displayName);
-
-      if (existingUser === null) {
-        return res.redirect("/gg-register");
-      }
-    } catch (error) {
-      console.error("Error fetching token:", error);
-      res.status(500).send("Internal Server Error");
-    }
-    res.redirect("/home");
+const requireAuth = (req, res, next) => {
+  if (!req.session.oauthUser) {
+    return res.redirect("/gg");
   }
-);
+  next();
+};
 
-router.get(
-  "/auth/facebook/callback",
-  passport.authenticate("facebook", { failureRedirect: "/" }),
-  async (req, res) => {
-    try {
-      const existingUser = await accountM.getAccount(req.user.displayName);
-
-      if (existingUser === null) {
-        return res.redirect("/fb-register");
-      }
-    } catch (error) {
-      console.error("Error fetching token:", error);
-      res.status(500).send("Internal Server Error");
-    }
-    res.redirect("/home");
-  }
-);
+router.get("/home", requireAuth, userC.home);
 
 router.get("/logout", (req, res) => {
   req.logout((err) => {
@@ -169,5 +85,72 @@ router.use('/details', detailsR);
 router.use('/relating-products', relateR);
 
 router.use("/cart", cartR);
+
+const urlGG = "https://accounts.google.com/o/oauth2/v2/auth";
+const access_type = "offline";
+const response_type = "code";
+const client_id =
+  "436389758736-p5lst40jnfjn3l9np4a8v2g07ffur99m.apps.googleusercontent.com";
+const client_secret = "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";
+const redirect_uri = "http://localhost:3000/auth/google/callback";
+const scope = [
+  "https://www.googleapis.com/auth/userinfo.email",
+  "https://www.googleapis.com/auth/userinfo.profile",
+];
+
+router.get("/gg", (req, res) => {
+  const qs = new URLSearchParams({
+    access_type,
+    response_type,
+    redirect_uri,
+    client_id,
+    scope: scope.join(" "),
+  }).toString();
+  res.redirect(`${urlGG}?${qs}`);
+});
+
+router.get("/auth/google/callback", async (req, res, next) => {
+  try {
+    const code = req.query.code;
+    const options = {
+      code,
+      client_id,
+      client_secret,
+      redirect_uri,
+      grant_type: "authorization_code",
+    };
+
+    const response = await fetch("https://oauth2.googleapis.com/token", {
+      method: "post",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(options),
+    });
+
+    const tokenData = await response.json();
+    const idToken = tokenData.id_token;
+    const decodedToken = jwt.decode(idToken);
+    req.session.oauthUser = "gmail";
+    try {
+      const existingEmail = await accountM.GetEmail(decodedToken.email);
+      if(existingEmail) {
+        req.session.username = existingEmail.username;
+      }
+      
+      req.session.email = decodedToken.email;
+
+      if (existingEmail === null) {
+        return res.redirect("/oauthSignup");
+      }
+    } catch (error) {
+      console.error("Error in signup:", error);
+      res.status(500).send("Internal Server Error");
+    }
+    res.redirect("/home");
+
+  } catch (error) {
+    console.error("Error fetching token:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 module.exports = router;

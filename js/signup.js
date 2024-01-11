@@ -18,9 +18,23 @@ $(document).ready(function () {
     const rePasswordInput = $('#floatingRePassword');
 
     form.submit(function (event) {
+        let regx = /[!@#$%^&*(),.?":{}|<>]/;
+
         if (!validatePassword(passwordInput.val(), rePasswordInput.val())) {
             event.preventDefault();
             setError(passwordInput, 'Mật khẩu phải giống nhau!');
+            passwordInput.val('');
+            rePasswordInput.val('');
+        } else if(passwordInput.val().length < 8 || rePasswordInput.val().length < 8) {
+            event.preventDefault();
+            setError(passwordInput, 'Mật khẩu ít nhất 8 kí tự');
+            setError(rePasswordInput, 'Mật khẩu ít nhất 8 kí tự');
+            passwordInput.val('');
+            rePasswordInput.val('');
+        } else if(specialChars.test(passwordInput.val()) || specialChars.test(rePasswordInput.val())){
+            event.preventDefault();
+            setError(passwordInput, 'Mật khẩu không chứa các kí tự đặc biệt');
+            setError(rePasswordInput, 'Mật khẩu không chứa các kí tự đặc biệt');
             passwordInput.val('');
             rePasswordInput.val('');
         } else {
