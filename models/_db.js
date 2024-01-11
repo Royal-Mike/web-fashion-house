@@ -18,7 +18,6 @@ const cn = {
     port: process.env.PORT_DB,
     user: process.env.DB_USER,
     password: process.env.DB_PW,
-    database: process.env.DB_NAME,
     max: process.env.DB_MAX
 };
 
@@ -46,18 +45,58 @@ let colorNewArrival = [];
 let colorRecommend = [];
 
 module.exports = {
-    addDataToDB: async () => {
+    checkExistDB: async () => {
+        const check = await db.any(`SELECT FROM pg_database WHERE datname = '${process.env.DB_NAME}'`);
+        if (!check.length) {
+            return false;
+        } else return true;
+    },
+    createDB: async () => {
+        await db.none(`CREATE DATABASE $1:name`, [process.env.DB_NAME]);
         cn.database = process.env.DB_NAME;
-
-        // const check = await db.any(`SELECT FROM pg_database WHERE datname = '${process.env.DB_NAME}'`);
-        // if (!check.length) {
-        //     await db.none(`CREATE DATABASE $1:name`, [process.env.DB_NAME]);
-        //     cn.database = process.env.DB_NAME;
-        // } else return;
 
         db = pgp(cn);
         con = await db.connect();
+        await con.none(`
+        CREATE TABLE IF NOT EXISTS public.accounts
+        (
+            username character varying(100) COLLATE pg_catalog."default" NOT NULL,
+            email text COLLATE pg_catalog."default",
+            fullname text COLLATE pg_catalog."default",
+            dob date,
+            password character varying(100) COLLATE pg_catalog."default" NOT NULL,
+            role text COLLATE pg_catalog."default",
+            CONSTRAINT "accountDb_pkey" PRIMARY KEY (username)
+        )
 
+        TABLESPACE pg_default;
+
+        ALTER TABLE IF EXISTS public.accounts
+            OWNER to postgres;
+        `);
+    },
+    checkExistTable: async () => {
+        cn.database = process.env.DB_NAME;
+        db = pgp(cn);
+        con = await db.connect();
+        const check = await db.any(`
+        SELECT COUNT(*)
+        FROM 
+        (
+            SELECT 1 
+            FROM information_schema.tables 
+            WHERE table_schema = 'public' AND table_name = 'products'
+        )
+        `);
+        for (const temp of check) {
+            return temp.count > 0;
+        }
+    },
+    addDataToDB: async () => {
+        cn.database = process.env.DB_NAME;
+
+        db = pgp(cn);
+        con = await db.connect();
         await con.none(`
         CREATE TABLE IF NOT EXISTS products (
             id INTEGER PRIMARY KEY,
@@ -77,6 +116,7 @@ module.exports = {
             id_category TEXT
         )
         `);
+
         await con.none(`
         CREATE TABLE IF NOT EXISTS size_division (
             id INTEGER,
@@ -240,6 +280,8 @@ module.exports = {
     },
     getBestseller: async (page) => {
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             let rs = await con.any(`
             SELECT * FROM 
@@ -310,6 +352,8 @@ module.exports = {
     },
     getNewarrival: async (page) => {
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             let rs = await con.any(`
             SELECT DISTINCT ON (relation) * FROM 
@@ -357,6 +401,8 @@ module.exports = {
     },
     getRecommend: async (page) => {
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             let rs0 = await con.any(`
             SELECT DISTINCT ON (relation) * FROM 
@@ -425,6 +471,8 @@ module.exports = {
     },
     getDataWithInput: async (input) => {
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             let rs = await con.any(`SELECT DISTINCT ON (relation) * FROM 
             (
@@ -463,6 +511,8 @@ module.exports = {
     },
     getDetailsProduct: async (id) => {
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             let rs = await con.any(`
             SELECT
@@ -572,6 +622,8 @@ module.exports = {
     },
     getRelatingPage: async (type, page) => {
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             let rs;
             if (type === "nam") {
@@ -602,6 +654,13 @@ module.exports = {
                     LEFT JOIN catalogue AS cata ON products.id_category::INTEGER = cata.id_category
                 ) AS change
                 WHERE category ILIKE '%sport%'`);
+            } else if (type === "sản-phẩm-mới") {
+                rs = await con.any(`SELECT DISTINCT ON (relation) * FROM 
+                (
+                    SELECT * FROM products
+                    LEFT JOIN catalogue AS cata ON products.id_category::INTEGER = cata.id_category
+                ) AS change
+                WHERE sale ILIKE '%New arrival%'`);
             } else {
                 rs = await con.any(`SELECT DISTINCT ON (relation) * FROM 
                 (
@@ -650,6 +709,8 @@ module.exports = {
     },
     getFilterProducts: async (catalogue, typeProducts, typePrice, typeStars, gender, page) => {
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             let getCatalogue = catalogue === 'Tất cả' ? '%%' : catalogue;
             let getTypeProducts1;
@@ -742,6 +803,8 @@ module.exports = {
     },
     getDescription: async (id) => {
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             const rs = await con.any(`SELECT description FROM products WHERE id = ${id}`);
             rs.forEach(product => {
@@ -760,6 +823,8 @@ module.exports = {
     },
     getCategory: async () => {
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             const catalogue = await con.any(`SELECT * FROM catalogue`);
             return catalogue;
@@ -774,6 +839,8 @@ module.exports = {
     signup: async (tbName, obj) => {
         let con = null;
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             let sql = pgp.helpers.insert(obj, null, tbName);
             await con.none(sql);
@@ -789,6 +856,8 @@ module.exports = {
     getAll: async (tbName) => {
         let con = null;
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             const order = tbName === "accounts" ? "ORDER BY role" : "";
             const rs = await con.any(`SELECT * FROM "${tbName}" ${order}`);
@@ -804,6 +873,8 @@ module.exports = {
     get: async (tbName, fieldName, value) => {
         let con = null;
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             const rs = await con.oneOrNone(
                 `SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`,
@@ -821,6 +892,8 @@ module.exports = {
     email: async (tbName, fieldName, value) => {
         let con = null;
         try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
             const rs = await con.oneOrNone(
                 `SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`,
