@@ -1,6 +1,10 @@
 const db = require('./_db');
 
 module.exports = class Home {
+    static async checkExistTable() {
+        const rs = await db.checkExistTable();
+        return rs;
+    }
     static async addDataToDB() {
         await db.addDataToDB();
     }

@@ -12,30 +12,39 @@ const userC = require("../controllers/home.c");
 
 const detailsR = require("./details.r");
 const relateR = require("./relate_products.r");
+const initializeDBM = require("../models/initializeDb.m");
 
 const cartR = require("./cart.r");
 
 const facebookStrategy = require("passport-facebook");
 const googleStrategy = require("passport-google-oauth20");
 
-router.get("/", async (req, res) => {
-  let theme = req.cookies.theme;
-  let dark = theme === "dark" ? true : false;
-  res.render("account/login", {
-    title: "Login",
-    home: false,
-    dark: dark,
-  });
+router.get('/', async (req, res) => {
+    let theme = req.cookies.theme;
+    let dark = theme === "dark" ? true : false;
+    const check = await initializeDBM.checkExistDB();
+    if (!check) {
+        await initializeDBM.createDB();
+    }
+    res.render('account/login', {
+        title: 'Login',
+        home: false,
+        dark: dark
+    })
 });
 
-router.get("/signup", async (req, res) => {
-  let theme = req.cookies.theme;
-  let dark = theme === "dark" ? true : false;
-  res.render("account/signup", {
-    title: "Sign Up",
-    home: false,
-    dark: dark,
-  });
+router.get('/signup', async (req, res) => {
+    let theme = req.cookies.theme;
+    let dark = theme === "dark" ? true : false;
+    const check = await initializeDBM.checkExistDB();
+    if (!check) {
+        await initializeDBM.createDB();
+    }
+    res.render('account/signup', {
+        title: 'Sign Up',
+        home: false,
+        dark: dark
+    })
 });
 
 router.use("/acc", accountR);
