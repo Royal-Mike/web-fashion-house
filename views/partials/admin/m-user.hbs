@@ -1,0 +1,64 @@
+{{> js/admin/crud-user}}
+<div id="screen-user" class="d-none container border screen-info py-2">
+    <div class="d-flex align-items-center justify-content-between">
+        <h4 class="m-0">Người dùng</h4>
+        <a id="open-add-user" class="btn btn-primary">+ Thêm</a>
+    </div>
+    <hr>
+    <div id="edit-user" class="container d-none">
+        <div class="input-group mb-3">
+            <span class="input-group-text" style="width:15%" id="user-username">Tên tài khoản</span>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="user-username">
+        </div>
+        <div class="input-group mb-3 d-none">
+            <span class="input-group-text" style="width:15%" id="user-password">Mật khẩu</span>
+            <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="user-password">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" style="width:15%" id="user-fullname">Họ tên</span>
+            <input type="text" class="form-control" placeholder="Name" aria-label="Name" aria-describedby="user-name">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" style="width:15%" id="user-email">Email</span>
+            <input type="text" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="user-email">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" style="width:15%" id="user-dob">Ngày sinh</span>
+            <input type="date" class="form-control" placeholder="DOB" aria-label="DOB" aria-describedby="user-dob">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text" style="width:15%" id="user-role">Loại tài khoản</span>
+            <select class="form-select">
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+        <div class="d-flex mb-2">
+            <a id="update-edit-user" class="btn btn-primary btn-edit-user me-2">Cập nhật</a>
+            <a id="delete-edit-user" class="btn btn-primary btn-edit-user me-2">Xóa tài khoản</a>
+            <a id="add-user" class="btn btn-primary me-2 d-none">Thêm tài khoản</a>
+            <a id="cancel-edit-user" class="btn btn-primary">Thoát</a>
+        </div>
+    </div>
+    <div id="user-container" class="list-group list-group-container mb-3">
+    </div>
+    <nav id="user-pagination" aria-label="Page Navigation">
+        <ul class="pagination">
+            <li class="page-item page-arrows">
+                <a id="page-user-prev" class="page-link disabled" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            {{#each pages_u}}
+                <li class="page_item">
+                    <a id="page-user-{{this}}" class="page-link page-link-num page-user {{#if @first}} active {{/if}}">{{this}}</a>
+                </li>
+            {{/each}}
+            <li class="page-item page-arrows">
+                <a id="page-user-next" class="page-link" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

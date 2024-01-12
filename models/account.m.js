@@ -11,17 +11,25 @@ module.exports = class Account {
 		this.role = role;
 	}
 	static async createAccount(data) {
-		const rs = await db.signup(table, data);
+		const rs = await db.add(table, data);
 		return rs;
 	}
 	static async getAccount(un) {
 		const rs = await db.get(table, "username", un);
 		return rs;
 	}
-	static async GetEmail(un) {
+	static async getEmail(un) {
 		const rs = await db.email(table, "email", un);
 		return rs;
 	}
+	static async updateUser(data) {
+        const rs = await db.updateUser(data);
+        return rs;
+    }
+	static async deleteUser(un) {
+        const rs = await db.delete(table, "username", un);
+        return rs;
+    }
 	static async getAllEmailsExceptUsername(un) {
 		const rs = await db.getAllEmail(table, "username", un);
 		return rs;

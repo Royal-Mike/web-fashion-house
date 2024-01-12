@@ -1,0 +1,152 @@
+<script>
+    $(() => {
+        let data, catCur;
+        let pageCur = 1;
+
+        const fields = ['category'];
+
+        // Pagination
+        $(".page-cat").on("click", function() {
+            $(".page-cat.active").removeClass("active");
+            $(this).addClass("active");
+
+            $("#cat-pagination .page-arrows a.disabled").removeClass("disabled");
+            if ($(this).parent().next().hasClass("page-arrows")) $("#page-cat-next").addClass("disabled");
+            if ($(this).parent().prev().hasClass("page-arrows")) $("#page-cat-prev").addClass("disabled");
+
+            let page = $(this).text();
+            pageCur = Number(page);
+
+            $("#cat-container").empty();
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/getcat',
+                data: {
+                    page: page
+                },
+                success: function(result) {
+                    data = result;
+                    catCur = data[0];
+                    result.forEach(item => {
+                        $("#cat-container").append(
+                            `<a class="list-group-item list-group-item-action list-item-cat">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">#${item.id_category}</h5>
+                                    <small>${item.amount} Products</small>
+                                </div>
+                                <p class="mb-1">${item.category}</p>
+                            </a>`
+                        );
+                    });
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+
+        $("#cat-pagination .page-arrows a").on("click", function() {
+            let id = $(this).attr("id");
+
+            if (id.includes("prev")) pageCur--;
+            else pageCur++;
+
+            $(`#page-cat-${pageCur}`).trigger("click");
+        });
+
+        $(`#page-cat-${pageCur}`).trigger("click");
+
+        // CRUD - Create
+        $("#open-add-cat").on("click", function() {
+            $("#edit-cat").removeClass("d-none").find("input").val("");
+            $("#cat-container,#cat-pagination,.btn-edit-cat").addClass("d-none");
+            $("#add-cat").removeClass("d-none");
+        });
+
+        $("#add-cat").on("click", function() {
+            let catAdd = {};
+            for (const key in catCur) {
+                if (!fields.includes(key)) continue;
+                catAdd[key] = $(`#cat-${key}`).next().val();
+                if (!catAdd[key]) return alert('Xin hãy điền đầy đủ thông tin!');
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/addcat',
+                data: catAdd,
+                success: function(result) {
+                    alert('Thêm danh mục thành công!');
+                    window.location.reload();
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+
+        // CRUD - Read
+        $("body").on("click", ".list-item-cat", function() {
+            $("#edit-cat").removeClass("d-none");
+            $("#cat-container,#cat-pagination").addClass("d-none");
+
+            catCur = data[$(this).index()];
+
+            for (const key in catCur) {
+                if (!fields.includes(key)) continue;
+                let value = catCur[key];
+                $(`#cat-${key}`).next().val(value);
+            }
+        });
+
+        // CRUD - Update
+        $("#update-edit-cat").on("click", function() {
+            let catUpdate = {id: catCur.id};
+            for (const key in catCur) {
+                if (!fields.includes(key)) continue;
+                catUpdate[key] = $(`#cat-${key}`).next().val();
+                if (!catUpdate[key]) return alert('Xin hãy điền đầy đủ thông tin!');
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/updcat',
+                data: catUpdate,
+                success: function(result) {
+                    alert('Danh mục cập nhật thành công!');
+                    window.location.reload();
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+
+        $("#cancel-edit-cat").on("click", function() {
+            $("#edit-cat,#add-cat").addClass("d-none");
+            $("#cat-container,#cat-pagination,.btn-edit-cat").removeClass("d-none");
+        });
+
+        // CRUD - Delete
+        $("#delete-edit-cat").on("click", function() {
+            if (Number(catCur.amount) > 0)
+            return alert('Không thể xóa danh mục có sản phẩm!');
+
+            $.ajax({
+                type: 'POST',
+                url: '/admin/delcat',
+                data: {
+                    id: catCur.id
+                },
+                success: function(result) {
+                    alert('Xóa danh mục thành công!');
+                    window.location.reload();
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+    })
+</script>

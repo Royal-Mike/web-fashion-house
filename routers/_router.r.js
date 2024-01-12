@@ -3,31 +3,48 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 
 const accountR = require("./account.r");
-const homeR = require("./home.r");
-const adminR = require("./admin.r");
-
 const accountC = require("../controllers/account.c");
 const userC = require("../controllers/home.c");
 const accountM = require("../models/account.m");
+const adminR = require("./admin.r");
 
-router.get("/", async (req, res) => {
-  let theme = req.cookies.theme;
-  let dark = theme === "dark" ? true : false;
-  res.render("account/login", {
-    title: "Login",
-    home: false,
-    dark: dark,
-  });
+const homeR = require("./home.r");
+
+const detailsR = require("./details.r");
+const relateR = require("./relate_products.r");
+const initializeDBM = require("../models/initializeDb.m");
+
+const cartR = require("./cart.r");
+
+const facebookStrategy = require("passport-facebook");
+const googleStrategy = require("passport-google-oauth20");
+
+router.get('/', async (req, res) => {
+    let theme = req.cookies.theme;
+    let dark = theme === "dark" ? true : false;
+    const check = await initializeDBM.checkExistDB();
+    if (!check) {
+        await initializeDBM.createDB();
+    }
+    res.render('account/login', {
+        title: 'Login',
+        home: false,
+        dark: dark
+    })
 });
 
-router.get("/signup", async (req, res) => {
-  let theme = req.cookies.theme;
-  let dark = theme === "dark" ? true : false;
-  res.render("account/signup", {
-    title: "Sign Up",
-    home: false,
-    dark: dark,
-  });
+router.get('/signup', async (req, res) => {
+    let theme = req.cookies.theme;
+    let dark = theme === "dark" ? true : false;
+    const check = await initializeDBM.checkExistDB();
+    if (!check) {
+        await initializeDBM.createDB();
+    }
+    res.render('account/signup', {
+        title: 'Sign Up',
+        home: false,
+        dark: dark
+    })
 });
 
 router.use("/acc", accountR);
@@ -63,6 +80,11 @@ router.get("/logout", (req, res) => {
   });
   res.redirect("/");
 });
+
+router.use('/details', detailsR);
+router.use('/relating-products', relateR);
+
+router.use("/cart", cartR);
 
 const urlGG = "https://accounts.google.com/o/oauth2/v2/auth";
 const access_type = "offline";
@@ -109,7 +131,7 @@ router.get("/auth/google/callback", async (req, res, next) => {
     const decodedToken = jwt.decode(idToken);
     req.session.oauthUser = "gmail";
     try {
-      const existingEmail = await accountM.GetEmail(decodedToken.email);
+      const existingEmail = await accountM.getEmail(decodedToken.email);
       if(existingEmail) {
         req.session.username = existingEmail.username;
       }
