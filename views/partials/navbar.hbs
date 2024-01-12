@@ -1,7 +1,7 @@
 <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary mb-5">
     <div class="container-fluid py-2">
-        <a class="m-0 fs-1" style="font-family: Rouge; text-decoration: none; color: initial"
-            href="/">Fashion House</a>
+        <a class="m-0 fs-1" style="font-family: Rouge; text-decoration: none; color: initial" href="/home">Fashion
+            House</a>
         {{#if home}}
         <div style="position: relative;">
             <form action="/relating-products" class="d-flex" role="search">
@@ -17,6 +17,11 @@
             </div>
         </div>
         {{/if}}
+        {{#if home}}
+        <button id="cartButton" class="btn btn-outline-warning fs-4"> <i class="fa-solid fa-cart-shopping"></i>
+            <strong>YOUR CART</strong></button>
+        {{/if}}
+
         <div class="form-check form-switch">
             <input class="form-check-input fs-4" type="checkbox" role="switch" id="sw-theme" {{#if dark}} checked
                 {{/if}} style="cursor:pointer" />
@@ -24,9 +29,12 @@
                 <i class="fa-solid {{#if dark}} fa-moon {{else}} fa-sun {{/if}} fs-2"></i>
             </label>
             {{#if home}}
+
+
             <label>
                 <form action="/logout" method="get">
-                    <button type="submit" title="Đăng xuất" style="position: relative; bottom: 3px; border: 0; background: transparent; font-size: 25px">
+                    <button type="submit" title="Đăng xuất"
+                        style="position: relative; bottom: 3px; border: 0; background: transparent; font-size: 25px">
                         <i class="fa-solid fa-right-to-bracket"></i>
                     </button>
                 </form>
@@ -147,6 +155,9 @@
             } else {
                 $('#get-products-with-input').empty();
             }
+        })
+        $("#cartButton").on("click", function () {
+            window.location.href = `/cart`;
         })
     });
 </script>

@@ -9,5 +9,7 @@ router.use((req, res, next) => {
 });
 
 router.get("/addToCart", cartC.addToCart);
+router.get("/", cartC.cartPage);
+router.get("/increaseQuantity", cartC.increaseQuantity);
 
 module.exports = router;
