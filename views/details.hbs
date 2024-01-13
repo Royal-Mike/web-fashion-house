@@ -54,33 +54,40 @@
                     </p>
                     <p class="card-text fs-3">Kích cỡ:
                     <div class="btn-group" role="group" aria-label="Vertical radio toggle button group">
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off"
-                            checked>
+                        <input type="radio" class="btn-check" value="XS" name="vbtn-radio" id="vbtn-radio1"
+                            autocomplete="off" checked>
                         <label class="btn btn-outline-danger" for="vbtn-radio1" style="width: 6rem;">XS</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+                        <input type="radio" class="btn-check" value="S" name="vbtn-radio" id="vbtn-radio2"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio2" style="width: 6rem;">S</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
+                        <input type="radio" class="btn-check" value="M" name="vbtn-radio" id="vbtn-radio3"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio3" style="width: 6rem;">M</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
+                        <input type="radio" class="btn-check" value="L" name="vbtn-radio" id="vbtn-radio4"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio4" style="width: 6rem;">L</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio5" autocomplete="off">
+                        <input type="radio" class="btn-check" value="XL" name="vbtn-radio" id="vbtn-radio5"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio5" style="width: 6rem;">XL</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio6" autocomplete="off">
+                        <input type="radio" class="btn-check" value="XXL" name="vbtn-radio" id="vbtn-radio6"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio6" style="width: 6rem;">XXL</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio7" autocomplete="off">
+                        <input type="radio" class="btn-check" value="XXXL" name="vbtn-radio" id="vbtn-radio7"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio7" style="width: 6rem;">XXXL</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio8" autocomplete="off">
+                        <input type="radio" class="btn-check" value="freesize" name="vbtn-radio" id="vbtn-radio8"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio8" style="width: 6rem;">Freesize</label>
                     </div>
                     </p>
                     <p class="card-text fs-3 d-flex mt-5">
                         <span style="width: 14rem; display:inline-block">Số lượng: </span>
                         <span class="input-group ms-3 me-3" style="width: 9.8rem;">
-                            <button class="btn btn-outline-secondary fs-5" type="button" style="width: 3rem;"><i
-                                    class="fa-solid fa-minus"></i></button>
+                            <button class="btn btn-outline-secondary fs-5" onclick="decreaseQuantity()" type="button"
+                                style="width: 3rem;"><i class="fa-solid fa-minus"></i></button>
                             <input type="number" class="form-control" value="1" id="input-num-of-products">
-                            <button class="btn btn-outline-secondary fs-5" type="button" style="width: 3rem;"><i
-                                    class="fa-solid fa-plus"></i></button>
+                            <button class="btn btn-outline-secondary fs-5" onclick="increaseQuantity()" type="button"
+                                style="width: 3rem;"><i class="fa-solid fa-plus"></i></button>
                         </span>
                         {{numProducts}} sản phẩm sẵn có
                     </p>
@@ -208,9 +215,39 @@
         });
         // add item to cart
         $('#addToCart').on('click', function () {
+            let quantity = parseInt($("#input-num-of-products").val());
+            let numProducts = `{{numProducts}}`;
+            if (quantity > numProducts) {
+                alert(`Number of this products is currently under ${quantity}`);
+                return;
+            }
             let id = '{{id}}';
+            const sizeButtons = document.getElementsByName("vbtn-radio");
+            let selectedSize;
+            for (const sizeButton of sizeButtons) {
+                if (sizeButton.checked) {
+                    selectedSize = sizeButton.value;
+                }
+            }
             alert("You just added {{name}} to your cart");
-            window.location.href = `/cart/addToCart?id=${id}`;
+            window.location.href = `/cart/addToCart?id=${id}&size=${selectedSize}`;
         });
+
+        increaseQuantity = () => {
+            let quantity = parseInt($("#input-num-of-products").val());
+            $("#input-num-of-products").val(quantity + 1);
+            return;
+        }
+
+        decreaseQuantity = () => {
+            let quantity = parseInt($("#input-num-of-products").val());
+            if (quantity > 1) {
+                $("#input-num-of-products").val(quantity - 1);
+            }
+            return;
+        }
+
+
+
     });
 </script>

@@ -11,5 +11,6 @@ router.use((req, res, next) => {
 router.get("/addToCart", cartC.addToCart);
 router.get("/", cartC.cartPage);
 router.get("/increaseQuantity", cartC.increaseQuantity);
+router.get("/decreaseQuantity", cartC.decreaseQuantity);
 
 module.exports = router;

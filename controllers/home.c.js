@@ -1,11 +1,15 @@
-const { sourceMapsEnabled } = require('process');
-const homeM = require('../models/home.m');
+const accountM = require("../models/account.m");
+const homeM = require("../models/home.m");
+const moment = require("moment");
 
 module.exports = {
     home: async (req, res) => {
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
-        // await homeM.addDataToDB();
+        const check = await homeM.checkExistTable();
+        if (!check) {
+            await homeM.addDataToDB();
+        }
         const bestseller = await homeM.getBestseller(1);
         const news = await homeM.getNewarrival(1);
         const recommend = await homeM.getRecommend(1);
@@ -89,4 +93,37 @@ module.exports = {
         const data = await homeM.getRecommend(req.query.page);
         res.json({ success: data });
     },
+    profile: async (req, res) => {
+        const data = await accountM.getAccount(req.session.username);
+        const dbDate = data.dob;
+        const formattedDate = moment(dbDate).format("YYYY-MM-DD");
+        let theme = req.cookies.theme;
+        let dark = theme === "dark" ? true : false;
+        res.render("account/profile", {
+            title: "Profile",
+            home: true,
+            info: data,
+            dob: formattedDate,
+            dark: dark,
+        });
+    },
+    updateprofile: async (req, res) => {
+        try {
+            const { username, fullname, email, dob } = req.body;
+
+            const existingEmail = await accountM.getAllEmailsExceptUsername(username);
+
+            if (existingEmail.includes(req.body.email)) {
+                req.flash('errorEmail', 'Email đã tồn tại. Vui lòng chọn email khác!');
+                return res.redirect("/home/myProfile");
+            } else {
+                await accountM.updateMyProfile(username, fullname, email, dob);
+                req.flash("success", "Thay đổi thành công!");
+                return res.redirect("/home/myProfile");
+            }
+        } catch (error) {
+            console.error(error);
+            res.status(500).send("Internal Server Error");
+        }
+    }
 };
