@@ -139,6 +139,13 @@ module.exports = {
             PRIMARY KEY (id, size)
         )
         `);
+
+        await con.none(`
+        CREATE TABLE IF NOT EXISTS hot_search (
+            name TEXT, 
+            numsearch INTEGER DEFAULT 0
+        )
+        `);
         try {
             const AllProducts1 = data1.products.product;
             for (const product of AllProducts1) {
@@ -284,6 +291,43 @@ module.exports = {
             UPDATE products
             SET id_category = CAST(id_category AS INTEGER)
             `)
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    addHotSearch: async (name) => {
+        try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
+            con = await db.connect();
+            const getData = await con.any(`SELECT * FROM hot_search WHERE name = '${name}'`);
+            if (getData.length > 0) {
+                for (const temp of getData) {
+                    await con.none(`UPDATE hot_search SET numsearch = ${temp.numsearch + 1} WHERE name = '${name}'`);
+                    break;
+                }
+            } else {
+                await con.none(`INSERT INTO hot_search VALUES ('${name}', 1)`);
+            }
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getHotSearch: async () => {
+        try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
+            con = await db.connect();
+            const rs = await con.any(`SELECT * FROM hot_search ORDER BY numsearch LIMIT 8`);
+            return rs;
         } catch (error) {
             throw error;
         } finally {

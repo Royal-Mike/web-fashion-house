@@ -44,4 +44,11 @@ module.exports = class Home {
         const rs = await db.getFilterProducts(catalogue, typeProducts, typePrice, typeStars, gender, page);
         return rs;
     }
+    static async getHotSearch() {
+        const rs = await db.getHotSearch();
+        return rs;
+    }
+    static async addHotSearch(name) {
+        await db.addHotSearch(name);
+    }
 }

@@ -12,14 +12,9 @@
         <div id="hot-search" class="ps-3 fs-4">
             <p class="mt-3">Từ khóa nổi bật</p>
             <div>
-                <button type="button" class="btn border rounded-pill mt-2 me-1 fs-5">Áo thun</button>
-                <button type="button" class="btn border rounded-pill mt-2 me-1 fs-5">Áo khoác</button>
-                <button type="button" class="btn border rounded-pill mt-2 me-1 fs-5">Áo sơ mi</button>
-                <button type="button" class="btn border rounded-pill mt-2 me-1 fs-5">Áo khoác lông cừu</button>
-                <button type="button" class="btn border rounded-pill mt-2 me-1 fs-5">Áo phao</button>
-                <button type="button" class="btn border rounded-pill mt-2 me-1 fs-5">Quần tây</button>
-                <button type="button" class="btn border rounded-pill mt-2 me-1 fs-5">Quần short</button>
-                <button type="button" class="btn border rounded-pill mt-2 me-1 fs-5">Quần jeans</button>
+                {{#each hot_search}}
+                <button type="button" class="btn border rounded-pill mt-2 me-1 fs-5 search-hot-search">{{this.name}}</button>
+                {{/each}}
             </div>
         </div>
     </div>
@@ -33,7 +28,7 @@
                         <div style="width: 50%;">
                             <h5 class="card-title fs-4 text-dark">Sản phẩm</h5>
                             <p class="card-text fs-3 fw-bolder text-dark">Áo thời trang</p>
-                            <button type="button" class="btn rounded-pill btn-primary">Xem thêm</button>
+                            <button type="button" class="btn rounded-pill btn-primary more-pros">Xem thêm</button>
                         </div>
                         <div class="ps-1 mt-2" style="width: 50%;">
                             <img src="/imgs/search/t-shirt.webp" class="rounded mx-auto d-block" style="height: 100%; width: 100%; opacity: 0.9"
@@ -50,7 +45,7 @@
                         <div style="width: 50%;">
                             <h5 class="card-title fs-4 text-dark">Sản phẩm</h5>
                             <p class="card-text fs-3 fw-bolder text-dark">Quần thời trang</p>
-                            <button type="button" class="btn rounded-pill btn-primary">Xem thêm</button>
+                            <button type="button" class="btn rounded-pill btn-primary more-pros">Xem thêm</button>
                         </div>
                         <div class="ps-1 mt-2" style="width: 50%;">
                             <img src="/imgs/search/pants.webp" class="rounded mx-auto d-block" style="height: 100%; width: 100%; opacity: 0.8"
@@ -67,7 +62,7 @@
                         <div style="width: 50%;">
                             <h5 class="card-title fs-4 text-dark">Sản phẩm</h5>
                             <p class="card-text fs-3 fw-bolder text-dark">Giày thời trang</p>
-                            <button type="button" class="btn rounded-pill btn-primary">Xem thêm</button>
+                            <button type="button" class="btn rounded-pill btn-primary more-pros">Xem thêm</button>
                         </div>
                         <div class="ps-1 mt-1" style="width: 50%;">
                             <img src="/imgs/search/shoes.jpg" class="rounded mx-auto d-block" style="height: 100%; width: 100%; opacity: 0.8"
@@ -455,5 +450,14 @@
             const product_id = $(this).data('id');
             window.location.href = `/details?id=${product_id}`;
         });
+
+        $('.search-hot-search').on('click', function () {
+            const value = $(this).text();
+            window.location.href = `/relating-products?type=${value}&page=1`;
+        });
+
+        $('.more-pros').on('click', function () {
+            window.alert("Updating...We're so sorry about this!");
+        })
     });
 </script>
