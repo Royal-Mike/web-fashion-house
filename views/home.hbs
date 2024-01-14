@@ -6,12 +6,11 @@
 
 <div class="container-fluid d-flex flex-column align-items-center">
     <!-- Promo Poster -->
-    <img src="/3.jpg" class="border rounded img-fluid w-75 mx-auto d-block mt-3" alt="promo" loading="lazy" />
-    <hr>
+    <img src="/imgs/banner.png" class="border rounded img-fluid w-75 mx-auto d-block mt-3" alt="promo" loading="lazy" />
     <!-- Hot Search -->
     <div class="d-flex">
         <div id="hot-search" class="ps-3 fs-4">
-            <p>Từ khóa nổi bật</p>
+            <p class="mt-3">Từ khóa nổi bật</p>
             <div>
                 <button type="button" class="btn border rounded-pill mt-2 me-1 fs-5">Áo thun</button>
                 <button type="button" class="btn border rounded-pill mt-2 me-1 fs-5">Áo khoác</button>
@@ -83,42 +82,42 @@
     <ul class="list-group list-group-horizontal justify-content-center mb-2">
         <a href="/relating-products?type=giảm-giá&page=1" style="text-decoration: none;"
             class="text-center border rounded mx-2">
-            <li class="list-group-item fs-4 border border-0">Giảm giá</li>
+            <li class="list-group-item fs-5 border border-0">Giảm giá</li>
         </a>
         <a href="/relating-products?type=sản-phẩm-mới&page=1" style="text-decoration: none;"
             class="text-center border rounded mx-2">
-            <li class="list-group-item fs-4 border border-0">Sản phẩm mới</li>
+            <li class="list-group-item fs-5 border border-0">Sản phẩm mới</li>
         </a>
         <a href="/relating-products?type=nam&page=1" style="text-decoration: none;"
             class="text-center border rounded mx-2">
-            <li class="list-group-item fs-4 border border-0">Nam</li>
+            <li class="list-group-item fs-5 border border-0">Nam</li>
         </a>
         <a href="/relating-products?type=nữ&page=1" style="text-decoration: none;"
             class="text-center border rounded mx-2">
-            <li class="list-group-item fs-4 border border-0">Nữ</li>
+            <li class="list-group-item fs-5 border border-0">Nữ</li>
         </a>
         <a href="/relating-products?type=trẻ&page=1" style="text-decoration: none;"
             class="text-center border rounded mx-2">
-            <li class="list-group-item fs-4 border border-0">Trẻ</li>
+            <li class="list-group-item fs-5 border border-0">Trẻ</li>
         </a>
         <a href="/relating-products?type=em-bé&page=1" style="text-decoration: none;"
             class="text-center border rounded mx-2">
-            <li class="list-group-item fs-4 border border-0">Em bé</li>
+            <li class="list-group-item fs-5 border border-0">Em bé</li>
         </a>
         <a href="/relating-products?type=thể-thao&page=1" style="text-decoration: none;"
             class="text-center border rounded mx-2">
-            <li class="list-group-item fs-4 border border-0">Thể thao</li>
+            <li class="list-group-item fs-5 border border-0">Thể thao</li>
         </a>
     </ul>
 
     <!--Filter-->
-    <div>
-        <hr>
-        <h3>Bộ lọc sản phẩm</h3>
+    <div class="d-flex flex-column align-items-center">
+        <hr style="width:150%">
+        <h3 class="mb-3">Bộ lọc sản phẩm</h3>
         <form action="/relating-products">
             <div class="input-group mb-3 me-2">
-                <label class="input-group-text fs-4" for="catalogue">Danh mục</label>
-                <select class="form-select fs-4" id="catalogue" name="catalogue">
+                <label class="input-group-text fs-5" for="catalogue">Danh mục</label>
+                <select class="form-select fs-5" id="catalogue" name="catalogue">
                     <option selected value="Tất cả">Tất cả</option>
                     {{#each catalogue}}
                     <option value="{{this.category}}">{{this.category}}</option>
@@ -128,8 +127,8 @@
             <input type="text" value="1" name="page" class="d-none">
             <div class="d-flex">
                 <div class="input-group mb-3 me-2">
-                    <label class="input-group-text fs-4" for="typeProducts">Sản phẩm</label>
-                    <select class="form-select fs-4" id="typeProducts" name="typeProducts">
+                    <label class="input-group-text fs-5" for="typeProducts">Sản phẩm</label>
+                    <select class="form-select fs-5" id="typeProducts" name="typeProducts">
                         <option selected value="Tất cả">Tất cả</option>
                         <option value="1">Sản phẩm mới</option>
                         <option value="2">Sản phẩm có ưu đãi</option>
@@ -138,8 +137,8 @@
                 </div>
 
                 <div class="input-group mb-3 me-2">
-                    <label class="input-group-text fs-4" for="typePrice">Giá tiền</label>
-                    <select class="form-select fs-4" id="typePrice" name="typePrice">
+                    <label class="input-group-text fs-5" for="typePrice">Giá tiền</label>
+                    <select class="form-select fs-5" id="typePrice" name="typePrice">
                         <option selected value="Tất cả">Tất cả</option>
                         <option value="1">Dưới 50.000₫</option>
                         <option value="2">50.000 - 100.000₫</option>
@@ -152,8 +151,8 @@
                 </div>
 
                 <div class="input-group mb-3 me-2">
-                    <label class="input-group-text fs-4" for="typeStars">Đánh giá</label>
-                    <select class="form-select fs-4" id="typeStars" name="typeStars">
+                    <label class="input-group-text fs-5" for="typeStars">Đánh giá</label>
+                    <select class="form-select fs-5" id="typeStars" name="typeStars">
                         <option selected value="0">Tất cả</option>
                         <option value="1">1 ⭐</option>
                         <option value="2">2 ⭐</option>
@@ -164,15 +163,15 @@
                 </div>
 
                 <div class="input-group mb-3">
-                    <label class="input-group-text fs-4" for="gender">Dành cho</label>
-                    <select class="form-select fs-4" id="gender" name="gender">
+                    <label class="input-group-text fs-5" for="gender">Dành cho</label>
+                    <select class="form-select fs-5" id="gender" name="gender">
                         <option selected value="Tất cả">Tất cả</option>
                         <option value="Nam">Nam</option>
                         <option value="Nữ">Nữ</option>
                     </select>
                 </div>
             </div>
-            <button class="btn btn-primary fs-3" type="submit">Tìm kiếm</button>
+            <button class="btn btn-primary fs-5" type="submit">Tìm kiếm</button>
         </form>
     </div>
 

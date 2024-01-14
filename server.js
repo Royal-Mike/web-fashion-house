@@ -37,6 +37,7 @@ app.use(cookieParser(secret));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('./pic'))
+app.use('/imgs', express.static('./imgs'))
 app.use('/uploads', express.static('./uploads'))
 
 const multer = require('multer');
