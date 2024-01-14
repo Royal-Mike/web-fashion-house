@@ -14,6 +14,7 @@ module.exports = {
         const news = await homeM.getNewarrival(1);
         const recommend = await homeM.getRecommend(1);
         const catalogue = await homeM.getCategory();
+        const hot_search = await homeM.getHotSearch();
         res.render('home', {
             title: 'Home',
             home: true,
@@ -21,7 +22,8 @@ module.exports = {
             bestseller: bestseller,
             newarrival: news,
             recommend: recommend,
-            catalogue: catalogue
+            catalogue: catalogue,
+            hot_search
         })
     },
     getDataWithInput: async (req, res) => {
@@ -68,6 +70,9 @@ module.exports = {
         if (req.query.type || req.query.type === "") {
             allRs = await homeM.getRelatingPage(req.query.type, req.query.page);
             type = req.query.type;
+            if (req.query.type) {
+                await homeM.addHotSearch(req.query.type);
+            }
         } else {
             allRs = await homeM.getFilterProducts(req.query.catalogue, req.query.typeProducts, req.query.typePrice, req.query.typeStars, req.query.gender, req.query.page);
             type = req.query.catalogue;

@@ -58,7 +58,8 @@ module.exports = {
         res.render("payment/cart", {
             isEmptyCart: isEmptyCart,
             currentCart: currentCart,
-            dark: dark
+            dark: dark,
+            home: true
         });
     },
     increaseQuantity: (req, res) => {
