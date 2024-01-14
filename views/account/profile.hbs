@@ -1,6 +1,5 @@
 {{> css/profile}}
 {{> js/side-control}}
-<script src="/js/profile.js"></script>
 
 {{#if messages.success}}
 <div class="d-flex justify-content-end alert alert-success" role="alert">
@@ -10,31 +9,31 @@
 
 <div class="container-fluid">
     <div class="d-flex mt-3">
-        <div class="container border py-2 w-25" style="margin:0">
-            <div id="swap-info" class="d-flex align-items-center mb-3 side-button" style="cursor:pointer">
-                <i class="fa-solid fa-user me-2 text-info" style="width:20px"></i>
-                <p class="mb-0 text-info">Profile</p>
+        <div class="container border fs-5 py-2 w-25" style="margin:0">
+            <div id="swap-profile" class="d-flex align-items-center mb-3 side-button" style="cursor:pointer">
+                <i class="fa-solid fa-user me-3 text-info" style="width:20px"></i>
+                <p class="mb-0 text-info">Thông tin</p>
             </div>
             <div id="swap-address" class="d-flex align-items-center mb-3 side-button" style="cursor:pointer">
-                <i class="fa-solid fa-home me-2" style="width:20px"></i>
-                <p class="mb-0">Address</p>
+                <i class="fa-solid fa-home me-3" style="width:20px"></i>
+                <p class="mb-0">Địa chỉ</p>
             </div>
             <div id="swap-orders" class="d-flex align-items-center side-button" style="cursor:pointer">
-                <i class="fa-solid fa-shopping-cart me-2" style="width:20px"></i>
-                <p class="mb-0">Orders</p>
+                <i class="fa-solid fa-shopping-cart me-3" style="width:20px"></i>
+                <p class="mb-0">Đơn hàng</p>
             </div>
         </div>
         <div id="screen-profile" class="container border screen-info py-2">
-            <h4>My Profile</h4>
+            <h3>Thông tin</h3>
             <hr>
             <form action="/home/updateprofile" method="post" id="form">
                 <div class="input-group mb-3">
-                    <span class="input-group-text" style="width:15%" id="profile-username">Username</span>
+                    <span class="input-group-text" style="width:15%" id="profile-username">Tên tài khoản</span>
                     <input type="text" class="form-control" placeholder="Username" aria-label="Username" 
                         aria-describedby="profile-username" name="username" value="{{info.username}}" readonly>
                 </div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text" style="width:15%" id="profile-name">Name</span>
+                    <span class="input-group-text" style="width:15%" id="profile-name">Họ tên</span>
                     <input type="text" class="form-control" placeholder="Name" aria-label="Name"
                         aria-describedby="profile-name" value="{{info.fullname}}" name="fullname">
                 </div>
@@ -49,20 +48,20 @@
                 </div>
                 {{/if}}
                 <div class="input-group mb-3">
-                    <span class="input-group-text" style="width:15%" id="profile-dob">DOB</span>
+                    <span class="input-group-text" style="width:15%" id="profile-dob">Ngày sinh</span>
                     <input type="date" class="form-control" placeholder="DOB" aria-label="DOB"
                         aria-describedby="profile-dob" value="{{dob}}" name="dob">
                 </div>
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button class="btn btn-primary mx-2" type="submit">Update</button>
+                    <button class="btn btn-primary mx-2" type="submit">Cập nhật</button>
                 </div>
             </form>
         </div>
         <div id="screen-address" class="d-none container border screen-info py-2">
-            <h4>My Address</h4>
+            <h3>Địa chỉ</h3>
             <hr>
             <div class="d-flex align-items-center">
-                <div class="container">
+                <div class="container" style="margin-left: 0;">
                     <h5>Nguyễn Quang Tuấn</h5>
                     <p>Suite 907 3355 Medhurst Roads, Murphyside, FL 01609-9853</p>
                 </div>
@@ -71,8 +70,9 @@
             </div>
         </div>
         <div id="screen-orders" class="d-none container border screen-info py-2">
-            <h4>My Orders</h4>
+            <h3>Đơn hàng</h3>
             <hr>
         </div>
     </div>
+    <div style="height:30vh"></div>
 </div>
