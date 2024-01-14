@@ -1,17 +1,13 @@
-<div>
+<div class="mt-3">
     <div class="card mb-3 mx-auto" style="max-width: 1400px;">
         <div class="row g-0">
             <div class="col-md-4">
-                <img src="{{image}}" class="img-fluid rounded-start" alt="...">
+                <img src="{{image}}" class="img-fluid rounded-start" alt="..." style="height:100%">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h2 class="card-title text-info text-center fs-1">Chi tiết sản phẩm</h2>
-                    <p class="card-text fs-2">
-                        <span style="width: 14rem; display:inline-block">Tên sản phẩm: </span>
-                        <b>{{name}}</b>
-                    </p>
-                    <div class="d-flex fs-3 text-danger">
+                    <h2 class="card-title fs-1">{{name}}</h2>
+                    <div class="d-flex fs-6 text-danger">
                         <p class="me-3">
                             {{stars}}
                             <i class="fa-solid fa-star"></i>
@@ -29,30 +25,30 @@
                             {{sold}} Đã bán
                         </p>
                     </div>
-                    <p class="card-text fs-3">
+                    <p class="card-text fs-4">
                         <span style="width: 14rem; display:inline-block">Giá tiền: </span>
                         {{price}}₫ <span class="bg-success rounded text-warning p-1 ms-4"><i
                                 class="fa-solid fa-fire"></i>
                             {{offer}}</span>
                     </p>
-                    <p class="card-text fs-3">
+                    <p class="card-text fs-4">
                         <span style="width: 14rem; display:inline-block">Màu sắc: </span>
                         {{color}}
                     </p>
-                    <p class="card-text fs-3">
+                    <p class="card-text fs-4">
                         <span style="width: 14rem; display:inline-block">Ngày sản xuất: </span>
                         {{create}}
                     </p>
-                    <p class="card-text fs-3">
+                    <p class="card-text fs-4">
                         <span style="width: 14rem; display:inline-block">Nhãn hiệu: </span>
                         {{brand}}
                     </p>
-                    <p class="card-text fs-3">
+                    <p class="card-text fs-4">
                         <span style="width: 14rem; display:inline-block">Vận chuyển: </span>
                         <small class="text-body-secondary">🚛 Miễn phí vận chuyển toàn
                             quốc</small>
                     </p>
-                    <p class="card-text fs-3">Kích cỡ:
+                    <p class="card-text fs-4">Kích cỡ:
                     <div class="btn-group" role="group" aria-label="Vertical radio toggle button group">
                         <input type="radio" class="btn-check" value="XS" name="vbtn-radio" id="vbtn-radio1"
                             autocomplete="off" checked>
@@ -80,23 +76,23 @@
                         <label class="btn btn-outline-danger" for="vbtn-radio8" style="width: 6rem;">Freesize</label>
                     </div>
                     </p>
-                    <p class="card-text fs-3 d-flex mt-5">
+                    <p class="card-text fs-4 d-flex mt-5">
                         <span style="width: 14rem; display:inline-block">Số lượng: </span>
                         <span class="input-group ms-3 me-3" style="width: 9.8rem;">
-                            <button class="btn btn-outline-secondary fs-5" onclick="decreaseQuantity()" type="button"
+                            <button class="btn btn-outline-secondary fs-4" onclick="decreaseQuantity()" type="button"
                                 style="width: 3rem;"><i class="fa-solid fa-minus"></i></button>
-                            <input type="number" class="form-control" value="1" id="input-num-of-products">
-                            <button class="btn btn-outline-secondary fs-5" onclick="increaseQuantity()" type="button"
+                            <input type="number" class="form-control fs-4" value="1" id="input-num-of-products">
+                            <button class="btn btn-outline-secondary fs-4" onclick="increaseQuantity()" type="button"
                                 style="width: 3rem;"><i class="fa-solid fa-plus"></i></button>
                         </span>
                         {{numProducts}} sản phẩm sẵn có
                     </p>
 
                     <div class="d-flex mt-5">
-                        <a href="#" id="addToCart" class="btn border fs-1" role="button" data-bs-toggle="button"
+                        <a href="#" id="addToCart" class="btn border fs-3" role="button" data-bs-toggle="button"
                             style="background-color: rgb(214, 151, 34);"><i class="fa-solid fa-cart-plus"></i> Thêm vào
                             giỏ hàng</a>
-                        <a href="#" class="btn btn-danger ms-3 fs-1 border" role="button" data-bs-toggle="button">Mua
+                        <a href="#" class="btn btn-danger ms-3 fs-3 border" role="button" data-bs-toggle="button">Mua
                             ngay</a>
                     </div>
                 </div>
@@ -104,15 +100,15 @@
         </div>
     </div>
 
-    <div class="ms-5 me-5">
-        <h2 class="bg-secondary-subtle" style="line-height: 3rem;">MÔ TẢ SẢN PHẨM</h2>
+    <div class="m-5">
+        <h2 class="bg-secondary-subtle p-2 ps-3 mb-3 border rounded" style="line-height: 3rem;">MÔ TẢ SẢN PHẨM</h2>
         <div id="to-append-description" class="fs-4">
 
         </div>
     </div>
 
-    <div class="ms-5 me-5 mt-3">
-        <h2 class="bg-secondary-subtle" style="line-height: 3rem;">MÀU SẮC</h2>
+    <div class="m-5 mt-3">
+        <h2 class="bg-secondary-subtle p-2 ps-3 mb-3 border rounded" style="line-height: 3rem;">MÀU SẮC</h2>
         {{#if checkOtherColors}}
         <div class="row row-cols-1 row-cols-md-4 g-4">
             {{#each otherColorProducts}}
@@ -129,12 +125,12 @@
             {{/each}}
         </div>
         {{else}}
-        <p class="card-text fs-4 text-danger">Đang cập nhật ...</p>
+        <p class="card-text fs-4 text-danger">Đang cập nhật...</p>
         {{/if}}
     </div>
 
-    <div class="ms-5 me-5 mt-3">
-        <h2 class="bg-secondary-subtle" style="line-height: 3rem;">CÁC SẢN PHẨM LIÊN QUAN ({{cate}})</h2>
+    <div class="m-5 mt-3">
+        <h2 class="bg-secondary-subtle p-2 ps-3 mb-3 border rounded" style="line-height: 3rem;">CÁC SẢN PHẨM LIÊN QUAN ({{cate}})</h2>
         <div class="row row-cols-1 row-cols-md-6 g-4">
             {{#each relateProducts}}
             <div class="col" data-id="{{this.id}}" title="{{this.name}}">
@@ -246,8 +242,5 @@
             }
             return;
         }
-
-
-
     });
 </script>
