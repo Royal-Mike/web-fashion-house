@@ -37,6 +37,7 @@ app.use(cookieParser(secret));
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.static('./pic'))
+app.use('/imgs', express.static('./imgs'))
 app.use('/uploads', express.static('./uploads'))
 
 const multer = require('multer');
@@ -44,7 +45,7 @@ const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './uploads/products');
     },
-    filename: function(req, file, cb) {
+    filename: function (req, file, cb) {
         cb(null, file.fieldname + '-' + Date.now() + file.originalname.match(/\..*$/)[0]);
     }
 });
@@ -65,12 +66,12 @@ const multi_upload = multer({
 }).array('upload-product', 5);
 
 app.post('/upload', (req, res) => {
-    multi_upload(req, res, function(err) {
+    multi_upload(req, res, function (err) {
         if (err) {
             res.send(err.message).end();
             return;
         }
-        res.send({success: true, files: req.files});
+        res.send({ success: true, files: req.files });
     });
 });
 

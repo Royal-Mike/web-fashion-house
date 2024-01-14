@@ -1,4 +1,4 @@
-<section class="h-100 h-custom" style="background-color: #eee;">
+<section class="h-100 h-custom">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col">
@@ -8,14 +8,14 @@
                         <div class="row">
 
                             <div class="col-lg-7">
-                                <h5 class="mb-3"><a href="#!" class="text-body"><i
+                                <h5 class="mb-3"><a href="/home" class="text-body"><i
                                             class="fas fa-long-arrow-alt-left me-2"></i>Tiếp tục mua sắm</a></h5>
                                 <hr>
 
                                 <div class="d-flex justify-content-between align-items-center mb-4">
                                     <div>
                                         <p class="mb-1">Giỏ hàng</p>
-                                        <p class="mb-0">Bạn đang có 4 món hàng</p>
+                                        <p class="mb-0">Bạn đang có <strong>{{totalQuantity}}</strong> món hàng</p>
                                     </div>
                                     <div>
                                         <p class="mb-0"><span class="text-muted">Sắp xếp theo:</span> <a href="#!"
@@ -24,117 +24,35 @@
                                     </div>
                                 </div>
 
+                                {{#each cart}}
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <div class="d-flex justify-content-between">
                                             <div class="d-flex flex-row align-items-center">
                                                 <div>
-                                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                                                        class="img-fluid rounded-3" alt="Shopping item"
+                                                    <img src={{images}} class="img-fluid rounded-3" alt="Shopping item"
                                                         style="width: 65px;">
                                                 </div>
                                                 <div class="ms-3">
-                                                    <h5>Iphone 11 pro</h5>
-                                                    <p class="small mb-0">256GB, Navy Blue</p>
+                                                    <h5>{{name}}</h5>
+                                                    <p class="small mb-0">{{color}}</p>
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-row align-items-center">
                                                 <div style="width: 50px;">
-                                                    <h5 class="fw-normal mb-0">2</h5>
+                                                    <h5 id="quantity_{{id}}" class="fw-normal mb-0">{{quantity}}</h5>
                                                 </div>
                                                 <div style="width: 80px;">
-                                                    <h5 class="mb-0">$900</h5>
+                                                    <h5 class="mb-0 total_price">{{total_price}} $</h5>
                                                 </div>
-                                                <a href="#!" style="color: #cecece;"><i
-                                                        class="fas fa-trash-alt"></i></a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div>
-                                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img2.webp"
-                                                        class="img-fluid rounded-3" alt="Shopping item"
-                                                        style="width: 65px;">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h5>Samsung galaxy Note 10 </h5>
-                                                    <p class="small mb-0">256GB, Navy Blue</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div style="width: 50px;">
-                                                    <h5 class="fw-normal mb-0">2</h5>
-                                                </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0">$900</h5>
-                                                </div>
-                                                <a href="#!" style="color: #cecece;"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                {{/each}}
 
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div>
-                                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img3.webp"
-                                                        class="img-fluid rounded-3" alt="Shopping item"
-                                                        style="width: 65px;">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h5>Canon EOS M50</h5>
-                                                    <p class="small mb-0">Onyx Black</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div style="width: 50px;">
-                                                    <h5 class="fw-normal mb-0">1</h5>
-                                                </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0">$1199</h5>
-                                                </div>
-                                                <a href="#!" style="color: #cecece;"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="card mb-3 mb-lg-0">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between">
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div>
-                                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img4.webp"
-                                                        class="img-fluid rounded-3" alt="Shopping item"
-                                                        style="width: 65px;">
-                                                </div>
-                                                <div class="ms-3">
-                                                    <h5>MacBook Pro</h5>
-                                                    <p class="small mb-0">1TB, Graphite</p>
-                                                </div>
-                                            </div>
-                                            <div class="d-flex flex-row align-items-center">
-                                                <div style="width: 50px;">
-                                                    <h5 class="fw-normal mb-0">1</h5>
-                                                </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0">$1799</h5>
-                                                </div>
-                                                <a href="#!" style="color: #cecece;"><i
-                                                        class="fas fa-trash-alt"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
                             <div class="col-lg-5">
@@ -197,22 +115,22 @@
 
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Tổng cộng</p>
-                                            <p class="mb-2">$4798.00</p>
+                                            <p class="mb-2">{{checkout_price}}$</p>
                                         </div>
 
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Phí vận chuyển</p>
-                                            <p class="mb-2">$20.00</p>
+                                            <p class="mb-2">{{shipCost}}$</p>
                                         </div>
 
                                         <div class="d-flex justify-content-between mb-4">
                                             <p class="mb-2">Tổng cộng(Bao gồm thuế)</p>
-                                            <p class="mb-2">$4818.00</p>
+                                            <p class="mb-2">{{overall}}$</p>
                                         </div>
 
                                         <button type="button" class="btn btn-info btn-block btn-lg">
                                             <div class="d-flex justify-content-between">
-                                                <span>$4818.00</span>
+                                                <span>{{overall}}$ </span>
                                                 <span>Đặt hàng <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
                                             </div>
                                         </button>
@@ -230,3 +148,7 @@
         </div>
     </div>
 </section>
+
+<script>
+
+</script>

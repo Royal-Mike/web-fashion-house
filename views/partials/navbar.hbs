@@ -1,7 +1,16 @@
 <nav class="navbar fixed-top navbar-expand-lg bg-body-tertiary mb-5">
-    <div class="container-fluid py-2">
-        <a class="m-0 fs-1" style="font-family: Rouge; text-decoration: none; color: initial"
-            href="/home">Fashion House</a>
+    <div class="container-fluid py-1">
+        <div class="d-flex">
+            <a class="m-0 fs-1" style="font-family: Rouge; text-decoration: none; color: initial" href="/home">Fashion
+                House</a>
+            <div class="form-check form-switch p-0" style="margin-top:0.8rem">
+                <input class="form-check-input fs-4 ms-3 me-2" type="checkbox" role="switch" id="sw-theme" {{#if dark}} checked
+                    {{/if}} style="cursor:pointer" />
+                <label for="sw-theme" class="form-check-label">
+                    <i class="fa-solid {{#if dark}} fa-moon {{else}} fa-sun {{/if}} fs-2"></i>
+                </label>
+            </div>
+        </div>
         {{#if home}}
         <div style="position: relative;">
             <form action="/relating-products" class="d-flex" role="search">
@@ -13,29 +22,27 @@
             </form>
             <div id="get-products-with-input" class="bg-black"
                 style="position: absolute; z-index: 3; overflow: auto; height: 48rem">
-
             </div>
         </div>
+        <button id="cartButton" class="btn btn-outline-warning fs-4"> <i class="fa-solid fa-cart-shopping"></i>
+            <strong>GIỎ HÀNG</strong></button>
         {{/if}}
+
         <div class="form-check form-switch">
-            <input class="form-check-input fs-4" type="checkbox" role="switch" id="sw-theme" {{#if dark}} checked
-                {{/if}} style="cursor:pointer" />
-            <label for="sw-theme" class="form-check-label">
-                <i class="fa-solid {{#if dark}} fa-moon {{else}} fa-sun {{/if}} fs-2"></i>
-            </label>
             {{#if home}}
             <label>
                 <form action="/home/myProfile" method="get">
-                    <button type="submit" title="Profile" style="position: relative; bottom: 3px; border: 0; background: transparent; font-size: 25px">
-                        <i class="fa-solid fa-user"></i>
+                    <button type="submit" title="Profile"
+                        style="position: relative; border: 0; background: transparent; font-size: 25px">
+                        <i class="fa-solid fa-user fs-2"></i>
                     </button>
                 </form>
             </label>
-
             <label>
                 <form action="/logout" method="get">
-                    <button type="submit" title="Đăng xuất" style="position: relative; bottom: 3px; border: 0; background: transparent; font-size: 25px">
-                        <i class="fa-solid fa-right-to-bracket"></i>
+                    <button type="submit" title="Đăng xuất"
+                        style="position: relative; border: 0; background: transparent; font-size: 25px">
+                        <i class="fa-solid fa-right-to-bracket fs-2"></i>
                     </button>
                 </form>
             </label>
@@ -155,6 +162,9 @@
             } else {
                 $('#get-products-with-input').empty();
             }
+        })
+        $("#cartButton").on("click", function () {
+            window.location.href = `/cart`;
         })
     });
 </script>

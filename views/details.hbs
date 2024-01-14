@@ -1,17 +1,13 @@
-<div>
+<div class="mt-3">
     <div class="card mb-3 mx-auto" style="max-width: 1400px;">
         <div class="row g-0">
             <div class="col-md-4">
-                <img src="{{image}}" class="img-fluid rounded-start" alt="...">
+                <img src="{{image}}" class="img-fluid rounded-start" alt="..." style="height:100%">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h2 class="card-title text-info text-center fs-1">Chi tiết sản phẩm</h2>
-                    <p class="card-text fs-2">
-                        <span style="width: 14rem; display:inline-block">Tên sản phẩm: </span>
-                        <b>{{name}}</b>
-                    </p>
-                    <div class="d-flex fs-3 text-danger">
+                    <h2 class="card-title fs-1">{{name}}</h2>
+                    <div class="d-flex fs-6 text-danger">
                         <p class="me-3">
                             {{stars}}
                             <i class="fa-solid fa-star"></i>
@@ -29,67 +25,74 @@
                             {{sold}} Đã bán
                         </p>
                     </div>
-                    <p class="card-text fs-3">
+                    <p class="card-text fs-4">
                         <span style="width: 14rem; display:inline-block">Giá tiền: </span>
                         {{price}}₫ <span class="bg-success rounded text-warning p-1 ms-4"><i
                                 class="fa-solid fa-fire"></i>
                             {{offer}}</span>
                     </p>
-                    <p class="card-text fs-3">
+                    <p class="card-text fs-4">
                         <span style="width: 14rem; display:inline-block">Màu sắc: </span>
                         {{color}}
                     </p>
-                    <p class="card-text fs-3">
+                    <p class="card-text fs-4">
                         <span style="width: 14rem; display:inline-block">Ngày sản xuất: </span>
                         {{create}}
                     </p>
-                    <p class="card-text fs-3">
+                    <p class="card-text fs-4">
                         <span style="width: 14rem; display:inline-block">Nhãn hiệu: </span>
                         {{brand}}
                     </p>
-                    <p class="card-text fs-3">
+                    <p class="card-text fs-4">
                         <span style="width: 14rem; display:inline-block">Vận chuyển: </span>
                         <small class="text-body-secondary">🚛 Miễn phí vận chuyển toàn
                             quốc</small>
                     </p>
-                    <p class="card-text fs-3">Kích cỡ:
+                    <p class="card-text fs-4">Kích cỡ:
                     <div class="btn-group" role="group" aria-label="Vertical radio toggle button group">
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off"
-                            checked>
+                        <input type="radio" class="btn-check" value="XS" name="vbtn-radio" id="vbtn-radio1"
+                            autocomplete="off" checked>
                         <label class="btn btn-outline-danger" for="vbtn-radio1" style="width: 6rem;">XS</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+                        <input type="radio" class="btn-check" value="S" name="vbtn-radio" id="vbtn-radio2"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio2" style="width: 6rem;">S</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
+                        <input type="radio" class="btn-check" value="M" name="vbtn-radio" id="vbtn-radio3"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio3" style="width: 6rem;">M</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
+                        <input type="radio" class="btn-check" value="L" name="vbtn-radio" id="vbtn-radio4"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio4" style="width: 6rem;">L</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio5" autocomplete="off">
+                        <input type="radio" class="btn-check" value="XL" name="vbtn-radio" id="vbtn-radio5"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio5" style="width: 6rem;">XL</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio6" autocomplete="off">
+                        <input type="radio" class="btn-check" value="XXL" name="vbtn-radio" id="vbtn-radio6"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio6" style="width: 6rem;">XXL</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio7" autocomplete="off">
+                        <input type="radio" class="btn-check" value="XXXL" name="vbtn-radio" id="vbtn-radio7"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio7" style="width: 6rem;">XXXL</label>
-                        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio8" autocomplete="off">
+                        <input type="radio" class="btn-check" value="freesize" name="vbtn-radio" id="vbtn-radio8"
+                            autocomplete="off">
                         <label class="btn btn-outline-danger" for="vbtn-radio8" style="width: 6rem;">Freesize</label>
                     </div>
                     </p>
-                    <p class="card-text fs-3 d-flex mt-5">
+                    <p class="card-text fs-4 d-flex mt-5">
                         <span style="width: 14rem; display:inline-block">Số lượng: </span>
                         <span class="input-group ms-3 me-3" style="width: 9.8rem;">
-                            <button class="btn btn-outline-secondary fs-5" type="button" style="width: 3rem;"><i
-                                    class="fa-solid fa-minus"></i></button>
-                            <input type="number" class="form-control" value="1" id="input-num-of-products">
-                            <button class="btn btn-outline-secondary fs-5" type="button" style="width: 3rem;"><i
-                                    class="fa-solid fa-plus"></i></button>
+                            <button class="btn btn-outline-secondary fs-4" onclick="decreaseQuantity()" type="button"
+                                style="width: 3rem;"><i class="fa-solid fa-minus"></i></button>
+                            <input type="number" class="form-control fs-4" value="1" id="input-num-of-products">
+                            <button class="btn btn-outline-secondary fs-4" onclick="increaseQuantity()" type="button"
+                                style="width: 3rem;"><i class="fa-solid fa-plus"></i></button>
                         </span>
                         {{numProducts}} sản phẩm sẵn có
                     </p>
 
                     <div class="d-flex mt-5">
-                        <a href="#" id="addToCart" class="btn border fs-1" role="button" data-bs-toggle="button"
+                        <a href="#" id="addToCart" class="btn border fs-3" role="button" data-bs-toggle="button"
                             style="background-color: rgb(214, 151, 34);"><i class="fa-solid fa-cart-plus"></i> Thêm vào
                             giỏ hàng</a>
-                        <a href="#" class="btn btn-danger ms-3 fs-1 border" role="button" data-bs-toggle="button">Mua
+                        <a href="#" class="btn btn-danger ms-3 fs-3 border" role="button" data-bs-toggle="button">Mua
                             ngay</a>
                     </div>
                 </div>
@@ -97,15 +100,15 @@
         </div>
     </div>
 
-    <div class="ms-5 me-5">
-        <h2 class="bg-secondary-subtle" style="line-height: 3rem;">MÔ TẢ SẢN PHẨM</h2>
+    <div class="m-5">
+        <h2 class="bg-secondary-subtle p-2 ps-3 mb-3 border rounded" style="line-height: 3rem;">MÔ TẢ SẢN PHẨM</h2>
         <div id="to-append-description" class="fs-4">
 
         </div>
     </div>
 
-    <div class="ms-5 me-5 mt-3">
-        <h2 class="bg-secondary-subtle" style="line-height: 3rem;">MÀU SẮC</h2>
+    <div class="m-5 mt-3">
+        <h2 class="bg-secondary-subtle p-2 ps-3 mb-3 border rounded" style="line-height: 3rem;">MÀU SẮC</h2>
         {{#if checkOtherColors}}
         <div class="row row-cols-1 row-cols-md-4 g-4">
             {{#each otherColorProducts}}
@@ -122,12 +125,12 @@
             {{/each}}
         </div>
         {{else}}
-        <p class="card-text fs-4 text-danger">Đang cập nhật ...</p>
+        <p class="card-text fs-4 text-danger">Đang cập nhật...</p>
         {{/if}}
     </div>
 
-    <div class="ms-5 me-5 mt-3">
-        <h2 class="bg-secondary-subtle" style="line-height: 3rem;">CÁC SẢN PHẨM LIÊN QUAN ({{cate}})</h2>
+    <div class="m-5 mt-3">
+        <h2 class="bg-secondary-subtle p-2 ps-3 mb-3 border rounded" style="line-height: 3rem;">CÁC SẢN PHẨM LIÊN QUAN ({{cate}})</h2>
         <div class="row row-cols-1 row-cols-md-6 g-4">
             {{#each relateProducts}}
             <div class="col" data-id="{{this.id}}" title="{{this.name}}">
@@ -137,10 +140,12 @@
                         <h5 class="card-title">{{this.name}}</h5>
                         <p class="card-text">
                             <span style="width: 5rem; display: inline-block" class="text-info">{{this.newPrice}}₫</span>
-                            <span class="rounded p-1 ms-2" style="background-color: rgb(232, 72, 63); color: rgb(223, 243, 0)"><i class="fa-solid fa-fire"></i>
+                            <span class="rounded p-1 ms-2"
+                                style="background-color: rgb(232, 72, 63); color: rgb(223, 243, 0)"><i
+                                    class="fa-solid fa-fire"></i>
                                 {{this.sale}}</span>
                         </p>
-                        <div {{#if dark}}style="color: yellow;"{{else}}class="text-danger"{{/if}}>
+                        <div {{#if dark}}style="color: yellow;" {{else}}class="text-danger" {{/if}}>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
                             <i class="fa-solid fa-star"></i>
@@ -161,6 +166,20 @@
         {{else}}
         <div class="mb-3"></div>
         {{/if}}
+    </div>
+
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="addToCartNotification" class="toast fade" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <img src="..." class="rounded me-2" alt="...">
+                <strong class="me-auto">Bootstrap</strong>
+                <small>11 mins ago</small>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                Sản phẩm "<strong>{{name}}</strong>" đã được thêm vào giỏ hàng của bạn!
+            </div>
+        </div>
     </div>
 </div>
 
@@ -192,8 +211,36 @@
         });
         // add item to cart
         $('#addToCart').on('click', function () {
+            let quantity = parseInt($("#input-num-of-products").val());
+            let numProducts = `{{numProducts}}`;
+            if (quantity > numProducts) {
+                alert(`Số hàng còn của sản phẩm này dưới ${quantity}!`);
+                return;
+            }
             let id = '{{id}}';
-            window.location.href = `/cart/addToCart?id=${id}`;
+            const sizeButtons = document.getElementsByName("vbtn-radio");
+            let selectedSize;
+            for (const sizeButton of sizeButtons) {
+                if (sizeButton.checked) {
+                    selectedSize = sizeButton.value;
+                }
+            }
+            alert(`Sản phẩm \"${'{{name}}'.trim()}\" đã được thêm vào giỏ hàng của bạn!`);
+            window.location.href = `/cart/addToCart?id=${id}&size=${selectedSize}`;
         });
+
+        increaseQuantity = () => {
+            let quantity = parseInt($("#input-num-of-products").val());
+            $("#input-num-of-products").val(quantity + 1);
+            return;
+        }
+
+        decreaseQuantity = () => {
+            let quantity = parseInt($("#input-num-of-products").val());
+            if (quantity > 1) {
+                $("#input-num-of-products").val(quantity - 1);
+            }
+            return;
+        }
     });
 </script>
