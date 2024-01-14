@@ -41,16 +41,24 @@ module.exports = {
         res.redirect(`http://localhost:3000/details?id=${product_id}`);
     },
     cartPage: (req, res) => {
+        let theme = req.cookies.theme;
+        let dark = theme === "dark" ? true : false;
         // console.log(req.session);
+
         let currentCart = req.session.cart || [];
         let isEmptyCart = false;
         if (currentCart.length === 0) {
             isEmptyCart = true;
         }
-        // console.log(currentCart);
+
+        currentCart.forEach(product => {
+            product.images = product.images[0];
+        });
+
         res.render("payment/cart", {
             isEmptyCart: isEmptyCart,
             currentCart: currentCart,
+            dark: dark
         });
     },
     increaseQuantity: (req, res) => {

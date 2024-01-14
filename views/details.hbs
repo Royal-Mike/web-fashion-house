@@ -181,7 +181,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
-                You just added <strong>{{name}}</strong> to your cart
+                Sản phẩm "<strong>{{name}}</strong>" đã được thêm vào giỏ hàng của bạn!
             </div>
         </div>
     </div>
@@ -218,7 +218,7 @@
             let quantity = parseInt($("#input-num-of-products").val());
             let numProducts = `{{numProducts}}`;
             if (quantity > numProducts) {
-                alert(`Number of this products is currently under ${quantity}`);
+                alert(`Số hàng còn của sản phẩm này dưới ${quantity}!`);
                 return;
             }
             let id = '{{id}}';
@@ -229,7 +229,7 @@
                     selectedSize = sizeButton.value;
                 }
             }
-            alert("You just added {{name}} to your cart");
+            alert(`Sản phẩm \"${'{{name}}'.trim()}\" đã được thêm vào giỏ hàng của bạn!`);
             window.location.href = `/cart/addToCart?id=${id}&size=${selectedSize}`;
         });
 

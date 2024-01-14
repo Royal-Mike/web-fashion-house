@@ -1,6 +1,9 @@
 
 module.exports = {
     checkOutPage: (req, res) => {
+        let theme = req.cookies.theme;
+        let dark = theme === "dark" ? true : false;
+
         const cart = req.session.cart;
         const shipCost = 20;
         // console.log(cart);
@@ -15,6 +18,7 @@ module.exports = {
             shipCost: shipCost,
             overall: checkout_price * shipCost,
             totalQuantity: cart.length,
+            dark: dark
         });
     }
 }
