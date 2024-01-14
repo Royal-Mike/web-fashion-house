@@ -48,7 +48,7 @@ module.exports = {
         res.send('success');
     },
     deleteCat: async (req, res) => {
-        await catalogueM.deleteCat(req.body.id);
+        await catalogueM.deleteCat(req.body.id_category);
         res.send('success');
     },
     getPro: async (req, res) => {

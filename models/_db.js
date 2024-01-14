@@ -888,8 +888,8 @@ module.exports = {
             db = pgp(cn);
             con = await db.connect();
             if (tbName !== "accounts") {
-                const rs = await con.one(`SELECT MAX(id) FROM ${tbName}`);
-                obj.id = rs.max + 1;
+                const rs = await con.one(`SELECT MAX(${tbName === "catalogue" ? "id_category" : "id"}) FROM ${tbName}`);
+                obj.id_category = rs.max + 1;
             }
             let sql = pgp.helpers.insert(obj, null, tbName);
             await con.none(sql);
@@ -967,7 +967,7 @@ module.exports = {
         let con = null;
         try {
             con = await db.connect();
-            const condition = pgp.as.format(' WHERE id = ${id}', data);
+            const condition = pgp.as.format(' WHERE id_category = ${id_category}', data);
             let sql = pgp.helpers.update(data, ['category'], 'catalogue') + condition;
             await con.none(sql);
             return 1;

@@ -3,7 +3,7 @@ const table = 'catalogue';
 
 module.exports = class Catalogue {
     constructor(data) {
-        this.id = data.id;
+        this.id_category = data.id_category;
         this.category = data.category;
     }
     static async updateCat(data) {
@@ -15,7 +15,7 @@ module.exports = class Catalogue {
         return rs;
     }
     static async deleteCat(id) {
-        const rs = await db.delete(table, "id", id);
+        const rs = await db.delete(table, "id_category", id);
         return rs;
     }
 }

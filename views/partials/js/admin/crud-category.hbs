@@ -102,7 +102,7 @@
 
         // CRUD - Update
         $("#update-edit-cat").on("click", function() {
-            let catUpdate = {id: catCur.id};
+            let catUpdate = {id_category: catCur.id_category};
             for (const key in catCur) {
                 if (!fields.includes(key)) continue;
                 catUpdate[key] = $(`#cat-${key}`).next().val();
@@ -137,7 +137,7 @@
                 type: 'POST',
                 url: '/admin/delcat',
                 data: {
-                    id: catCur.id
+                    id_category: catCur.id_category
                 },
                 success: function(result) {
                     alert('Xóa danh mục thành công!');
