@@ -889,9 +889,11 @@ module.exports = {
             con = await db.connect();
             if (tbName !== "accounts") {
                 const rs = await con.one(`SELECT MAX(${tbName === "catalogue" ? "id_category" : "id"}) FROM ${tbName}`);
-                obj.id_category = rs.max + 1;
+                if (tbName === "catalogue") obj.id_category = rs.max + 1;
+                else obj.id = rs.max + 1;
             }
             let sql = pgp.helpers.insert(obj, null, tbName);
+            console.log(sql);
             await con.none(sql);
             return 1;
         } catch (error) {
@@ -913,7 +915,7 @@ module.exports = {
                 rs = await con.any(`SELECT A.*, COUNT(B.id_category) AS amount FROM catalogue A LEFT JOIN products B ON A.id_category = B.id_category::int GROUP BY A.id_category, A.category ORDER BY id_category`);
             }
             else if (tbName === "products") {
-                rs = await con.any(`SELECT A.*, B.category AS categoryname FROM products A LEFT JOIN catalogue B ON A.id_category::int = B.id_category ORDER BY A.id_category`);
+                rs = await con.any(`SELECT A.*, B.category AS categoryname FROM products A LEFT JOIN catalogue B ON A.id_category::int = B.id_category ORDER BY A.id_category, A.id`);
             }
             else {
                 rs = await con.any(`SELECT * FROM "${tbName}" ORDER BY ${order}`);
@@ -984,7 +986,7 @@ module.exports = {
         try {
             con = await db.connect();
             const condition = pgp.as.format(' WHERE id = ${id}', data);
-            let sql = pgp.helpers.update(data, ['name', 'create_date', 'brand', 'color', 'images', 'price', 'description', 'sale', 'for', 'category'], 'products') + condition;
+            let sql = pgp.helpers.update(data, ['name', 'create_date', 'brand', 'color', 'images', 'price', 'description', 'sale', 'for', 'id_category'], 'products') + condition;
             await con.none(sql);
             return 1;
         } catch (error) {

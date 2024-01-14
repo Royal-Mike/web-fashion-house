@@ -3,7 +3,7 @@ const table = 'products';
 
 module.exports = class Product {
     constructor(data) {
-        this.id = data.id;
+        this.id = Number(data.id);
         this.name = data.name;
         this.create_date = data.create_date;
         this.brand = data.brand;
@@ -13,7 +13,7 @@ module.exports = class Product {
         this.description = data.description;
         this.sale = data.sale;
         this.for = data.for;
-        this.category = data.category;
+        this.id_category = data.id_category;
     }
     static async updatePro(data) {
         const rs = await db.updatePro(data);
