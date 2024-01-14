@@ -47,6 +47,16 @@
                 </form>
             </label>
             {{/if}}
+            {{#if admin}}
+            <label>
+                <form action="/logout" method="get">
+                    <button type="submit" title="Đăng xuất"
+                        style="position: relative; border: 0; background: transparent; font-size: 25px">
+                        <i class="fa-solid fa-right-to-bracket fs-2"></i>
+                    </button>
+                </form>
+            </label>
+            {{/if}}
         </div>
     </div>
 </nav>
