@@ -730,6 +730,7 @@ module.exports = {
             let getCatalogue = catalogue === 'Tất cả' ? '%%' : catalogue;
             let getTypeProducts1;
             let getTypeProducts2;
+            let getSold = 0;
             if (typeProducts === 'Tất cả') {
                 getTypeProducts1 = '%';
                 getTypeProducts2 = '%';
@@ -740,7 +741,9 @@ module.exports = {
                 getTypeProducts1 = '-%';
                 getTypeProducts2 = '1%';
             } else if (typeProducts === '3') {
-
+                getSold = 800;
+                getTypeProducts1 = '%';
+                getTypeProducts2 = '%';
             }
             let getTypePrice1;
             let getTypePrice2;
@@ -776,8 +779,9 @@ module.exports = {
                 SELECT * FROM products
                 LEFT JOIN catalogue AS cata ON products.id_category::INTEGER = cata.id_category
             ) AS change
-            WHERE category LIKE $1 AND (sale LIKE $2 OR sale LIKE $3) AND price * 23000 >= $4 AND price * 23000 < $5 AND stars >= $6 AND stars < $7 AND "for" LIKE $8
-            `, [getCatalogue, getTypeProducts1, getTypeProducts2, getTypePrice1, getTypePrice2, parseInt(typeStars), parseInt(typeStars) + 1, gender]);
+            WHERE category LIKE $1 AND (sale LIKE $2 OR sale LIKE $3) AND price * 23000 >= $4 AND price * 23000 < $5 AND stars >= $6 AND stars < $7 AND "for" LIKE $8 AND sold > $9
+            ORDER BY sold
+            `, [getCatalogue, getTypeProducts1, getTypeProducts2, getTypePrice1, getTypePrice2, parseInt(typeStars), parseInt(typeStars) + 1, gender, getSold]);
             const length = rs.length;
             const startIndex = (page - 1) * 24;
             const endIndex = startIndex + 24;
