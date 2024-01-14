@@ -79,5 +79,27 @@ module.exports = {
 			throw error;
 		}
 	},
+	forgetpw: async (req, res, next) => {
+		try {
+			const email = req.body.email;
+			const un = req.body.username;
+
+			const user = await accountM.getAccount(un);
+
+			if (user === null) {
+				req.flash("errorUser", "Tên người dùng không tồn tại. Vui lòng chọn tên khác!");
+				req.flash('emailValue', email);
+				return res.redirect('/forget');
+			} else if(user.email != email) {
+				req.flash('unValue', un);
+				req.flash("errorEmail", "Email không khớp với tên tài khoản!");
+				return res.redirect('/forget');
+			}
+			res.redirect("/");
+
+		} catch (error) {
+			throw error;
+		}
+	}
 };
 
