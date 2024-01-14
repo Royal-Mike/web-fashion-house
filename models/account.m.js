@@ -38,4 +38,8 @@ module.exports = class Account {
 		const rs = await db.update(table, fn, email, dob, un);
 		return rs;
 	}
+	static async resetPass(pw, un) {
+		const rs = await db.resetpw(table, pw, un);
+		return rs;
+	}
 };
