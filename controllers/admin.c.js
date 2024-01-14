@@ -18,6 +18,8 @@ module.exports = {
         const pages_p = Math.ceil(products.length / 100);
         const pages_u = Math.ceil(users.length / 10);
 
+        const orders = await adminM.getAllOrders();
+
         function makeArray(pages) {
             return [...Array(pages + 1).keys()].slice(1)
         }
@@ -27,6 +29,7 @@ module.exports = {
             dark: dark,
             admin: true,
             catalogues: catalogues,
+            orders: orders,
             pages_c: makeArray(pages_c),
             pages_p: makeArray(pages_p),
             pages_u: makeArray(pages_u)

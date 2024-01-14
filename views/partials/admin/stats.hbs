@@ -33,30 +33,25 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Khách hàng</th>
+                            <th scope="col">Sản phẩm</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Tổng giá</th>
+                            <th scope="col">Ngày tạo</th>
                             </tr>
                         </thead>
                         <tbody>
+                            {{#each orders}}
                             <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                                <th scope="row">{{id}}</th>
+                                <td>{{customer}}</td>
+                                <td>{{products_id}}</td>
+                                <td>{{quantity}}</td>
+                                <td>{{price}}</td>
+                                <td>{{order_date}}</td>
                             </tr>
-                            <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            </tr>
-                            <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                            </tr>
+                            {{/each}}
                         </tbody>
                     </table>
                 </div>
