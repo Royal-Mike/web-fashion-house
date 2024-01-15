@@ -230,7 +230,7 @@
                 }
             }
             alert("You just added {{name}} to your cart");
-            window.location.href = `/cart/addToCart?id=${id}&size=${selectedSize}`;
+            window.location.href = `/cart/addToCart?id=${id}&size=${selectedSize}&quantity=${quantity}`;
         });
 
         increaseQuantity = () => {
