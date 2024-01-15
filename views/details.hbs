@@ -226,7 +226,7 @@
                 }
             }
             alert(`Sản phẩm \"${'{{name}}'.trim()}\" đã được thêm vào giỏ hàng của bạn!`);
-            window.location.href = `/cart/addToCart?id=${id}&size=${selectedSize}`;
+            window.location.href = `/cart/addToCart?id=${id}&size=${selectedSize}&quantity=${quantity}`;
         });
 
         increaseQuantity = () => {

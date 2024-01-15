@@ -4,6 +4,7 @@ module.exports = {
     addToCart: async (req, res) => {
         const product_id = req.query.id;
         const size = req.query.size;
+        const quantity = req.query.quantity;
         console.log(req.query);
         // console.log(product_id);
         if (!req.session.cart) {
@@ -19,7 +20,7 @@ module.exports = {
             } else {
                 try {
                     const product = await cartM.get(product_id);
-                    product.quantity = 1;
+                    product.quantity = quantity;
                     product.size = size;
                     product.total_price = (product.quantity * product.price).toFixed(2);
                     req.session.cart.push(product);
@@ -30,7 +31,7 @@ module.exports = {
         } else {
             try {
                 const product = await cartM.get(product_id);
-                product.quantity = 1;
+                product.quantity = quantity;
                 product.size = size;
                 product.total_price = (product.quantity * product.price).toFixed(2);
                 req.session.cart.push(product);
@@ -73,7 +74,8 @@ module.exports = {
         }
         req.session.cart = currentCart;
         // console.log(currentCart);
-        res.redirect("/cart");
+        // res.redirect("/cart");
+        res.json({ rs: currentCart });
     },
     decreaseQuantity: (req, res) => {
         let currentCart = req.session.cart;
