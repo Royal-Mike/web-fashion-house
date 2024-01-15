@@ -55,7 +55,7 @@ async function sendMail() {
 		  <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">Fashion House</a>
 		</div>
 		<p style="font-size:1.1em">Chào bạn,</p>
-		<p>Cảm ơn đã chọn Fashion House. Hãy dùng OTP này để thiết lập lại mật khẩu tài khoản của bạn. OTP có hiệu lực trong vòng 5 phút</p>
+		<p>Cảm ơn đã chọn Fashion House. Hãy dùng OTP này để thiết lập lại mật khẩu tài khoản của bạn.</p>
 		<h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${otp}</h2>
 		<p style="font-size:0.9em;">Trân trọng,<br />Fashion House</p>
 		<hr style="border:none;border-top:1px solid #eee" />
