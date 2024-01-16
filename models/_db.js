@@ -1072,12 +1072,12 @@ module.exports = {
             }
         }
     },
-    updateBalance: async (un, amount) => {
+    updateBalance: async (tbName, un, amount) => {
         let con = null;
         try {
             con = await db.connect();
             const rs = await con.one(
-                `UPDATE "payments" SET totalmoney = totalmoney + ${amount} WHERE username = $1 RETURNING totalmoney`,
+                `UPDATE "${tbName}" SET totalmoney = totalmoney + ${amount} WHERE username = $1 RETURNING totalmoney`,
                 [un]
             );
             return rs;

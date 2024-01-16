@@ -11,7 +11,7 @@ module.exports = class Payment {
         return rs;
     }
     static async addBalance(un, amount) {
-        const rs = await db.updateBalance(un, amount);
+        const rs = await db.updateBalance(table, un, amount);
         return rs;
     }
     static async checkout(data) {

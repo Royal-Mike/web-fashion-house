@@ -160,6 +160,10 @@ module.exports = {
       const rs = await accountM.createAccount(
         new accountM(un, email, fn, dob, null, role)
       );
+      // initialize payment account
+      const paymentAccount = await paymentM.createPaymentAccount(
+        new paymentM(un, 0)
+      );
       res.redirect("/home");
     } catch (error) {
       throw error;
