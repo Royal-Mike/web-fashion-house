@@ -61,6 +61,7 @@
             $("#user-container,#user-pagination,.btn-edit-user").addClass("d-none");
             $("#add-user").removeClass("d-none");
             $("#user-password").parent().removeClass("d-none");
+            $("#user-username").next().attr("readonly", false);
         });
 
         $("#add-user").on("click", function() {
@@ -94,6 +95,7 @@
         $("body").on("click", ".list-item-user", function() {
             $("#edit-user").removeClass("d-none");
             $("#user-container,#user-pagination").addClass("d-none");
+            $("#user-username").next().attr("readonly", true);
 
             userCur = data[$(this).index()];
 

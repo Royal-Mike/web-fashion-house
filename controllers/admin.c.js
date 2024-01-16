@@ -1,5 +1,6 @@
 const adminM = require('../models/admin.m');
 const accountM = require("../models/account.m");
+const paymentM = require("../models/payment.m");
 const productM = require("../models/product.m");
 const catalogueM = require("../models/catalogue.m");
 const bcrypt = require("bcrypt");
@@ -120,6 +121,7 @@ module.exports = {
                 return next(err);
             }
             await accountM.createAccount(new accountM(un, email, fn, dob, hash, role));
+            await paymentM.createPaymentAccount(new paymentM(un, 0));
             res.send('success');
         });
     },

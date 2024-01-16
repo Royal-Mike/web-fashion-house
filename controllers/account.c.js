@@ -128,9 +128,9 @@ module.exports = {
           new accountM(un, email, fn, dob, hash, role)
         );
         // initialize payment account
-        // const paymentAccount = await paymentM.createPaymentAccount(
-        //   new paymentM(un, 0)
-        // );
+        const paymentAccount = await paymentM.createPaymentAccount(
+          new paymentM(un, 0)
+        );
         req.flash("success", "Tạo tài khoản thành công!");
         res.redirect("/");
       });
