@@ -130,6 +130,7 @@ module.exports = {
         if (req.user.username === username) {
             return res.send('err_username');
         }
+        await paymentM.deletePaymentAccount(req.body.username);
         await accountM.deleteUser(req.body.username);
         res.send('success');
     }

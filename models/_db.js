@@ -1157,6 +1157,20 @@ module.exports = {
             }
         }
     },
+    deletePaymentAccount: async (tbName, un) => {
+        let con = null;
+        try {
+            con = await db.connect();
+            await con.none(`DELETE FROM "${tbName}" WHERE username = $1`, [un]);
+            return 1;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
     getAllEmail: async (tbName, fieldName, value) => {
         let con = null;
         try {
