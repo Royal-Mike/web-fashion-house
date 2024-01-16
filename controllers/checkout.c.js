@@ -12,7 +12,9 @@ module.exports = {
             checkout_price += cart[i].total_price;
         }
         checkout_price = parseFloat(checkout_price).toFixed(2);
-        const overall = parseFloat(checkout_price + shipCost).toFixed(2);
+        const overall = parseFloat(checkout_price) + shipCost;
+
+
         res.render("payment/checkout", {
             cart: cart,
             username: req.session.username,

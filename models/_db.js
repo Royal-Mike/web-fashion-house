@@ -285,9 +285,9 @@ module.exports = {
             await con.none(`
             CREATE TABLE IF NOT EXISTS orders (
                 id SERIAL PRIMARY KEY,
-                customer TEXT,
-                products_id INTEGER[], 
-                quantity INTEGER[],
+                username TEXT,
+                product_id INT, 
+                quantity INT,
                 price REAL,
                 order_date DATE
             )
@@ -1222,6 +1222,23 @@ module.exports = {
                 [value]
             );
             return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    addToOrders: async (tbName, obj) => {
+        let con = null;
+        try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
+            con = await db.connect();
+            let sql = pgp.helpers.insert(obj, null, tbName);
+            await con.none(sql);
+            return 1;
         } catch (error) {
             throw error;
         } finally {
