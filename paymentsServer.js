@@ -6,6 +6,8 @@ const app = express()
 const cors = require("cors");
 const port = process.env.PAYMENT_PORT || 3113;
 const opts = {
+    requestCert: true,
+    rejectUnauthorized: false,
     key: fs.readFileSync("./_cert/key.pem", { encoding: "utf-8" }),
     cert: fs.readFileSync("./_cert/cert.pem", { encoding: "utf-8" })
 }
@@ -17,4 +19,4 @@ app.use(cors());
 app.use("/payment", paymentR);
 
 app.get('/', (req, res) => res.send('Hello World!'));
-paymentsServer.listen(port, () => console.log(`Example app listening on port ${port}!`));
+paymentsServer.listen(port, () => console.log(`Payment app listening on port ${port}!`));

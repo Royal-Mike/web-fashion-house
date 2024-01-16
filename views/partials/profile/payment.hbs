@@ -1,0 +1,50 @@
+<script>
+    $(() => {
+        $("#swap-payment").on("click", function() {
+            $.ajax({
+                type: 'POST',
+                url: 'https://localhost:3113/payment/balance',
+                data: {
+                    username: '{{info.username}}'
+                },
+                success: function(result) {
+                    $("#balance").text("$" + result.totalmoney);
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+
+        $("#add-balance").on("click", function() {
+            $.ajax({
+                type: 'POST',
+                url: 'https://localhost:3113/payment/addbal',
+                data: {
+                    username: '{{info.username}}',
+                    amount: $("#balance-add").val()
+                },
+                success: function(result) {
+                    $("#balance").text("$" + result.totalmoney);
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+    });
+</script>
+<div id="screen-payment" class="d-none container border screen-info py-2">
+    <h3>Số dư</h3>
+    <hr>
+    <div class="d-flex align-items-center mb-3">
+        <div class="container" style="margin-left: 0;">
+            <h3 id="balance"></h3>
+        </div>
+        <a id="add-balance" class="btn btn-primary ms-auto">Nạp tiền</a>
+    </div>
+    <div class="input-group mb-3">
+        <span class="input-group-text" style="width:15%">Nhập số tiền nạp</span>
+        <input type="number" id="balance-add" class="form-control text-start" placeholder="Money" aria-label="Money" name="money">
+    </div>
+</div>
