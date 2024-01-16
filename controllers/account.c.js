@@ -15,6 +15,8 @@ const REFRESH_TOKEN =
 
 const saltRounds = 10;
 
+let emailSend = "";
+
 const oAuth2Client = new google.auth.OAuth2(
   CLIENT_ID,
   CLIENT_SECRET,
@@ -24,7 +26,7 @@ oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
 let otp;
 
-async function sendMail() {
+async function sendMail(req) {
   otp = randomstring.generate({
     length: 4,
     charset: "numeric",
@@ -47,7 +49,7 @@ async function sendMail() {
 
     const mailOpt = {
       from: "<Fashion House>",
-      to: "nguyenhuynhphuqui4856@gmail.com",
+      to: emailSend,
       subject: "Quên mật khẩu",
       html: `<div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
 	  <div style="margin:50px auto;width:70%;padding:20px 0">
@@ -126,9 +128,9 @@ module.exports = {
           new accountM(un, email, fn, dob, hash, role)
         );
         // initialize payment account
-        const paymentAccount = await paymentM.createPaymentAccount(
-          new paymentM(un, 0)
-        );
+        // const paymentAccount = await paymentM.createPaymentAccount(
+        //   new paymentM(un, 0)
+        // );
         req.flash("success", "Tạo tài khoản thành công!");
         res.redirect("/");
       });
@@ -168,6 +170,8 @@ module.exports = {
       const email = req.body.email;
       const un = req.body.username;
 
+      emailSend = email;
+
       const user = await accountM.getAccount(un);
 
       if (user === null) {
@@ -182,7 +186,7 @@ module.exports = {
         req.flash("errorEmail", "Email không khớp với tên tài khoản!");
         return res.redirect("/forget");
       }
-      sendMail()
+      sendMail(email)
         .then(console.log("Email has sent ..."))
         .catch((error) => console.log(error.message));
 
