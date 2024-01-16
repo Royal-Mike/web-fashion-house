@@ -1230,5 +1230,19 @@ module.exports = {
             }
         }
     },
-
+    resetpw:  async (tbName, pw, un) => {
+        let con = null;
+        try {
+          con = await db.connect();
+          const result = await con.query(
+            `UPDATE "${tbName}" SET "password" = $1 WHERE "username" = $2;`,
+            [pw, un]
+          );
+          return result;
+        } catch (error) {
+          throw error;
+        } finally {
+          if (con) con.done();
+        }
+    },
 }
