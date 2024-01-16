@@ -130,6 +130,62 @@
     </div>
 
     <div class="m-5 mt-3">
+        <h2 class="bg-secondary-subtle p-2 ps-3 mb-3 border rounded" style="line-height: 3rem;">ĐÁNH GIÁ SẢN PHẨM</h2>
+        <div>
+            <div id="comments-part" class="border rounded" style="min-height: 10rem;">
+                {{#each allTheComments}}
+                <div class="comment fs-3 mb-3">
+                    <strong style="color: #007bff;">{{username}}</strong> 
+                    <span class="text-warning">({{stars}}
+                        <i class="fa-solid fa-star"></i>)
+                    </span><br />
+                    {{comment}} <br />
+                    <span style="color: #888; font-size: .8em">{{time}}</span>
+                </div>
+                {{/each}}
+            </div>
+            <form id="send-comments-part">
+                <div class="border rounded mt-3 fs-3">
+                    <div class="form-check ms-3">
+                        <input class="form-check-input stars" type="radio" name="getUserVote" id="one-star" value="1">
+                        <label class="form-check-label" for="one-star">
+                            1 ⭐
+                        </label>
+                    </div>
+                    <div class="form-check ms-3">
+                        <input class="form-check-input stars" type="radio" name="getUserVote" id="two-star" value="2">
+                        <label class="form-check-label" for="two-star">
+                            2 ⭐
+                        </label>
+                    </div>
+                    <div class="form-check ms-3">
+                        <input class="form-check-input stars" type="radio" name="getUserVote" id="three-star" value="3">
+                        <label class="form-check-label" for="three-star">
+                            3 ⭐
+                        </label>
+                    </div>
+                    <div class="form-check ms-3">
+                        <input class="form-check-input stars" type="radio" name="getUserVote" id="four-star" value="4">
+                        <label class="form-check-label" for="four-star">
+                            4 ⭐
+                        </label>
+                    </div>
+                    <div class="form-check ms-3">
+                        <input class="form-check-input stars" type="radio" name="getUserVote" id="five-star" checked value="5">
+                        <label class="form-check-label" for="five-star">
+                            5 ⭐
+                        </label>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control fs-3" placeholder="Nhập đánh giá của bạn..." aria-label="Nhập đánh giá của bạn..." aria-describedby="send-comment" name="comment" id="val-comment">
+                    <button class="btn btn-outline-secondary fs-3" type="button" id="send-comment">Gửi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="m-5 mt-3">
         <h2 class="bg-secondary-subtle p-2 ps-3 mb-3 border rounded" style="line-height: 3rem;">CÁC SẢN PHẨM LIÊN QUAN
             ({{cate}})</h2>
         <div class="row row-cols-1 row-cols-md-6 g-4">
@@ -198,7 +254,50 @@
             error: function (error) {
                 console.error(error);
             }
-        })
+        });
+
+        function addLeadingZero(value) {
+            return value < 10 ? '0' + value : value;
+        }
+
+        $('#send-comment').on('click', function () {
+            let k = $('.stars:checked').val();
+            let val = $('#val-comment').val();
+            const currentTime = new Date();
+            const formattedTime = 
+            currentTime.getFullYear() +
+            '-' +
+            addLeadingZero(currentTime.getMonth() + 1) +
+            '-' +
+            addLeadingZero(currentTime.getDate()) +
+            ' ' +
+            addLeadingZero(currentTime.getHours()) +
+            ':' +
+            addLeadingZero(currentTime.getMinutes()) +
+            ':' +
+            addLeadingZero(currentTime.getSeconds());
+
+            dataJson = {
+                numStars: k,
+                commentVal: val,
+                time: formattedTime,
+                id: id
+            }
+
+            $.ajax({
+                url: `http://localhost:3000/details/AddGetComment`,
+                method: 'post',
+                dataType: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(dataJson),
+                success: function (data) {
+                    window.location.href = `/details?id=${id}`;
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            })
+        });
 
         $('.col').on('click', function () {
             const product_id = $(this).data('id');

@@ -30,10 +30,15 @@ module.exports = {
         const rs = await homeM.getDataWithInput(req.query.input);
         res.json({ data: rs });
     },
+    AddGetComment: async (req, res) => {
+        await homeM.addComment(req.body, req.session.username);
+        res.json({ success: true })
+    },
     moveToDetailsPage: async (req, res) => {
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
         const rs = await homeM.moveToDetailsPage(req.query.id);
+        const comments = await homeM.getComment(req.query.id);
         const product = rs[0];
         res.render('details', {
             home: true,
@@ -56,6 +61,7 @@ module.exports = {
             cate: product.category,
             check_exists_more: product.relateProducts.length === 24 ? true : false,
             id: req.query.id, // for add to cart
+            allTheComments: comments
         })
     },
     getDescription: async (req, res) => {

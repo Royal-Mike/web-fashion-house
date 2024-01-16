@@ -94,6 +94,16 @@ module.exports = {
         );
         `);
 
+        await con.none(`
+        CREATE TABLE IF NOT EXISTS comments (
+            username TEXT,
+            comment TEXT,
+            stars INTEGER,
+            id INTEGER,
+            time TIMESTAMP,
+            PRIMARY KEY (username, time)
+        )
+        `)
 
         if (con) {
             con.done();
@@ -179,7 +189,7 @@ module.exports = {
                 save.sale = offer[index]; // text
                 save.sold = Math.floor(Math.random() * 999); // integer
                 save.comments = []; // text[]
-                save.stars = (Math.round(Math.random() * 10) / 2).toFixed(1); // real
+                save.stars = 0; // real
                 save.id_category = product.category.__cdata; // text
                 save.for = "Nam"; // text
                 save.relation = product.other_colors ? product.other_colors.productId : [0]; // integer[]
@@ -227,7 +237,7 @@ module.exports = {
                 save.sale = offer[index];
                 save.sold = Math.floor(Math.random() * 999);
                 save.comments = [];
-                save.stars = (Math.round(Math.random() * 10) / 2).toFixed(1);
+                save.stars = 0;
                 save.id_category = product.category.__cdata;
                 save.for = "Nữ";
                 save.relation = product.other_colors ? product.other_colors.productId : [0];
@@ -888,6 +898,35 @@ module.exports = {
                 product.description = tempDesc;
             });
             return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getComment: async (id) => {
+        try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
+            con = await db.connect();
+            const rs = await con.any(`SELECT * FROM comments WHERE id = ${id}`);
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    addComment: async (info, username) => {
+        try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
+            con = await db.connect();
+            await con.any(`INSERT INTO comments VALUES($1, $2, $3, $4, $5)`, [username, info.commentVal, parseInt(info.numStars), parseInt(info.id), info.time]);
         } catch (error) {
             throw error;
         } finally {

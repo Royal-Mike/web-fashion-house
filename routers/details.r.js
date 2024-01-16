@@ -10,6 +10,7 @@ router.use((req, res, next) => {
 });
 
 router.get("/getDescription", userC.getDescription);
+router.post("/AddGetComment", userC.AddGetComment);
 router.get("/", userC.moveToDetailsPage);
 
 router.get("/logout", (req, res) => {

@@ -51,4 +51,11 @@ module.exports = class Home {
     static async addHotSearch(name) {
         await db.addHotSearch(name);
     }
+    static async getComment(id) {
+        const rs = await db.getComment(id);
+        return rs;
+    }
+    static async addComment(info, username) {
+        await db.addComment(info, username);
+    }
 }
