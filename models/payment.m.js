@@ -18,7 +18,6 @@ module.exports = class Payment {
         return rs;
     }
     static async createPaymentAccount(data) {
-        // console.log(data);
         const rs = await db.createPaymentAccount("payments", data);
         return rs;
     }

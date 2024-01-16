@@ -210,7 +210,7 @@
             type = type.replace('&#x60;', '`');
             window.location.href = `/relating-products?type=${type}&page=1`;
         });
-        // add item to cart
+        // Add item to cart
         $('#addToCart').on('click', function () {
             let quantity = parseInt($("#input-num-of-products").val());
             let numProducts = `{{numProducts}}`;

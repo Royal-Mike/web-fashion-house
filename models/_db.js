@@ -370,7 +370,6 @@ module.exports = {
             rs = rs.slice(startIndex, endIndex);
 
             colorBestSeller = [];
-            // testing
 
             for (const product of rs) {
                 let tempColor = await con.any(`
@@ -954,7 +953,6 @@ module.exports = {
                 else obj.id = rs.max + 1;
             }
             let sql = pgp.helpers.insert(obj, null, tbName);
-            console.log(sql);
             await con.none(sql);
             return 1;
         } catch (error) {
@@ -1147,10 +1145,8 @@ module.exports = {
     createPaymentAccount: async (tbName, obj) => {
         let con = null;
         try {
-            console.log("obj: ", obj);
             con = await db.connect();
             let sql = pgp.helpers.insert(obj, null, tbName);
-            console.log("insert sql:", sql);
             await con.none(sql);
             return 1;
         } catch (error) {
@@ -1230,7 +1226,6 @@ module.exports = {
                 where "username" = $1 and "product_id" = $2 and "size" = $3;
             `, [username, product_id, size]);
             const rowCount = rs[0].count;
-            // console.log(rowCount);
             return rowCount;
         } catch (error) {
             throw error;

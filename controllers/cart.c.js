@@ -2,27 +2,21 @@ const cartM = require("../models/cart.m");
 
 module.exports = {
     addToCart: async (req, res) => {
-        console.log(req.query);
         const product_id = req.query.id;
         const size = req.query.size;
         const quantity = req.query.quantity;
         const username = req.session.username;
         let price;
-        // console.log(req.query);
-        // console.log(product_id);
+
         if (!req.session.cart) {
             req.session.cart = [];
-            // console.log("here");
         }
         const isExist = await cartM.checkExistProductInCart(username, product_id, size);
 
-        // console.log("session: ", req.session);
         const isExistProductIndex = req.session.cart.findIndex(item => item.id === parseInt(product_id));
         if (isExistProductIndex !== -1) {
             if (req.session.cart[isExistProductIndex].size === size) {
-                console.log(req.session.cart);
                 req.session.cart[isExistProductIndex].quantity = parseInt(req.session.cart[isExistProductIndex].quantity) + parseInt(quantity);
-                // console.log(req.session.cart[isExistProductIndex].quantity);
                 req.session.cart[isExistProductIndex].total_price = (req.session.cart[isExistProductIndex].quantity * req.session.cart[isExistProductIndex].price).toFixed(2);
                 if (parseInt(isExist) > 0) {
                     await cartM.modifyQuantityInCart(username, product_id, size, parseInt(req.session.cart[isExistProductIndex].quantity));
@@ -60,20 +54,17 @@ module.exports = {
     cartPage: async (req, res) => {
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
-        // console.log(req.session);
+
         const productsInDB = await cartM.getProductFromCart("username", req.session.username);
-        // console.log(productsInDB);
-        // let currentCart = req.session.cart || [];
+
         let currentCart = [];
         for (const p of productsInDB) {
             const product = await cartM.get(p.product_id);
             product.quantity = p.quantity;
             product.size = p.size;
             product.total_price = product.price * product.quantity;
-            console.log(product);
             currentCart.push(product);
         }
-        console.log(currentCart);
         let isEmptyCart = false;
         if (currentCart.length === 0) {
             isEmptyCart = true;
@@ -92,7 +83,6 @@ module.exports = {
         });
     },
     increaseQuantity: async (req, res) => {
-        // console.log("here");
         let currentCart = req.session.cart;
         const username = req.session.username;
 
@@ -120,7 +110,6 @@ module.exports = {
                 currentCart[productIndex].total_price = (currentCart[productIndex].quantity * currentCart[productIndex].price).toFixed(2);
 
             } else {
-                // currentCart.splice(productIndex, 1);
                 currentCart[productIndex].quantity--;
                 currentCart[productIndex].total_price = 0;
                 res.json({ quantity: 0, total_price: 0 });
