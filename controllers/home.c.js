@@ -38,6 +38,7 @@ module.exports = {
         res.render('details', {
             home: true,
             dark: dark,
+            title: 'Details',
             name: product.name,
             numComments: product.comments.length,
             sold: product.sold,
@@ -87,6 +88,7 @@ module.exports = {
         res.render('relating-page', {
             home: true,
             dark: dark,
+            title: 'Search',
             type: type,
             curpage: req.query.page,
             moreRelateProducts: rs,

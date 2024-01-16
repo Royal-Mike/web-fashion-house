@@ -20,7 +20,8 @@ module.exports = {
             shipCost: shipCost,
             overall: overall,
             totalQuantity: cart.length,
-            dark: dark
+            dark: dark,
+            title: 'Checkout'
         });
     }
 }

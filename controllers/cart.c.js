@@ -87,7 +87,8 @@ module.exports = {
             isEmptyCart: isEmptyCart,
             currentCart: currentCart,
             dark: dark,
-            home: true
+            home: true,
+            title: 'Cart'
         });
     },
     increaseQuantity: async (req, res) => {

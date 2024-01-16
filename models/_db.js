@@ -1127,11 +1127,14 @@ module.exports = {
             if (!check.length) return "insufficient";
 
             await con.query(`
-                UPDATE "${tbName}"
-                SET "totalmoney" = "totalmoney" - $1
-                WHERE "username" = $2`,
+                UPDATE "${tbName}" SET "totalmoney" = "totalmoney" - $1 WHERE "username" = $2`,
                 [totalmoney, username]
             );
+            await con.query(`
+                DELETE FROM cart WHERE "username" = $1`,
+                [username]
+            );
+
             return "success";
         } catch (error) {
             throw error;
