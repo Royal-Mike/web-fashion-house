@@ -1,9 +1,14 @@
 const paymentM = require("../models/payment.m");
 module.exports = {
     checkout: async (req, res) => {
-        // console.log(req.body);
-        const payment = new paymentM(req.username, req.totalmoney);
-        const rs = await paymentM.checkout(payment);
-        res.redirect("/home"); // or redirect back to checkout page
+        try {
+            const username = req.body.username;
+            const totalmoney = req.body.totalmoney;
+            await paymentM.checkout(new paymentM(username, totalmoney));
+            // res.redirect("http://localhost:3000/home")
+            res.json({ success: true });
+        } catch (error) {
+            console.log(error);
+        }
     }
 }

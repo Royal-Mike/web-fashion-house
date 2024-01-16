@@ -11,12 +11,14 @@ module.exports = {
         for (let i = 0; i < cart.length; i++) {
             checkout_price += cart[i].total_price;
         }
-        checkout_price = parseFloat(checkout_price);
+        checkout_price = parseFloat(checkout_price).toFixed(2);
+        const overall = parseFloat(checkout_price + shipCost).toFixed(2);
         res.render("payment/checkout", {
             cart: cart,
+            username: req.session.username,
             checkout_price: checkout_price,
             shipCost: shipCost,
-            overall: checkout_price + shipCost,
+            overall: overall,
             totalQuantity: cart.length,
             dark: dark
         });

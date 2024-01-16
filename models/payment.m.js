@@ -6,7 +6,7 @@ module.exports = class Payment {
         this.totalmoney = totalmoney;
     }
     static async checkout(data) {
-        const rs = await db.checkout(data);
+        const rs = await db.checkout("payments", data);
         return rs;
     }
     static async createPaymentAccount(data) {

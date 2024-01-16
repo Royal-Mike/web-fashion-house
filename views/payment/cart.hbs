@@ -39,7 +39,7 @@
                                     <i class="fas fa-minus"></i>
                                 </button>
 
-                                <input id="form1" min="0" name="quantity" value={{quantity}} type="number"
+                                <input id="quantity_{{id}}" min="0" name="quantity" value={{quantity}} type="number"
                                     class="form-control form-control-sm" />
 
                                 <button class="btn btn-link px-2" id="plusButton"
@@ -48,7 +48,7 @@
                                 </button>
                             </div>
                             <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <h5 class="mb-0">{{total_price}} $</h5>
+                                <h5 id="total_price_{{id}}" class="mb-0">{{total_price}} $</h5>
                             </div>
                         </div>
                     </div>
@@ -74,11 +74,35 @@
             window.location.href = `/checkout`;
         });
         increaseQuantity = (id, size) => {
-            console.log(id, size);
-            window.location.href = `/cart/increaseQuantity?id=${id}&size=${size}`;
+            $.ajax({
+                url: `/cart/increaseQuantity?id=${id}&size=${size}`,
+                method: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $(`#quantity_${id}`).val(data.quantity);
+                    $(`#total_price_${id}`).html(`${data.total_price} $`);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
         }
         decreaseQuantity = (id, size) => {
-            window.location.href = `/cart/decreaseQuantity?id=${id}&size=${size}`;
+            if ($(`#quantity_${id}`).val() < 1) {
+                return;
+            }
+            $.ajax({
+                url: `/cart/decreaseQuantity?id=${id}&size=${size}`,
+                method: 'get',
+                dataType: 'json',
+                success: function (data) {
+                    $(`#quantity_${id}`).val(data.quantity);
+                    $(`#total_price_${id}`).html(`${data.total_price} $`);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
         }
     })
 

@@ -65,56 +65,14 @@
                                                 class="img-fluid rounded-3" style="width: 45px;" alt="Avatar">
                                         </div>
 
-                                        <p class="small mb-2">Loại thẻ</p>
-                                        <a href="#!" type="submit" class="text-white"><i
-                                                class="fab fa-cc-mastercard fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" class="text-white"><i
-                                                class="fab fa-cc-visa fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" class="text-white"><i
-                                                class="fab fa-cc-amex fa-2x me-2"></i></a>
-                                        <a href="#!" type="submit" class="text-white"><i
-                                                class="fab fa-cc-paypal fa-2x"></i></a>
-
                                         <form class="mt-4">
                                             <div class="form-outline form-white mb-4">
                                                 <label class="form-label" for="typeName">Chủ thẻ:</label>
                                                 <input type="text" id="typeName" class="form-control form-control-lg"
-                                                    siez="17" placeholder="Nhập tên chủ thẻ..." />
+                                                    size="17" value={{username}} disabled
+                                                    placeholder="Nhập tên chủ thẻ..." />
                                             </div>
 
-                                            <div class="form-outline form-white mb-4">
-                                                <label class="form-label" for="typeText">Số thẻ</label>
-                                                <input type="text" id="typeText" class="form-control form-control-lg"
-                                                    siez="17" placeholder="1234 5678 9012 3457" minlength="19"
-                                                    maxlength="19" />
-                                            </div>
-
-                                            <div class="form-outline form-white mb-4">
-                                                <label class="form-label" for="discountCode">Giảm giá:</label>
-                                                <input type="text" id="discountCode"
-                                                    class="form-control form-control-lg" siez="17"
-                                                    placeholder="Nhập mã giảm giá..." />
-                                            </div>
-
-                                            <div class="row mb-4">
-                                                <div class="col-md-6">
-                                                    <div class="form-outline form-white">
-                                                        <input type="text" id="typeExp"
-                                                            class="form-control form-control-lg" placeholder="MM/YYYY"
-                                                            size="7" id="exp" minlength="7" maxlength="7" />
-                                                        <label class="form-label" for="typeExp">Hết hạn</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-outline form-white">
-                                                        <input type="password" id="typeText"
-                                                            class="form-control form-control-lg"
-                                                            placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3"
-                                                            maxlength="3" />
-                                                        <label class="form-label" for="typeText">Cvv</label>
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                         </form>
 
@@ -131,11 +89,11 @@
                                         </div>
 
                                         <div class="d-flex justify-content-between mb-4">
-                                            <p class="mb-2">Tổng cộng(Bao gồm thuế)</p>
+                                            <p class="mb-2">Tổng cộng (Đã áp dụng giảm giá)</p>
                                             <p class="mb-2">{{overall}}$</p>
                                         </div>
 
-                                        <button type="button" class="btn btn-info btn-block btn-lg">
+                                        <button id="checkoutBtn" type="button" class="btn btn-info btn-block btn-lg">
                                             <div class="d-flex justify-content-between">
                                                 <span>{{overall}}$ </span>
                                                 <span>Đặt hàng <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
@@ -157,5 +115,27 @@
 </section>
 
 <script>
+    $(() => {
+        const username = `{{username}}`;
+        const overall = `{{overall}}`;
+        $("#checkoutBtn").on("click", function () {
+            $.ajax({
+                url: `https://localhost:3113/payment/checkout`,
+                method: "post",
+                data: {
+                    username: username,
+                    totalmoney: overall
+                },
+                success: function (data) {
+                    console.log(data);
+                    window.location.href = '/home';
+                },
+                error: function (error) {
+                    console.log("error");
+                    console.error(error);
+                }
+            })
+        });
+    });
 
 </script>

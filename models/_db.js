@@ -76,12 +76,25 @@ module.exports = {
         `);
 
         await con.none(`
-        CREATE TABLE payments (
+        CREATE TABLE IF NOT EXISTS payments (
             payment_id SERIAL PRIMARY KEY,
             username VARCHAR(100) NOT NULL,
-            totalMoney INT NOT NULL,
+            totalMoney REAL NOT NULL,
             FOREIGN KEY (username) REFERENCES accounts(username)
         );`);
+
+        await con.none(`
+        CREATE TABLE IF NOT EXISTS cart (
+            id SERIAL PRIMARY KEY,
+            username TEXT,
+            product_id INTEGER,
+            size TEXT,
+            price REAL,
+            quantity INTEGER
+        );
+        `);
+
+
         if (con) {
             con.done();
         }
@@ -1083,13 +1096,18 @@ module.exports = {
     checkout: async (tbName, paymentJson) => {
         let con = null;
         try {
-            const username = paymentJson.username;
-            const totalmoney = paymentJson.totalmoney;
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
             con = await db.connect();
-            let updateSql = `UPDATE ${tbName}
-                            SET totalmoney = $1
-                            WHERE username = $2;`
-            await con.none(updateSql, [totalmoney, username]);
+            const username = paymentJson.username;
+            const totalmoney = parseFloat(paymentJson.totalmoney);
+            // console.log(username, totalmoney);
+            con = await db.connect();
+            await con.query(`
+                update "${tbName}"
+                set "totalmoney" = $1
+                where "username" = $2`,
+                [totalmoney, username]);
             return 1;
         } catch (error) {
             throw error;
@@ -1116,34 +1134,101 @@ module.exports = {
             }
         }
     },
-    getAllEmail:  async (tbName, fieldName, value) => {
+    getAllEmail: async (tbName, fieldName, value) => {
         let con = null;
         try {
-          con = await db.connect();
-          const result = await con.query(
-            `SELECT "email" FROM "${tbName}" WHERE "${fieldName}" <> $1;`,
-            [value]
-          );
-          return result.map(row => row.email);
+            con = await db.connect();
+            const result = await con.query(
+                `SELECT "email" FROM "${tbName}" WHERE "${fieldName}" <> $1;`,
+                [value]
+            );
+            return result.map(row => row.email);
         } catch (error) {
-          throw error;
+            throw error;
         } finally {
-          if (con) con.done();
+            if (con) con.done();
         }
     },
-    update:  async (tbName, fn, email, dob, un) => {
+    update: async (tbName, fn, email, dob, un) => {
         let con = null;
         try {
-          con = await db.connect();
-          const result = await con.query(
-            `UPDATE "${tbName}" SET "fullname" = $1, "email" = $2, "dob" = $3 WHERE "username" = $4;`,
-            [fn, email, dob, un]
-          );
-          return result;
+            con = await db.connect();
+            const result = await con.query(
+                `UPDATE "${tbName}" SET "fullname" = $1, "email" = $2, "dob" = $3 WHERE "username" = $4;`,
+                [fn, email, dob, un]
+            );
+            return result;
         } catch (error) {
-          throw error;
+            throw error;
         } finally {
-          if (con) con.done();
+            if (con) con.done();
         }
-    }
+    },
+    addProductToCart: async (tbName, obj) => {
+        let con = null;
+        try {
+            con = await db.connect();
+            let sql = pgp.helpers.insert(obj, null, tbName);
+            await con.none(sql);
+            return 1;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) con.done();
+        }
+    },
+    modifyQuantityInCart: async (tbName, username, product_id, size, quantity) => {
+        let con = null;
+        try {
+            con = await db.connect();
+            const rs = await con.query(`
+                update "${tbName}"
+                set "quantity" = $1
+                where "username" = $2 and "product_id" = $3 and "size" = $4
+            `, [quantity, username, product_id, size]);
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) con.done();
+        }
+    },
+    checkExistProductInCart: async (tbName, username, product_id, size) => {
+        let con = null;
+        try {
+            con = await db.connect();
+            const rs = await con.query(`
+                select count(id)
+                from ${tbName} 
+                where "username" = $1 and "product_id" = $2 and "size" = $3;
+            `, [username, product_id, size]);
+            const rowCount = rs[0].count;
+            // console.log(rowCount);
+            return rowCount;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) con.done();
+        }
+    },
+    getProductFromCart: async (tbName, fieldName, value) => {
+        let con = null;
+        try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
+            con = await db.connect();
+            const rs = await con.any(
+                `SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`,
+                [value]
+            );
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+
 }
