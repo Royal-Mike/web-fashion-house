@@ -1116,16 +1116,23 @@ module.exports = {
             cn.database = process.env.DB_NAME;
             db = pgp(cn);
             con = await db.connect();
+
             const username = paymentJson.username;
             const totalmoney = parseFloat(paymentJson.totalmoney);
-            // console.log(username, totalmoney);
+
             con = await db.connect();
+            const check = await con.any(`SELECT * FROM "${tbName}" WHERE "totalmoney" >= $1 AND "username" = $2`,
+            [totalmoney, username]);
+
+            if (!check.length) return "insufficient";
+
             await con.query(`
-                update "${tbName}"
-                set "totalmoney" = $1
-                where "username" = $2`,
-                [totalmoney, username]);
-            return 1;
+                UPDATE "${tbName}"
+                SET "totalmoney" = "totalmoney" - $1
+                WHERE "username" = $2`,
+                [totalmoney, username]
+            );
+            return "success";
         } catch (error) {
             throw error;
         } finally {

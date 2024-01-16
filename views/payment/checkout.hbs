@@ -127,8 +127,11 @@
                     totalmoney: overall
                 },
                 success: function (data) {
-                    console.log(data);
-                    window.location.href = '/home';
+                    if (data === "insufficient") alert("Bạn không có đủ tiền để thanh toán!");
+                    else {
+                        alert("Thanh toán thành công! Xem đơn hàng của bạn trong mục tài khoản.")
+                        window.location.href = '/home';
+                    }
                 },
                 error: function (error) {
                     console.log("error");

@@ -20,9 +20,8 @@ module.exports = {
         try {
             const username = req.body.username;
             const totalmoney = req.body.totalmoney;
-            await paymentM.checkout(new paymentM(username, totalmoney));
-            // res.redirect("http://localhost:3000/home")
-            res.json({ success: true });
+            const rs = await paymentM.checkout(new paymentM(username, totalmoney));
+            res.send(rs);
         } catch (error) {
             console.log(error);
         }
