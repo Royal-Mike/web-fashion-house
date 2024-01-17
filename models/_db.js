@@ -10,7 +10,8 @@ const allSize = ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "Freesize"];
 const offer = ["-10%", "-15%", "-20%", "-25%", "-30%", "-35%", "-40%", "-45%", "-50%", "1 50.000₫", "1 75.000₫", "1 100.000₫", "0 50.000₫", "0 75.000₫", "0 100.000₫", "New arrival", "None"];
 const lengthOffer = offer.length;
 const pgp = require('pg-promise')({
-    capSQL: true
+    capSQL: true,
+    noWarnings: true
 });
 
 const cn = {
