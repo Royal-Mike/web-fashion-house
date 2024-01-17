@@ -1046,6 +1046,25 @@ module.exports = {
             }
         }
     },
+    getMulti: async (tbName, fieldName, value) => {
+        let con = null;
+        try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
+            con = await db.connect();
+            const rs = await con.any(
+                `SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`,
+                [value]
+            );
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
     delete: async (tbName, fieldName, value) => {
         let con = null;
         try {

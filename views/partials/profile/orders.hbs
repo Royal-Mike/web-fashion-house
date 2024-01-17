@@ -1,4 +1,26 @@
 <div id="screen-orders" class="d-none container border screen-info py-2">
     <h3>Đơn hàng</h3>
     <hr>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Sản phẩm</th>
+            <th scope="col">Số lượng</th>
+            <th scope="col">Tổng giá</th>
+            <th scope="col">Ngày tạo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each orders}}
+            <tr>
+                <th scope="row">{{id}}</th>
+                <td>{{{product_id}}}</td>
+                <td>{{{quantity}}}</td>
+                <td>{{price}}</td>
+                <td>{{order_date}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </div>
