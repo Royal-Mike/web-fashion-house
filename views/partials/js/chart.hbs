@@ -9,7 +9,7 @@
                     username: 'fashionhouse'
                 },
                 success: function(result) {
-                    $("#shop-balance").text("$" + result.totalmoney);
+                    $("#shop-balance").text("$" + result.totalmoney.toFixed(2));
                 },
                 error: function(result) {
                     console.log(result);

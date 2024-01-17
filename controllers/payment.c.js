@@ -26,16 +26,14 @@ module.exports = {
 
             let product_id_arr = [];
             let quantity_arr = [];
-            let overall = 0;
             for (const p of cart) {
                 product_id_arr.push(p.product_id);
                 quantity_arr.push(p.quantity);
-                overall += p.price * p.quantity;
             }
 
             const rs = await paymentM.checkout(new paymentM(username, totalmoney));
             if (rs === "success") {
-                await checkoutM.addToOrders(new checkoutM(username, product_id_arr, quantity_arr, overall, new Date()));
+                await checkoutM.addToOrders(new checkoutM(username, product_id_arr, quantity_arr, totalmoney, new Date()));
             }
             res.send(rs);
         } catch (error) {

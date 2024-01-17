@@ -33,6 +33,7 @@ module.exports = {
             cart[i].total_price = cart[i].total_price.toLocaleString();
         };
         
+        const dollars = (checkout_price + shipCost) / 23000;
         const overall = (checkout_price + shipCost).toLocaleString();
         checkout_price = checkout_price.toLocaleString();
 
@@ -42,6 +43,7 @@ module.exports = {
             checkout_price: checkout_price,
             shipCost: shipCost,
             overall: overall,
+            dollars,
             totalQuantity: cart.length,
             dark: dark,
             title: 'Checkout'

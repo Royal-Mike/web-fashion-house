@@ -37,8 +37,8 @@
                                                 <div style="width: 50px;">
                                                     <h5 id="quantity_{{id}}" class="fw-normal mb-0">{{quantity}}</h5>
                                                 </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0 total_price">{{total_price}} đ</h5>
+                                                <div style="width: 100px;">
+                                                    <h5 class="mb-0 total_price">{{total_price}}đ</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -110,14 +110,15 @@
 <script>
     $(() => {
         const username = `{{username}}`;
-        const overall = `{{overall}}`;
+        const dollars = `{{dollars}}`;
+        console.log(dollars);
         $("#checkoutBtn").on("click", function () {
             $.ajax({
                 url: `https://localhost:3113/payment/checkout`,
                 method: "post",
                 data: {
                     username: username,
-                    totalmoney: overall
+                    totalmoney: dollars
                 },
                 success: function (data) {
                     if (data === "insufficient") alert("Bạn không có đủ tiền để thanh toán!");

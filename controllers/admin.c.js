@@ -29,6 +29,7 @@ module.exports = {
         orders.forEach(order => {
             order.product_id = order.product_id.join("<br>");
             order.quantity = order.quantity.join("<br>");
+            order.price = (order.price * 23000).toLocaleString() + "đ";
         });
 
         function makeArray(pages) {
