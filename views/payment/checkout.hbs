@@ -114,7 +114,7 @@
         console.log(dollars);
         $("#checkoutBtn").on("click", function () {
             $.ajax({
-                url: `https://localhost:3113/payment/checkout`,
+                url: `http://localhost:3000/checkout/paymentServer`,
                 method: "post",
                 data: {
                     username: username,

@@ -28,4 +28,8 @@ module.exports = class Cart {
         const rs = await db.getProductFromCart("cart", fieldName, value);
         return rs;
     }
+    static async deleteProductInCart(username, product_id, size) {
+        const rs = await db.deleteProductInCart("cart", username, product_id, size);
+        return rs;
+    }
 }

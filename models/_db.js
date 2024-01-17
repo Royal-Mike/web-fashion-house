@@ -1603,5 +1603,24 @@ module.exports = {
                 con.done();
             }
         }
+    },
+    deleteProductInCart: async (tbName, username, product_id, size) => {
+        let con = null;
+        try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
+            con = await db.connect();
+            await con.query(`
+                delete from ${tbName}
+                where username = $1 and product_id = $2 and size = $3
+            `, [username, product_id, size]);
+            return 1;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
     }
 }

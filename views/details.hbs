@@ -337,7 +337,18 @@
                 }
             }
             alert(`Sản phẩm \"${'{{name}}'.trim()}\" đã được thêm vào giỏ hàng của bạn!`);
-            window.location.href = `/cart/addToCart?id=${id}&size=${selectedSize}&quantity=${quantity}`;
+            $.ajax({
+                url: `/cart/addToCart?id=${id}&size=${selectedSize}&quantity=${quantity}`,
+                method: "get",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    window.location.href = `/details?id=${id}`;
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
         });
 
         increaseQuantity = () => {

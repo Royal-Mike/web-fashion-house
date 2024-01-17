@@ -1,6 +1,62 @@
 const cartM = require("../models/cart.m");
 
 module.exports = {
+    // addToCart: async (req, res) => {
+    //     // console.log(req.query);
+    //     const product_id = req.query.id;
+    //     const size = req.query.size;
+    //     const quantity = req.query.quantity;
+    //     const username = req.session.username;
+    //     let price;
+    //     // console.log(req.query);
+    //     // console.log(product_id);
+    //     if (!req.session.cart) {
+    //         req.session.cart = [];
+    //         // console.log("here");
+    //     }
+    //     const isExist = await cartM.checkExistProductInCart(username, product_id, size);
+    //     // console.log("session: ", req.session);
+    //     const isExistProductIndex = req.session.cart.findIndex(item => item.id === parseInt(product_id));
+    //     if (isExistProductIndex !== -1) {
+    //         if (req.session.cart[isExistProductIndex].size === size) {
+    //             console.log(req.session.cart);
+    //             req.session.cart[isExistProductIndex].quantity = parseInt(req.session.cart[isExistProductIndex].quantity) + parseInt(quantity);
+    //             // console.log(req.session.cart[isExistProductIndex].quantity);
+    //             req.session.cart[isExistProductIndex].total_price = (req.session.cart[isExistProductIndex].quantity * req.session.cart[isExistProductIndex].price).toFixed(2);
+    //             if (parseInt(isExist) > 0) {
+    //                 await cartM.modifyQuantityInCart(username, product_id, size, parseInt(req.session.cart[isExistProductIndex].quantity));
+    //                 return;
+    //             }
+    //         } else {
+    //             try {
+    //                 const product = await cartM.get(product_id);
+    //                 product.quantity = quantity;
+    //                 product.size = size;
+    //                 product.total_price = (product.quantity * product.price).toFixed(2);
+    //                 req.session.cart.push(product);
+    //                 price = product.price;
+    //             } catch (error) {
+    //                 console.log(error);
+    //             }
+    //         }
+    //     } else {
+    //         try {
+    //             const product = await cartM.get(product_id);
+    //             product.quantity = quantity;
+    //             product.size = size;
+    //             product.total_price = (product.quantity * product.price).toFixed(2);
+    //             req.session.cart.push(product);
+    //             price = product.price;
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+
+    //     const productInCart = new cartM(username, parseInt(product_id), size, price, parseInt(quantity));
+    //     const rs = await cartM.addProductToCart(productInCart);
+    //     // res.redirect(`http://localhost:3000/details?id=${product_id}`);
+    //     res.json({ success: true });
+    // },
     addToCart: async (req, res) => {
         const product_id = req.query.id;
         const size = req.query.size;
@@ -35,21 +91,9 @@ module.exports = {
                 }
             }
         } else {
-            try {
-                const product = await cartM.get(product_id);
-                product.quantity = quantity;
-                product.size = size;
-                product.total_price = (product.quantity * product.price).toFixed(2);
-                req.session.cart.push(product);
-                price = product.price;
-            } catch (error) {
-                console.log(error);
-            }
+            await cartM.addProductToCart(new cartM(username, product_id, size, price, quantity));
         }
-
-        const productInCart = new cartM(username, parseInt(product_id), size, price, parseInt(quantity));
-        const rs = await cartM.addProductToCart(productInCart);
-        res.redirect(`http://localhost:3000/details?id=${product_id}`);
+        res.json({ success: true });
     },
     cartPage: async (req, res) => {
         let theme = req.cookies.theme;
@@ -104,6 +148,8 @@ module.exports = {
         let currentCart = req.session.cart;
         const username = req.session.username;
         const productIndex = currentCart.findIndex(p => p.id === parseInt(req.query.id) && p.size === req.query.size);
+        let productInCart = await cartM.getProductFromCart("username", username);
+        let total_quantity = productInCart.length;
         if (productIndex !== -1) {
             if (currentCart[productIndex].quantity > 1) {
                 currentCart[productIndex].quantity--;
@@ -112,7 +158,10 @@ module.exports = {
             } else {
                 currentCart[productIndex].quantity--;
                 currentCart[productIndex].total_price = 0;
-                res.json({ quantity: 0, total_price: 0 });
+                await cartM.deleteProductInCart(username, currentCart[productIndex].id, currentCart[productIndex].size);
+                productInCart = await cartM.getProductFromCart("username", username);
+                total_quantity = productInCart.length;
+                res.json({ quantity: 0, total_price: 0, total_quantity: total_quantity });
                 return;
             }
         }
@@ -122,7 +171,7 @@ module.exports = {
         const size = currentCart[productIndex].size;
         const quantity = currentCart[productIndex].quantity;
         await cartM.modifyQuantityInCart(username, product_id, size, quantity);
-        res.json({ quantity: currentCart[productIndex].quantity, total_price: currentCart[productIndex].total_price });
+        res.json({ quantity: currentCart[productIndex].quantity, total_price: currentCart[productIndex].total_price, total_quantity: total_quantity });
     }
 
 }

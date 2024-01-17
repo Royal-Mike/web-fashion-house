@@ -1,4 +1,6 @@
 const cartM = require("../models/cart.m");
+const axios = require("axios");
+const https = require("https");
 
 module.exports = {
     checkOutPage: async (req, res) => {
@@ -48,5 +50,16 @@ module.exports = {
             dark: dark,
             title: 'Checkout'
         });
-    }
+    },
+    sendCheckOutRequestToPaymentServer: async (req, res) => {
+        const username = req.body.username;
+        const totalmoney = req.body.totalmoney;
+        const body = {
+            username: username,
+            totalmoney: totalmoney
+        }
+        const sslCheck = { httpsAgent: new https.Agent({ rejectUnauthorized: false }) };
+        const response = await axios.post("https://localhost:3113/payment/checkout", body, sslCheck);
+        res.json({ success: true });
+    },
 }
