@@ -1,3 +1,4 @@
+const { chownSync } = require('fs');
 const fs = require('fs/promises');
 require('dotenv').config();
 const path = require('path');
@@ -195,7 +196,6 @@ module.exports = {
                 let index = Math.floor(Math.random() * lengthOffer);
                 save.sale = offer[index]; // text
                 save.sold = Math.floor(Math.random() * 999); // integer
-                save.comments = []; // text[]
                 save.stars = 0; // real
                 save.id_category = product.category.__cdata; // text
                 save.for = "Nam"; // text
@@ -243,7 +243,6 @@ module.exports = {
                 let index = Math.floor(Math.random() * lengthOffer);
                 save.sale = offer[index];
                 save.sold = Math.floor(Math.random() * 999);
-                save.comments = [];
                 save.stars = 0;
                 save.id_category = product.category.__cdata;
                 save.for = "Nữ";
@@ -401,7 +400,35 @@ module.exports = {
                 colorBestSeller.push(tempColorArray);
             }
 
-            rs.forEach((product, index) => {
+            const arrObj = [];
+            for (const product of rs) {
+                const calStars = await con.one(`SELECT COALESCE(ROUND(AVG(stars), 1), 0) AS avg_val, COUNT(*) AS numcomment FROM comments WHERE id = ${product.id}`);
+                let tempObj1 = {};
+                let tempObj2 = {};
+                let tempObj3 = {};
+                let count = 0;
+                for (let i = 0; i < 6; i++) {
+                    if (parseInt(calStars.avg_val) === i) {
+                        for (let j = 1; j <= i; j++) {
+                            tempObj1[`property${j}`] = j;
+                        }
+
+                        if (calStars.avg_val >= i + 0.5) {
+                            tempObj2[`property1`] = 1;
+                            count += 1;
+                        }
+
+                        for (let k = 0; k < 5 - i - count; k++) {
+                            tempObj3[`property${k}`] = k;
+                        }
+                        break;
+                    }
+                }
+                const smallArrObj = [tempObj1, tempObj2, tempObj3, calStars.numcomment];
+                arrObj.push(smallArrObj);
+            }
+
+            rs.forEach(async (product, index) => {
                 if (product.sale.startsWith('1')) {
                     let temp = product.sale.replace('.', '')
                     temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
@@ -424,9 +451,14 @@ module.exports = {
                 product.thumbnail = product.images[0];
                 product.name = product.name.replace(/\d/g, '');
                 product.price = (product.price * 23000).toLocaleString();
-                product.numComments = product.comments.length;
                 product.holdColors = colorBestSeller[index];
                 product.sale = product.sale.replace('.', ',');
+
+                const theObjArray = arrObj[index];
+                product.full = theObjArray.at(0);
+                product.half = theObjArray.at(1);
+                product.none = theObjArray.at(2);
+                product.numComments = theObjArray.at(3);
             });
 
             return rs;
@@ -469,14 +501,47 @@ module.exports = {
                 colorNewArrival.push(tempColorArray);
             }
 
+            const arrObj = [];
+            for (const product of rs) {
+                const calStars = await con.one(`SELECT COALESCE(ROUND(AVG(stars), 1), 0) AS avg_val, COUNT(*) AS numcomment FROM comments WHERE id = ${product.id}`);
+                let tempObj1 = {};
+                let tempObj2 = {};
+                let tempObj3 = {};
+                let count = 0;
+                for (let i = 0; i < 6; i++) {
+                    if (parseInt(calStars.avg_val) === i) {
+                        for (let j = 1; j <= i; j++) {
+                            tempObj1[`property${j}`] = j;
+                        }
+
+                        if (calStars.avg_val >= i + 0.5) {
+                            tempObj2[`property1`] = 1;
+                            count += 1;
+                        }
+
+                        for (let k = 0; k < 5 - i - count; k++) {
+                            tempObj3[`property${k}`] = k;
+                        }
+                        break;
+                    }
+                }
+                const smallArrObj = [tempObj1, tempObj2, tempObj3, calStars.numcomment];
+                arrObj.push(smallArrObj);
+            }
+
             rs.forEach((product, index) => {
                 product.rate = product.sold * 100.0 / product.totalStock;
                 product.thumbnail = product.images[0];
                 product.name = product.name.replace(/\d/g, '');
                 product.price = (product.price * 23000).toLocaleString();
-                product.numComments = product.comments.length;
                 product.holdColors = colorNewArrival[index];
                 product.sale = product.sale.replace('.', ',');
+                
+                const theObjArray = arrObj[index];
+                product.full = theObjArray.at(0);
+                product.half = theObjArray.at(1);
+                product.none = theObjArray.at(2);
+                product.numComments = theObjArray.at(3);
             });
             return rs;
         } catch (error) {
@@ -526,6 +591,34 @@ module.exports = {
                 colorRecommend.push(tempColorArray);
             }
 
+            const arrObj = [];
+            for (const product of rs) {
+                const calStars = await con.one(`SELECT COALESCE(ROUND(AVG(stars), 1), 0) AS avg_val, COUNT(*) AS numcomment FROM comments WHERE id = ${product.id}`);
+                let tempObj1 = {};
+                let tempObj2 = {};
+                let tempObj3 = {};
+                let count = 0;
+                for (let i = 0; i < 6; i++) {
+                    if (parseInt(calStars.avg_val) === i) {
+                        for (let j = 1; j <= i; j++) {
+                            tempObj1[`property${j}`] = j;
+                        }
+
+                        if (calStars.avg_val >= i + 0.5) {
+                            tempObj2[`property1`] = 1;
+                            count += 1;
+                        }
+
+                        for (let k = 0; k < 5 - i - count; k++) {
+                            tempObj3[`property${k}`] = k;
+                        }
+                        break;
+                    }
+                }
+                const smallArrObj = [tempObj1, tempObj2, tempObj3, calStars.numcomment];
+                arrObj.push(smallArrObj);
+            }
+
             rs.forEach((product, index) => {
                 product.rate = product.sold * 100.0 / product.totalStock;
                 product.thumbnail = product.images[0];
@@ -545,8 +638,13 @@ module.exports = {
                 product.sale = product.sale.slice(2);
                 product.sale = product.sale.replace('.', ',');
                 product.price = (product.price * 23000).toLocaleString();
-                product.numComments = product.comments.length;
                 product.holdColors = colorRecommend[index];
+                
+                const theObjArray = arrObj[index];
+                product.full = theObjArray.at(0);
+                product.half = theObjArray.at(1);
+                product.none = theObjArray.at(2);
+                product.numComments = theObjArray.at(3);
             });
             return rs;
         } catch (error) {

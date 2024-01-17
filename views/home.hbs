@@ -216,11 +216,18 @@
 
                                 <div {{#if dark}}style="color: yellow;" class="fs-3" {{else}}class="text-danger"
                                     {{/if}}>
+
+                                    {{#each this.full}}
                                     <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
+                                    {{/each}}
+
+                                    {{#each this.half}}
                                     <i class="fa-solid fa-star-half-stroke"></i>
+                                    {{/each}}
+
+                                    {{#each this.none}}
+                                    <i class="fa-regular fa-star"></i>
+                                    {{/each}}
                                     <span class="card-text text-light">({{this.numComments}})</span>
                                 </div>
                             </div>
@@ -275,11 +282,18 @@
 
                                 <div {{#if dark}}style="color: yellow;" class="fs-3" {{else}}class="text-danger"
                                     {{/if}}>
+                                    
+                                    {{#each this.full}}
                                     <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
+                                    {{/each}}
+
+                                    {{#each this.half}}
                                     <i class="fa-solid fa-star-half-stroke"></i>
+                                    {{/each}}
+
+                                    {{#each this.none}}
+                                    <i class="fa-regular fa-star"></i>
+                                    {{/each}}
                                     <span class="card-text text-light">({{this.numComments}})</span>
                                 </div>
                             </div>
@@ -337,11 +351,18 @@
 
                                 <div {{#if dark}}style="color: yellow;" class="fs-3" {{else}}class="text-danger"
                                     {{/if}}>
+                                    
+                                    {{#each this.full}}
                                     <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
+                                    {{/each}}
+
+                                    {{#each this.half}}
                                     <i class="fa-solid fa-star-half-stroke"></i>
+                                    {{/each}}
+
+                                    {{#each this.none}}
+                                    <i class="fa-regular fa-star"></i>
+                                    {{/each}}
                                     <span class="card-text text-light">({{this.numComments}})</span>
                                 </div>
                             </div>
