@@ -62,7 +62,10 @@ module.exports = {
             cate: product.category,
             check_exists_more: product.relateProducts.length === 24 ? true : false,
             id: req.query.id, // for add to cart
-            allTheComments: comments
+            allTheComments: comments,
+            full: product.full,
+            half: product.half,
+            none: product.none
         })
     },
     getDescription: async (req, res) => {

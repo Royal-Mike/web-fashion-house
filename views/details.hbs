@@ -10,11 +10,18 @@
                     <div class="d-flex fs-6 text-danger">
                         <p class="me-3">
                             {{stars}}
+
+                            {{#each full}}
                             <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                            {{/each}}
+
+                            {{#each half}}
                             <i class="fa-solid fa-star-half-stroke"></i>
+                            {{/each}}
+
+                            {{#each none}}
+                            <i class="fa-regular fa-star"></i>
+                            {{/each}}
                         </p>
                         <p class="me-3">|</p>
                         <p class="me-3">
@@ -203,11 +210,17 @@
                                 {{this.sale}}</span>
                         </p>
                         <div {{#if dark}}style="color: yellow;" {{else}}class="text-danger" {{/if}}>
+                            {{#each this.full}}
                             <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
-                            <i class="fa-solid fa-star"></i>
+                            {{/each}}
+
+                            {{#each this.half}}
                             <i class="fa-solid fa-star-half-stroke"></i>
+                            {{/each}}
+
+                            {{#each this.none}}
+                            <i class="fa-regular fa-star"></i>
+                            {{/each}}
                         </div>
                         <p class="card-text mt-1">Đã bán {{this.sold}}</p>
                     </div>

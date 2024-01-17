@@ -738,8 +738,66 @@ module.exports = {
             LIMIT 24;`);
 
             let otherColorProducts = await con.any(`
-                SELECT * FROM products WHERE id = ANY(ARRAY[${rs[0].relation}]) AND "for" = '${rs[0].for}' AND id <> ${id}`);
-            rs.forEach(product => {
+                SELECT * FROM products WHERE id = ANY(ARRAY[${rs[0].relation}]) AND "for" = '${rs[0].for}' AND id <> ${id}
+            `);
+            
+            // main product
+            const arrObj = [];
+            const calStars = await con.one(`SELECT COALESCE(ROUND(AVG(stars), 1), 0) AS avg_val, COUNT(*) AS numcomment FROM comments WHERE id = ${id}`);
+            let tempObj1 = {};
+            let tempObj2 = {};
+            let tempObj3 = {};
+            let count = 0;
+            for (let i = 0; i < 6; i++) {
+                if (parseInt(calStars.avg_val) === i) {
+                    for (let j = 1; j <= i; j++) {
+                        tempObj1[`property${j}`] = j;
+                    }
+
+                    if (calStars.avg_val >= i + 0.5) {
+                        tempObj2[`property1`] = 1;
+                        count += 1;
+                    }
+
+                    for (let k = 0; k < 5 - i - count; k++) {
+                        tempObj3[`property${k}`] = k;
+                    }
+                    break;
+                }
+            }
+            const smallArrObj = [tempObj1, tempObj2, tempObj3, calStars.numcomment];
+            arrObj.push(smallArrObj);
+
+            // relate products
+            const arrObj1 = [];
+            for (const product of relateProducts) {
+                const calStars1 = await con.one(`SELECT COALESCE(ROUND(AVG(stars), 1), 0) AS avg_val, COUNT(*) AS numcomment FROM comments WHERE id = ${product.id}`);
+                let tempObj1 = {};
+                let tempObj2 = {};
+                let tempObj3 = {};
+                let count = 0;
+                for (let i = 0; i < 6; i++) {
+                    if (parseInt(calStars1.avg_val) === i) {
+                        for (let j = 1; j <= i; j++) {
+                            tempObj1[`property${j}`] = j;
+                        }
+
+                        if (calStars1.avg_val >= i + 0.5) {
+                            tempObj2[`property1`] = 1;
+                            count += 1;
+                        }
+
+                        for (let k = 0; k < 5 - i - count; k++) {
+                            tempObj3[`property${k}`] = k;
+                        }
+                        break;
+                    }
+                }
+                const smallArrObj1 = [tempObj1, tempObj2, tempObj3, calStars1.numcomment];
+                arrObj1.push(smallArrObj1);
+            }
+
+            rs.forEach((product, index) => {
                 product.name = product.name.replace(/\d/g, '');
                 if (product.sale.startsWith('1')) {
                     let temp = product.sale.replace('.', '')
@@ -760,7 +818,14 @@ module.exports = {
                 }
                 product.color = product.color[0].toUpperCase() + product.color.slice(1);
 
-                relateProducts.forEach(relatePro => {
+                const theObjArray = arrObj[index];
+                product.full = theObjArray.at(0);
+                product.half = theObjArray.at(1);
+                product.none = theObjArray.at(2);
+                product.numComments = theObjArray.at(3);
+                product.stars = calStars.avg_val;
+
+                relateProducts.forEach((relatePro, index) => {
                     relatePro.name = relatePro.name.replace(/\d/g, '');
                     relatePro.thumbnail = relatePro.images[0];
                     if (relatePro.sale.startsWith('1')) {
@@ -783,6 +848,12 @@ module.exports = {
                     relatePro.color = relatePro.color[0].toUpperCase() + relatePro.color.slice(1);
                     relatePro.sale = relatePro.sale === 'New arrival' ? 'Sản phẩm mới' : relatePro.sale === 'None' ? 'Chưa có ưu đãi' : relatePro.sale;
                     relatePro.sale = relatePro.sale.replace('.', ',');
+
+                    const theObjArray1 = arrObj1[index];
+                    relatePro.full = theObjArray1.at(0);
+                    relatePro.half = theObjArray1.at(1);
+                    relatePro.none = theObjArray1.at(2);
+                    relatePro.numComments = theObjArray1.at(3);
                 });
                 product.relateProducts = relateProducts;
 
@@ -859,7 +930,36 @@ module.exports = {
             const startIndex = (page - 1) * 24;
             const endIndex = startIndex + 24;
             rs = rs.slice(startIndex, endIndex);
-            rs.forEach(product => {
+
+            const arrObj = [];
+            for (const product of rs) {
+                const calStars = await con.one(`SELECT COALESCE(ROUND(AVG(stars), 1), 0) AS avg_val, COUNT(*) AS numcomment FROM comments WHERE id = ${product.id}`);
+                let tempObj1 = {};
+                let tempObj2 = {};
+                let tempObj3 = {};
+                let count = 0;
+                for (let i = 0; i < 6; i++) {
+                    if (parseInt(calStars.avg_val) === i) {
+                        for (let j = 1; j <= i; j++) {
+                            tempObj1[`property${j}`] = j;
+                        }
+
+                        if (calStars.avg_val >= i + 0.5) {
+                            tempObj2[`property1`] = 1;
+                            count += 1;
+                        }
+
+                        for (let k = 0; k < 5 - i - count; k++) {
+                            tempObj3[`property${k}`] = k;
+                        }
+                        break;
+                    }
+                }
+                const smallArrObj = [tempObj1, tempObj2, tempObj3, calStars.numcomment];
+                arrObj.push(smallArrObj);
+            }
+
+            rs.forEach((product, index) => {
                 product.name = product.name.replace(/\d/g, '');
                 if (product.sale.startsWith('1')) {
                     let temp = product.sale.replace('.', '')
@@ -880,9 +980,14 @@ module.exports = {
                 }
                 product.color = product.color[0].toUpperCase() + product.color.slice(1);
                 product.thumbnail = product.images[0];
-                product.numComments = product.comments.length;
                 product.sale = product.sale === 'New arrival' ? 'Sản phẩm mới' : product.sale === 'None' ? 'Chưa có ưu đãi' : product.sale;
                 product.sale = product.sale.replace('.', ',');
+
+                const theObjArray = arrObj[index];
+                product.full = theObjArray.at(0);
+                product.half = theObjArray.at(1);
+                product.none = theObjArray.at(2);
+                product.numComments = theObjArray.at(3);
             });
             return [rs, length];
         } catch (error) {
@@ -957,7 +1062,36 @@ module.exports = {
             const startIndex = (page - 1) * 24;
             const endIndex = startIndex + 24;
             rs = rs.slice(startIndex, endIndex);
-            rs.forEach(product => {
+
+            const arrObj = [];
+            for (const product of rs) {
+                const calStars = await con.one(`SELECT COALESCE(ROUND(AVG(stars), 1), 0) AS avg_val, COUNT(*) AS numcomment FROM comments WHERE id = ${product.id}`);
+                let tempObj1 = {};
+                let tempObj2 = {};
+                let tempObj3 = {};
+                let count = 0;
+                for (let i = 0; i < 6; i++) {
+                    if (parseInt(calStars.avg_val) === i) {
+                        for (let j = 1; j <= i; j++) {
+                            tempObj1[`property${j}`] = j;
+                        }
+
+                        if (calStars.avg_val >= i + 0.5) {
+                            tempObj2[`property1`] = 1;
+                            count += 1;
+                        }
+
+                        for (let k = 0; k < 5 - i - count; k++) {
+                            tempObj3[`property${k}`] = k;
+                        }
+                        break;
+                    }
+                }
+                const smallArrObj = [tempObj1, tempObj2, tempObj3, calStars.numcomment];
+                arrObj.push(smallArrObj);
+            }
+
+            rs.forEach((product, index) => {
                 product.name = product.name.replace(/\d/g, '');
                 if (product.sale.startsWith('1')) {
                     let temp = product.sale.replace('.', '')
@@ -978,9 +1112,14 @@ module.exports = {
                 }
                 product.color = product.color[0].toUpperCase() + product.color.slice(1);
                 product.thumbnail = product.images[0];
-                product.numComments = product.comments.length;
                 product.sale = product.sale === 'New arrival' ? 'Sản phẩm mới' : product.sale === 'None' ? 'Chưa có ưu đãi' : product.sale;
                 product.sale = product.sale.replace('.', ',');
+
+                const theObjArray = arrObj[index];
+                product.full = theObjArray.at(0);
+                product.half = theObjArray.at(1);
+                product.none = theObjArray.at(2);
+                product.numComments = theObjArray.at(3);
             });
             return [rs, length];
         } catch (error) {
