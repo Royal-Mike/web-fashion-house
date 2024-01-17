@@ -1192,6 +1192,10 @@ module.exports = {
                 UPDATE "${tbName}" SET "totalmoney" = "totalmoney" - $1 WHERE "username" = $2`,
                 [totalmoney, username]
             );
+            await con.query(`
+                UPDATE "${tbName}" SET "totalmoney" = "totalmoney" + $1 WHERE "username" = 'fashionhouse'`,
+                [totalmoney]
+            );
 
             return "success";
         } catch (error) {
