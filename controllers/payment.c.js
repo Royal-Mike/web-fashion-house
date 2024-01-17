@@ -20,8 +20,8 @@ module.exports = {
     },
     checkout: async (req, res) => {
         try {
-            const username = req.body.username;
-            const totalmoney = req.body.totalmoney;
+            const username = req.query.username;
+            const totalmoney = req.query.totalmoney;
             const cart = await cartM.getProductFromCart("username", username);
 
             let product_id_arr = [];

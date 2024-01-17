@@ -59,7 +59,7 @@ module.exports = {
             totalmoney: totalmoney
         }
         const sslCheck = { httpsAgent: new https.Agent({ rejectUnauthorized: false }) };
-        const response = await axios.post("https://localhost:3113/payment/checkout", body, sslCheck);
-        res.json({ success: true });
+        const response = await axios.post(`https://localhost:3113/payment/checkout?username=${username}&totalmoney=${totalmoney}`, body, sslCheck);
+        res.send(response.data);
     },
 }

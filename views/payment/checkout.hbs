@@ -111,10 +111,9 @@
     $(() => {
         const username = `{{username}}`;
         const dollars = `{{dollars}}`;
-        console.log(dollars);
         $("#checkoutBtn").on("click", function () {
             $.ajax({
-                url: `http://localhost:3000/checkout/paymentServer`,
+                url: `/checkout/paymentServer`,
                 method: "post",
                 data: {
                     username: username,
