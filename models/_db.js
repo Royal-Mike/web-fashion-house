@@ -1056,7 +1056,7 @@ module.exports = {
                 LEFT JOIN catalogue AS cata ON products.id_category::INTEGER = cata.id_category
             ) AS change
             WHERE category LIKE $1 AND (sale LIKE $2 OR sale LIKE $3) AND price * 23000 >= $4 AND price * 23000 < $5 AND stars >= $6 AND stars < $7 AND "for" LIKE $8 AND sold > $9
-            ORDER BY sold
+            ORDER BY relation, sold
             `, [getCatalogue, getTypeProducts1, getTypeProducts2, getTypePrice1, getTypePrice2, parseInt(typeStars), parseInt(typeStars) + 1, gender, getSold]);
             const length = rs.length;
             const startIndex = (page - 1) * 24;
