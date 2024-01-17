@@ -20,6 +20,10 @@ module.exports = {
         const pages_u = Math.ceil(users.length / 10);
 
         const orders = await adminM.getAllOrders();
+        orders.forEach(order => {
+            order.product_id = order.product_id.join("<br>");
+            order.quantity = order.quantity.join("<br>");
+        });
 
         function makeArray(pages) {
             return [...Array(pages + 1).keys()].slice(1)

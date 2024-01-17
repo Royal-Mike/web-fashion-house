@@ -941,7 +941,7 @@ module.exports = {
             db = pgp(cn);
             con = await db.connect();
             let rs = await con.any(`SELECT year, COUNT(year) AS amount FROM
-            (SELECT EXTRACT(YEAR FROM create_date) AS year FROM products)
+            (SELECT EXTRACT(YEAR FROM create_date) FROM products) AS year
             GROUP BY year ORDER BY year`);
             return rs;
         } catch (error) {
@@ -956,7 +956,7 @@ module.exports = {
         try {
             con = await db.connect();
             let rs = await con.any(`SELECT year, SUM(sold * price) AS amount FROM
-            (SELECT EXTRACT(YEAR FROM create_date) AS year, sold, price FROM products)
+            (SELECT EXTRACT(YEAR FROM create_date) AS year, sold, price FROM products) AS revenue
             GROUP BY year ORDER BY year`);
             return rs;
         } catch (error) {
