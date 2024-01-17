@@ -120,7 +120,7 @@ module.exports = {
             SELECT 1 
             FROM information_schema.tables 
             WHERE table_schema = 'public' AND table_name = 'products'
-        )
+        ) AS pg_check_exist
         `);
         if (con) {
             con.done();
@@ -367,10 +367,10 @@ module.exports = {
             let rs = await con.any(`
             SELECT * FROM 
             (
-                SELECT DISTINCT ON (relation) * FROM 
+                SELECT DISTINCT ON (relation) * FROM
                 (SELECT * FROM products) AS allsold
                 NATURAL JOIN 
-                (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id)
+                (SELECT id, SUM(stock) FROM size_division GROUP BY id) AS "totalStock"
                 ORDER BY relation, sold DESC
             ) AS newtable 
             ORDER BY sold DESC;
@@ -440,7 +440,7 @@ module.exports = {
             SELECT DISTINCT ON (relation) * FROM 
             (SELECT * FROM products WHERE sale = 'New arrival') AS arrival 
             NATURAL JOIN 
-            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            (SELECT id, SUM(stock) FROM size_division GROUP BY id) AS "totalStock";
             `);
             const startIndex = (page - 1) * 10;
             const endIndex = startIndex + 10;
@@ -489,13 +489,13 @@ module.exports = {
             SELECT DISTINCT ON (relation) * FROM 
             (SELECT * FROM products WHERE sale LIKE '1%') AS recommend 
             NATURAL JOIN 
-            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            (SELECT id, SUM(stock) FROM size_division GROUP BY id) AS "totalStock";
             `);
             let rs1 = await con.any(`
             SELECT DISTINCT ON (relation) * FROM 
             (SELECT * FROM products WHERE sale LIKE '0%') AS recommend 
             NATURAL JOIN 
-            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            (SELECT id, SUM(stock) FROM size_division GROUP BY id) AS "totalStock";
             `);
             const startIndex = (page - 1) * 10;
             const endIndex = startIndex + 10;
