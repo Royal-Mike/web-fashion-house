@@ -13,14 +13,10 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-normal mb-0">Giỏ hàng</h3>
-                    <div>
-                        <p class="mb-0"><span class="text-muted">Sắp xếp theo:</span> <a href="#!" class="text-body">Giá
-                                <i class="fas fa-angle-down mt-1"></i></a></p>
-                    </div>
                 </div>
 
                 {{#each currentCart}}
-                <div class="card rounded-3 mb-4">
+                <div id="card_{{id}}" class="card rounded-3 mb-4">
                     <div class="card-body p-4">
                         <div class="row d-flex justify-content-between align-items-center">
                             <div class="col-md-2 col-lg-2 col-xl-2">
@@ -79,6 +75,8 @@
                 method: 'get',
                 dataType: 'json',
                 success: function (data) {
+                    $("#checkoutBtn").prop("disabled", false);
+                    $("#checkoutBtn").text("Thanh toán");
                     $(`#quantity_${id}`).val(data.quantity);
                     $(`#total_price_${id}`).html(`${data.total_price} $`);
                 },
@@ -96,8 +94,20 @@
                 method: 'get',
                 dataType: 'json',
                 success: function (data) {
-                    $(`#quantity_${id}`).val(data.quantity);
-                    $(`#total_price_${id}`).html(`${data.total_price} $`);
+                    console.log(data);
+                    if (data.total_quantity === 0) {
+                        $("#checkoutBtn").prop("disabled", true);
+                        $("#checkoutBtn").text("Giỏ hàng của bạn trống !");
+                        $(`#card_${id}`).remove();
+                    }
+                    else if (data.quantity === 0) {
+                        $(`#card_${id}`).remove();
+                    } else {
+                        $("#checkoutBtn").prop("disabled", false);
+                        $("#checkoutBtn").text("Thanh toán");
+                        $(`#quantity_${id}`).val(data.quantity);
+                        $(`#total_price_${id}`).html(`${data.total_price} $`);
+                    }
                 },
                 error: function (error) {
                     console.error(error);

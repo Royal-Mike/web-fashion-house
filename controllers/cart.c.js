@@ -133,6 +133,8 @@ module.exports = {
         let currentCart = req.session.cart;
         const username = req.session.username;
         const productIndex = currentCart.findIndex(p => p.id === parseInt(req.query.id) && p.size === req.query.size);
+        let productInCart = await cartM.getProductFromCart("username", username);
+        let total_quantity = productInCart.length;
         if (productIndex !== -1) {
             if (currentCart[productIndex].quantity > 1) {
                 currentCart[productIndex].quantity--;
@@ -142,7 +144,10 @@ module.exports = {
                 // currentCart.splice(productIndex, 1);
                 currentCart[productIndex].quantity--;
                 currentCart[productIndex].total_price = 0;
-                res.json({ quantity: 0, total_price: 0 });
+                await cartM.deleteProductInCart(username, currentCart[productIndex].id, currentCart[productIndex].size);
+                productInCart = await cartM.getProductFromCart("username", username);
+                total_quantity = productInCart.length;
+                res.json({ quantity: 0, total_price: 0, total_quantity: total_quantity });
                 return;
             }
         }
@@ -152,7 +157,7 @@ module.exports = {
         const size = currentCart[productIndex].size;
         const quantity = currentCart[productIndex].quantity;
         await cartM.modifyQuantityInCart(username, product_id, size, quantity);
-        res.json({ quantity: currentCart[productIndex].quantity, total_price: currentCart[productIndex].total_price });
+        res.json({ quantity: currentCart[productIndex].quantity, total_price: currentCart[productIndex].total_price, total_quantity: total_quantity });
     }
 
 }
