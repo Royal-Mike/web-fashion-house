@@ -1,3 +1,4 @@
+const homeM = require('../models/home.m');
 const adminM = require('../models/admin.m');
 const accountM = require("../models/account.m");
 const paymentM = require("../models/payment.m");
@@ -10,6 +11,11 @@ module.exports = {
     home: async (req, res) => {
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
+
+        const check = await homeM.checkExistTable();
+        if (!check) {
+            await homeM.addDataToDB();
+        }
 
         const catalogues = await adminM.getAllCatalogues();
         const products = await adminM.getAllProducts();

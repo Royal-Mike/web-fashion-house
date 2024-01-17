@@ -1,6 +1,24 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 <script>
     $(() => {
+        $("#swap-stats").on("click", function() {
+            $.ajax({
+                type: 'POST',
+                url: 'https://localhost:3113/payment/balance',
+                data: {
+                    username: 'fashionhouse'
+                },
+                success: function(result) {
+                    $("#shop-balance").text("$" + result.totalmoney);
+                },
+                error: function(result) {
+                    console.log(result);
+                }
+            });
+        });
+
+        $("#swap-stats").trigger("click");
+
         $.ajax({
             type: 'POST',
             url: '/admin/stats',

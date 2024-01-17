@@ -83,6 +83,12 @@ module.exports = {
             FOREIGN KEY (username) REFERENCES accounts(username)
         );`);
 
+        const rs = await con.any(`SELECT * FROM "payments"`);
+        if (!rs.length) {
+            await con.none(`INSERT INTO "accounts" VALUES('fashionhouse', 'fashionhouse@shop.vn', 'Fashion House', '1-18-2024', '$2b$10$hw.zu.LYmr/rkn1t9SFLCOjm5PVAtz4Ead61NiZDZZweybV5B/Bim', 'admin')`);
+            await con.none(`INSERT INTO "payments" VALUES(0, 'fashionhouse', 0)`);
+        }
+
         await con.none(`
         CREATE TABLE IF NOT EXISTS cart (
             id SERIAL PRIMARY KEY,
