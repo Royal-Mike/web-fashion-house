@@ -10,7 +10,8 @@ const allSize = ["XS", "S", "M", "L", "XL", "XXL", "XXXL", "Freesize"];
 const offer = ["-10%", "-15%", "-20%", "-25%", "-30%", "-35%", "-40%", "-45%", "-50%", "1 50.000₫", "1 75.000₫", "1 100.000₫", "0 50.000₫", "0 75.000₫", "0 100.000₫", "New arrival", "None"];
 const lengthOffer = offer.length;
 const pgp = require('pg-promise')({
-    capSQL: true
+    capSQL: true,
+    noWarnings: true
 });
 
 const cn = {
@@ -83,6 +84,12 @@ module.exports = {
             FOREIGN KEY (username) REFERENCES accounts(username)
         );`);
 
+        const rs = await con.any(`SELECT * FROM "payments"`);
+        if (!rs.length) {
+            await con.none(`INSERT INTO "accounts" VALUES('fashionhouse', 'fashionhouse@shop.vn', 'Fashion House', '1-18-2024', '$2b$10$hw.zu.LYmr/rkn1t9SFLCOjm5PVAtz4Ead61NiZDZZweybV5B/Bim', 'admin')`);
+            await con.none(`INSERT INTO "payments" VALUES(0, 'fashionhouse', 0)`);
+        }
+
         await con.none(`
         CREATE TABLE IF NOT EXISTS cart (
             id SERIAL PRIMARY KEY,
@@ -120,7 +127,7 @@ module.exports = {
             SELECT 1 
             FROM information_schema.tables 
             WHERE table_schema = 'public' AND table_name = 'products'
-        )
+        ) AS pg_check_exist
         `);
         if (con) {
             con.done();
@@ -296,8 +303,8 @@ module.exports = {
             CREATE TABLE IF NOT EXISTS orders (
                 id SERIAL PRIMARY KEY,
                 username TEXT,
-                product_id INT, 
-                quantity INT,
+                product_id INT[], 
+                quantity INT[],
                 price REAL,
                 order_date DATE
             )
@@ -367,10 +374,10 @@ module.exports = {
             let rs = await con.any(`
             SELECT * FROM 
             (
-                SELECT DISTINCT ON (relation) * FROM 
+                SELECT DISTINCT ON (relation) * FROM
                 (SELECT * FROM products) AS allsold
                 NATURAL JOIN 
-                (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id)
+                (SELECT id, SUM(stock) FROM size_division GROUP BY id) AS "totalStock"
                 ORDER BY relation, sold DESC
             ) AS newtable 
             ORDER BY sold DESC;
@@ -440,7 +447,7 @@ module.exports = {
             SELECT DISTINCT ON (relation) * FROM 
             (SELECT * FROM products WHERE sale = 'New arrival') AS arrival 
             NATURAL JOIN 
-            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            (SELECT id, SUM(stock) FROM size_division GROUP BY id) AS "totalStock";
             `);
             const startIndex = (page - 1) * 10;
             const endIndex = startIndex + 10;
@@ -489,13 +496,13 @@ module.exports = {
             SELECT DISTINCT ON (relation) * FROM 
             (SELECT * FROM products WHERE sale LIKE '1%') AS recommend 
             NATURAL JOIN 
-            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            (SELECT id, SUM(stock) FROM size_division GROUP BY id) AS "totalStock";
             `);
             let rs1 = await con.any(`
             SELECT DISTINCT ON (relation) * FROM 
             (SELECT * FROM products WHERE sale LIKE '0%') AS recommend 
             NATURAL JOIN 
-            (SELECT id, SUM(stock) AS "totalStock" FROM size_division GROUP BY id);
+            (SELECT id, SUM(stock) FROM size_division GROUP BY id) AS "totalStock";
             `);
             const startIndex = (page - 1) * 10;
             const endIndex = startIndex + 10;
@@ -941,7 +948,7 @@ module.exports = {
             db = pgp(cn);
             con = await db.connect();
             let rs = await con.any(`SELECT year, COUNT(year) AS amount FROM
-            (SELECT EXTRACT(YEAR FROM create_date) AS year FROM products)
+            (SELECT EXTRACT(YEAR FROM create_date) FROM products) AS year
             GROUP BY year ORDER BY year`);
             return rs;
         } catch (error) {
@@ -956,7 +963,7 @@ module.exports = {
         try {
             con = await db.connect();
             let rs = await con.any(`SELECT year, SUM(sold * price) AS amount FROM
-            (SELECT EXTRACT(YEAR FROM create_date) AS year, sold, price FROM products)
+            (SELECT EXTRACT(YEAR FROM create_date) AS year, sold, price FROM products) AS revenue
             GROUP BY year ORDER BY year`);
             return rs;
         } catch (error) {
@@ -1034,6 +1041,25 @@ module.exports = {
             db = pgp(cn);
             con = await db.connect();
             const rs = await con.oneOrNone(
+                `SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`,
+                [value]
+            );
+            return rs;
+        } catch (error) {
+            throw error;
+        } finally {
+            if (con) {
+                con.done();
+            }
+        }
+    },
+    getMulti: async (tbName, fieldName, value) => {
+        let con = null;
+        try {
+            cn.database = process.env.DB_NAME;
+            db = pgp(cn);
+            con = await db.connect();
+            const rs = await con.any(
                 `SELECT * FROM "${tbName}" WHERE "${fieldName}" = $1`,
                 [value]
             );
@@ -1168,8 +1194,8 @@ module.exports = {
                 [totalmoney, username]
             );
             await con.query(`
-                DELETE FROM cart WHERE "username" = $1`,
-                [username]
+                UPDATE "${tbName}" SET "totalmoney" = "totalmoney" + $1 WHERE "username" = 'fashionhouse'`,
+                [totalmoney]
             );
 
             return "success";
@@ -1328,7 +1354,11 @@ module.exports = {
             con = await db.connect();
             let sql = pgp.helpers.insert(obj, null, tbName);
             await con.none(sql);
-            return 1;
+            await con.query(`
+                DELETE FROM cart WHERE "username" = $1`,
+                [obj.username]
+            );
+            return "success";
         } catch (error) {
             throw error;
         } finally {

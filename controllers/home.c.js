@@ -1,5 +1,6 @@
 const accountM = require("../models/account.m");
 const homeM = require("../models/home.m");
+const checkoutM = require("../models/checkout.m");
 const moment = require("moment");
 
 module.exports = {
@@ -107,17 +108,27 @@ module.exports = {
         res.json({ success: data });
     },
     profile: async (req, res) => {
+        let theme = req.cookies.theme;
+        let dark = theme === "dark" ? true : false;
+
         const data = await accountM.getAccount(req.session.username);
         const dbDate = data.dob;
         const formattedDate = moment(dbDate).format("YYYY-MM-DD");
-        let theme = req.cookies.theme;
-        let dark = theme === "dark" ? true : false;
+        const orders = await checkoutM.getOrders(req.session.username);
+        orders.forEach(order => {
+            order.product_id = order.product_id.join("<br>");
+            order.quantity = order.quantity.join("<br>");
+            order.price = (order.price * 23000).toLocaleString() + "đ";
+            order.order_date = order.order_date.toLocaleDateString();
+        });
+
         res.render("account/profile", {
             title: "Profile",
+            dark: dark,
             home: true,
             info: data,
             dob: formattedDate,
-            dark: dark,
+            orders: orders
         });
     },
     updateprofile: async (req, res) => {

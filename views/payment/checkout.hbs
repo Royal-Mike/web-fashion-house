@@ -17,11 +17,6 @@
                                         <p class="mb-1">Giỏ hàng</p>
                                         <p class="mb-0">Bạn đang có <strong>{{totalQuantity}}</strong> món hàng</p>
                                     </div>
-                                    <div>
-                                        <p class="mb-0"><span class="text-muted">Sắp xếp theo:</span> <a href="#!"
-                                                class="text-body">Giá <i class="fas fa-angle-down mt-1"></i></a>
-                                        </p>
-                                    </div>
                                 </div>
 
                                 {{#each cart}}
@@ -42,8 +37,8 @@
                                                 <div style="width: 50px;">
                                                     <h5 id="quantity_{{id}}" class="fw-normal mb-0">{{quantity}}</h5>
                                                 </div>
-                                                <div style="width: 80px;">
-                                                    <h5 class="mb-0 total_price">{{total_price}} $</h5>
+                                                <div style="width: 100px;">
+                                                    <h5 class="mb-0 total_price">{{total_price}}đ</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -78,22 +73,22 @@
 
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Tổng cộng</p>
-                                            <p class="mb-2">{{checkout_price}}$</p>
+                                            <p class="mb-2">{{checkout_price}}đ</p>
                                         </div>
 
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-2">Phí vận chuyển</p>
-                                            <p class="mb-2">{{shipCost}}$</p>
+                                            <p class="mb-2">{{shipCost}}đ</p>
                                         </div>
 
                                         <div class="d-flex justify-content-between mb-4">
                                             <p class="mb-2">Tổng cộng (Đã áp dụng giảm giá)</p>
-                                            <p class="mb-2">{{overall}}$</p>
+                                            <p class="mb-2">{{overall}}đ</p>
                                         </div>
 
                                         <button id="checkoutBtn" type="button" class="btn btn-info btn-block btn-lg">
                                             <div class="d-flex justify-content-between">
-                                                <span>{{overall}}$ </span>
+                                                <span>{{overall}}đ&nbsp;</span>
                                                 <span>Đặt hàng <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
                                             </div>
                                         </button>
@@ -115,14 +110,15 @@
 <script>
     $(() => {
         const username = `{{username}}`;
-        const overall = `{{overall}}`;
+        const dollars = `{{dollars}}`;
+        console.log(dollars);
         $("#checkoutBtn").on("click", function () {
             $.ajax({
                 url: `https://localhost:3113/payment/checkout`,
                 method: "post",
                 data: {
                     username: username,
-                    totalmoney: overall
+                    totalmoney: dollars
                 },
                 success: function (data) {
                     if (data === "insufficient") alert("Bạn không có đủ tiền để thanh toán!");

@@ -8,7 +8,7 @@
                     username: '{{info.username}}'
                 },
                 success: function(result) {
-                    $("#balance").text("$" + result.totalmoney);
+                    $("#balance").text((result.totalmoney * 23000).toLocaleString() + "đ");
                 },
                 error: function(result) {
                     console.log(result);
@@ -22,10 +22,10 @@
                 url: 'https://localhost:3113/payment/addbal',
                 data: {
                     username: '{{info.username}}',
-                    amount: $("#balance-add").val()
+                    amount: $("#balance-add").val() / 23000
                 },
                 success: function(result) {
-                    $("#balance").text("$" + result.totalmoney);
+                    $("#balance").text((result.totalmoney * 23000).toLocaleString() + "đ");
                 },
                 error: function(result) {
                     console.log(result);

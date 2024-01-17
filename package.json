@@ -27,6 +27,6 @@
     "randomstring": "^1.3.0"
   },
   "scripts": {
-    "start": "concurrently \"nodemon server.js\" \"nodemon paymentsServer.js\""
+    "start": "concurrently \"nodemon server.js\" \"nodemon server_payments.js\""
   }
 }

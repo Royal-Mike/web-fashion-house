@@ -92,7 +92,7 @@
                         <a href="#" id="addToCart" class="btn border fs-3" role="button" data-bs-toggle="button"
                             style="background-color: rgb(214, 151, 34);"><i class="fa-solid fa-cart-plus"></i> Thêm vào
                             giỏ hàng</a>
-                        <a href="#" class="btn btn-danger ms-3 fs-3 border" role="button" data-bs-toggle="button">Mua
+                        <a href="#" id="buyInstant" class="btn btn-danger ms-3 fs-3 border" role="button" data-bs-toggle="button">Mua
                             ngay</a>
                     </div>
                 </div>
@@ -327,6 +327,11 @@
             }
             alert(`Sản phẩm \"${'{{name}}'.trim()}\" đã được thêm vào giỏ hàng của bạn!`);
             window.location.href = `/cart/addToCart?id=${id}&size=${selectedSize}&quantity=${quantity}`;
+        });
+        // Buy instantly
+        $('#buyInstant').on('click', function () {
+            $('#addToCart').trigger("click");
+            $('#cartButton').trigger("click");
         });
 
         increaseQuantity = () => {

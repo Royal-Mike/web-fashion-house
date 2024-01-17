@@ -23,10 +23,18 @@ module.exports = {
             const username = req.body.username;
             const totalmoney = req.body.totalmoney;
             const cart = await cartM.getProductFromCart("username", username);
+
+            let product_id_arr = [];
+            let quantity_arr = [];
             for (const p of cart) {
-                await checkoutM.addToOrders(new checkoutM(username, p.product_id, p.quantity, p.price, new Date()));
+                product_id_arr.push(p.product_id);
+                quantity_arr.push(p.quantity);
             }
+
             const rs = await paymentM.checkout(new paymentM(username, totalmoney));
+            if (rs === "success") {
+                await checkoutM.addToOrders(new checkoutM(username, product_id_arr, quantity_arr, totalmoney, new Date()));
+            }
             res.send(rs);
         } catch (error) {
             console.log(error);

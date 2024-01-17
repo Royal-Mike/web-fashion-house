@@ -1,3 +1,4 @@
+const homeM = require('../models/home.m');
 const adminM = require('../models/admin.m');
 const accountM = require("../models/account.m");
 const paymentM = require("../models/payment.m");
@@ -11,6 +12,11 @@ module.exports = {
         let theme = req.cookies.theme;
         let dark = theme === "dark" ? true : false;
 
+        const check = await homeM.checkExistTable();
+        if (!check) {
+            await homeM.addDataToDB();
+        }
+
         const catalogues = await adminM.getAllCatalogues();
         const products = await adminM.getAllProducts();
         const users = await adminM.getAllUsers();
@@ -20,6 +26,12 @@ module.exports = {
         const pages_u = Math.ceil(users.length / 10);
 
         const orders = await adminM.getAllOrders();
+        orders.forEach(order => {
+            order.product_id = order.product_id.join("<br>");
+            order.quantity = order.quantity.join("<br>");
+            order.price = (order.price * 23000).toLocaleString() + "đ";
+            order.order_date = order.order_date.toLocaleDateString();
+        });
 
         function makeArray(pages) {
             return [...Array(pages + 1).keys()].slice(1)

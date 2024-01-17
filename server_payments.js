@@ -19,4 +19,4 @@ app.use(cors());
 app.use("/payment", paymentR);
 
 app.get('/', (req, res) => res.send('Hello World!'));
-paymentsServer.listen(port, () => console.log(`Payment app listening on port ${port}!`));
+paymentsServer.listen(port, () => console.log(`Payment System listening on port ${port}!`));

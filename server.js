@@ -102,4 +102,4 @@ app.use((err, req, res, next) => {
     });
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}!`));
+app.listen(port, () => console.log(`Fashion House listening on port ${port}!`));
