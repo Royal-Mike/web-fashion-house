@@ -89,7 +89,7 @@ module.exports = {
         const productIndex = currentCart.findIndex(p => p.id === parseInt(req.query.id) && p.size === req.query.size);
         if (productIndex !== -1) {
             currentCart[productIndex].quantity++;
-            currentCart[productIndex].total_price = (currentCart[productIndex].quantity * currentCart[productIndex].price).toFixed(2);
+            currentCart[productIndex].total_price = (currentCart[productIndex].quantity * currentCart[productIndex].price * 23000).toLocaleString();
         }
         req.session.cart = currentCart;
 
@@ -107,7 +107,7 @@ module.exports = {
         if (productIndex !== -1) {
             if (currentCart[productIndex].quantity > 1) {
                 currentCart[productIndex].quantity--;
-                currentCart[productIndex].total_price = (currentCart[productIndex].quantity * currentCart[productIndex].price).toFixed(2);
+                currentCart[productIndex].total_price = (currentCart[productIndex].quantity * currentCart[productIndex].price * 23000).toLocaleString();
 
             } else {
                 currentCart[productIndex].quantity--;

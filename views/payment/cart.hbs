@@ -75,7 +75,7 @@
                 dataType: 'json',
                 success: function (data) {
                     $(`#quantity_${id}`).val(data.quantity);
-                    $(`#total_price_${id}`).html(`${data.total_price} $`);
+                    $(`#total_price_${id}`).html(`${data.total_price}đ`);
                 },
                 error: function (error) {
                     console.error(error);
@@ -92,7 +92,7 @@
                 dataType: 'json',
                 success: function (data) {
                     $(`#quantity_${id}`).val(data.quantity);
-                    $(`#total_price_${id}`).html(`${data.total_price} $`);
+                    $(`#total_price_${id}`).html(`${data.total_price}đ`);
                 },
                 error: function (error) {
                     console.error(error);
