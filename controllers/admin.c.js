@@ -30,6 +30,7 @@ module.exports = {
             order.product_id = order.product_id.join("<br>");
             order.quantity = order.quantity.join("<br>");
             order.price = (order.price * 23000).toLocaleString() + "đ";
+            order.order_date = order.order_date.toLocaleDateString();
         });
 
         function makeArray(pages) {
