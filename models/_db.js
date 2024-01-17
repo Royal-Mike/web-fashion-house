@@ -296,8 +296,8 @@ module.exports = {
             CREATE TABLE IF NOT EXISTS orders (
                 id SERIAL PRIMARY KEY,
                 username TEXT,
-                product_id INT, 
-                quantity INT,
+                product_id INT[], 
+                quantity INT[],
                 price REAL,
                 order_date DATE
             )

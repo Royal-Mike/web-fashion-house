@@ -23,9 +23,17 @@ module.exports = {
             const username = req.body.username;
             const totalmoney = req.body.totalmoney;
             const cart = await cartM.getProductFromCart("username", username);
+
+            let product_id_arr = [];
+            let quantity_arr = [];
+            let overall = 0;
             for (const p of cart) {
-                await checkoutM.addToOrders(new checkoutM(username, p.product_id, p.quantity, p.price, new Date()));
+                product_id_arr.push(p.product_id);
+                quantity_arr.push(p.quantity);
+                overall += p.price * p.quantity;
             }
+
+            await checkoutM.addToOrders(new checkoutM(username, product_id_arr, quantity_arr, overall, new Date()));
             const rs = await paymentM.checkout(new paymentM(username, totalmoney));
             res.send(rs);
         } catch (error) {
