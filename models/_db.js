@@ -438,7 +438,7 @@ module.exports = {
                 } else if (product.sale.startsWith('0')) {
                     let temp = product.sale.replace('.', '');
                     temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
-                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.newPrice = ((product.price * 23000) + temp).toLocaleString();
                     product.sale = 'Tăng ' + product.sale.slice(2);
                 } else if (product.sale.startsWith('-')) {
                     const sale = parseInt(product.sale.slice(1, 3));
@@ -633,7 +633,7 @@ module.exports = {
                     product.check = false;
                     let temp = product.sale.replace('.', '');
                     temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
-                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.newPrice = ((product.price * 23000) + temp).toLocaleString();
                 };
                 product.sale = product.sale.slice(2);
                 product.sale = product.sale.replace('.', ',');
@@ -678,7 +678,7 @@ module.exports = {
                 } else if (product.sale.startsWith('0')) {
                     let temp = product.sale.replace('.', '');
                     temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
-                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.newPrice = ((product.price * 23000) + temp).toLocaleString();
                     product.sale = product.sale.slice(2);
                 } else {
                     const sale = parseInt(product.sale.slice(1, 3));
@@ -808,7 +808,7 @@ module.exports = {
                 } else if (product.sale.startsWith('0')) {
                     let temp = product.sale.replace('.', '');
                     temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
-                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.newPrice = ((product.price * 23000) + temp).toLocaleString();
                     product.sale = 'Tăng ' + product.sale.slice(2);
                 } else if (product.sale.startsWith('-')) {
                     const sale = parseInt(product.sale.slice(1, 3));
@@ -837,7 +837,7 @@ module.exports = {
                     } else if (relatePro.sale.startsWith('0')) {
                         let temp = relatePro.sale.replace('.', '');
                         temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
-                        relatePro.newPrice = ((relatePro.price * 23000) - temp).toLocaleString();
+                        relatePro.newPrice = ((relatePro.price * 23000) + temp).toLocaleString();
                         relatePro.sale = 'Tăng ' + relatePro.sale.slice(2);
                     } else if (relatePro.sale.startsWith('-')) {
                         const sale = parseInt(relatePro.sale.slice(1, 3));
@@ -970,7 +970,7 @@ module.exports = {
                 } else if (product.sale.startsWith('0')) {
                     let temp = product.sale.replace('.', '');
                     temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
-                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.newPrice = ((product.price * 23000) + temp).toLocaleString();
                     product.sale = 'Tăng ' + product.sale.slice(2);
                 } else if (product.sale.startsWith('-')) {
                     const sale = parseInt(product.sale.slice(1, 3));
@@ -1102,7 +1102,7 @@ module.exports = {
                 } else if (product.sale.startsWith('0')) {
                     let temp = product.sale.replace('.', '');
                     temp = parseInt(temp.replace(/^\d+\s*/, '').replace(/₫/, ''), 10)
-                    product.newPrice = ((product.price * 23000) - temp).toLocaleString();
+                    product.newPrice = ((product.price * 23000) + temp).toLocaleString();
                     product.sale = 'Tăng ' + product.sale.slice(2);
                 } else if (product.sale.startsWith('-')) {
                     const sale = parseInt(product.sale.slice(1, 3));

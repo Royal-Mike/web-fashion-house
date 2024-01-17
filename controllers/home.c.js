@@ -46,7 +46,7 @@ module.exports = {
             dark: dark,
             title: 'Details',
             name: product.name,
-            numComments: product.comments.length,
+            numComments: product.numComments,
             sold: product.sold,
             price: product.newPrice,
             color: product.color,
