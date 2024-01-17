@@ -33,8 +33,10 @@ module.exports = {
                 overall += p.price * p.quantity;
             }
 
-            await checkoutM.addToOrders(new checkoutM(username, product_id_arr, quantity_arr, overall, new Date()));
             const rs = await paymentM.checkout(new paymentM(username, totalmoney));
+            if (rs === "success") {
+                await checkoutM.addToOrders(new checkoutM(username, product_id_arr, quantity_arr, overall, new Date()));
+            }
             res.send(rs);
         } catch (error) {
             console.log(error);

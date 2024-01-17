@@ -1167,10 +1167,6 @@ module.exports = {
                 UPDATE "${tbName}" SET "totalmoney" = "totalmoney" - $1 WHERE "username" = $2`,
                 [totalmoney, username]
             );
-            await con.query(`
-                DELETE FROM cart WHERE "username" = $1`,
-                [username]
-            );
 
             return "success";
         } catch (error) {
@@ -1328,7 +1324,11 @@ module.exports = {
             con = await db.connect();
             let sql = pgp.helpers.insert(obj, null, tbName);
             await con.none(sql);
-            return 1;
+            await con.query(`
+                DELETE FROM cart WHERE "username" = $1`,
+                [obj.username]
+            );
+            return "success";
         } catch (error) {
             throw error;
         } finally {

@@ -62,7 +62,7 @@ module.exports = {
             const product = await cartM.get(p.product_id);
             product.quantity = p.quantity;
             product.size = p.size;
-            product.total_price = product.price * product.quantity;
+            product.total_price = (product.price * product.quantity).toFixed(2);
             currentCart.push(product);
         }
         let isEmptyCart = false;
